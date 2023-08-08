@@ -1,0 +1,29 @@
+{   "banniere_sidebar":"images/service_clientel/banniere-sidebar.png",
+	"titre" : "Service comptabilite",
+	"couleur_nav" : "warning",
+	"couleur_base":"orange",
+	"sibarImage" :"images/service_clientel/sibarImage.png",
+	"menu" :[
+		{
+			"text" : "Accueil",
+			"icon" : "fa fa-home",
+			"link" : "Service_comptabilite"
+		},{
+			"text" : "Mes clients",
+			"icon" : "fa fa-users",
+			"link" : "",
+			"sous_menu": [
+				{
+					"text" : "Liste des clients",
+					"icon" : "",
+					"link" : "service_clientel/Liste_des_clients"
+				}
+			]
+			
+		},{
+			"text" : "Calendrier de livraison",
+			"icon" : "fa fa-truck",
+			"link" : "Service_comptabilite/Calendrier_de_livraison"
+		}
+	]		
+}		

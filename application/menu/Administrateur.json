@@ -1,0 +1,218 @@
+{
+    "banniere_sidebar": "images/service_clientel/banniere-sidebar.png",
+    "titre": "Administrateur",
+    "couleur_nav": "success",
+    "couleur_base": "green",
+    "sibarImage": "images/service_clientel/sibarImage.png",
+    "menu": [
+        {
+            "text": "Accueil",
+            "icon": "flaticon-home",
+            "link": "Administrateur"
+        },
+        {
+            "text": "Clients",
+            "icon": "icon-people",
+            "link": "",
+            "sous_menu": [
+                {
+                    "text": "Liste des clients",
+                    "icon": "",
+                    "link": "Administrateur/Clients/Liste_des_clients"
+                }
+            ]
+        },
+        {
+            "text": "Vente",
+            "icon": "flaticon-cart-1",
+            "link": "",
+            "sous_menu": [
+                {
+                    "text": "Modifier",
+                    "icon": "",
+                    "link": "Administrateur/Vente/Modifier"
+                }, {
+                    "text": "Bon d achat",
+                    "icon": "",
+                    "link": "",
+                    "sous_sous_menu": [
+                        {
+                            "text": "Bon achat des client",
+                            "icon": "",
+                            "link": "Administrateur/Vente/Bon_d_achat/Bon_achat_des_client"
+                        },
+                        {
+                            "text": "Parametre des bon d achat",
+                            "icon": "",
+                            "link": "Administrateur/Vente/Bon_d_achat/Parametre_des_bon_d_achat"
+                        }
+                    ]
+                }, {
+                    "text": "Annuler",
+                    "icon": "",
+                    "link": "Administrateur/Vente/Annuler"
+                }
+            ]
+        },
+        {
+            "text": "Parametre d appel",
+            "icon": "flaticon-whatsapp",
+            "link": "",
+            "sous_menu": [
+                {
+                    "text": "Importer fichier",
+                    "icon": "",
+                    "link": "Administrateur/Parametre_d_appel/Importer_fichier"
+                },{
+                    "text": "Entrant",
+                    "icon": "",
+                    "link": "Administrateur/Parametre_d_appel/Entrant"
+                },{
+                    "text": "Sortant",
+                    "icon": "",
+                    "link": "Administrateur/Parametre_d_appel/Sortant"
+                }
+            ]
+        },{
+            "text": "Gestion facebook",
+            "icon": "flaticon-facebook",
+            "link": "",
+            "sous_menu": [
+                {
+                    "text": "Page",
+                    "icon": "",
+                    "link": "",
+                    "sous_sous_menu": [
+                        {
+                            "text": "Rattacher page",
+                            "icon": "",
+                            "link": "Administrateur/Gestion_facebook/Page/Rattacher_page"
+                        },
+                        {
+                            "text": "Gerer page",
+                            "icon": "",
+                            "link": "Administrateur/Gestion_facebook/Page/Gerer_page"
+                        }
+                    ]
+                },
+                {
+                    "text": "Compte",
+                    "icon": "",
+                    "link": "",
+                    "sous_sous_menu": [
+                        {
+                            "text": "Nouveau compte",
+                            "icon": "",
+                            "link": "Administrateur/Gestion_facebook/Compte/Nouveau_compte"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "text": "Calendrier de livraison",
+            "icon": "flaticon-calendar",
+            "link": "Service_comptabilite/Calendrier_de_livraison"
+        },
+        {
+            "text": "Liste",
+            "icon": "flaticon-list",
+            "link": "Administrateur/Liste"
+        },
+        {
+            "text": "Koty",
+            "icon": "flaticon-coins",
+            "link": "Administrateur/Tsena_Koty",
+            "sous_menu": [
+                {
+                    "text": "Bonus Koty",
+                    "icon": "",
+                    "link": "Administrateur/Koty/Bonus_Koty"
+                },
+                {
+                    "text": "Transaction",
+                    "icon": "fa fa-list",
+                    "link": "Administrateur/Koty/Transaction"
+                },
+                {
+                    "text": "Smile",
+                    "icon": "",
+                    "link": "Administrateur/Koty/Smile"
+                },
+                {
+                    "text": "Mouvement Smile",
+                    "icon": "",
+                    "link": "Administrateur/Koty/Mouvement_Smile"
+                }
+            ]
+        },
+        {
+            "text": "Jeux",
+            "icon": "icon-game-controller",
+            "link": "",
+            "sous_menu": [
+                {
+                    "text": "Tombola",
+                    "icon": "",
+                    "link": "",
+                    "sous_sous_menu": [
+                        {
+                            "text": "Resultat",
+                            "icon": "",
+                            "link": "Administrateur/Jeux/Tombola/Resultat"
+                        },
+                        {
+                            "text": "Nouveau Parametre",
+                            "icon": "",
+                            "link": "Administrateur/Jeux/Tombola/Parametre/Nouveau"
+                        },
+                        {
+                            "text": "Liste des parametre",
+                            "icon": "",
+                            "link": "Administrateur/Jeux/Tombola/Parametre/Liste_des_parametre"
+                        },
+                        {
+                            "text": "Statistique des jeux",
+                            "icon": "",
+                            "link": "Administrateur/Jeux/Tombola/Parametre/Statistique_des_jeux"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "text": "Promotion",
+            "icon": "flaticon-present",
+            "link": "",
+            "sous_menu": [
+                {
+                    "text": "Nouveau",
+                    "icon": "",
+                    "link": "Administrateur/Promotion/Nouveau"
+                },
+                {
+                    "text": "Mes Promotion",
+                    "icon": "fa fa-list",
+                    "link": "Administrateur/Promotion/Mes_Promotion"
+                }
+            ]
+        },
+        {
+            "text": "Tâche TSF",
+            "icon": "flaticon-present",
+            "link": "",
+            "sous_menu": [
+                {
+                    "text": "Correction TSF",
+                    "icon": "",
+                    "link": "Administrateur/Liste_TSF"
+                },
+                {
+                    "text": "Exporter TSF",
+                    "icon": "fa fa-list",
+                    "link": "Administrateur/Liste_TSF_Publication"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+                           <?php// if(strtolower($type_user) =="operatrice" OR  strtolower($type_user)=="appel_telephonique"):?>
+						<!--	<a class="nav-link " href="<?php //base_url("$type_user/Liste_des_relances/Tombola")?>"  role="button" aria-haspopup="true" aria-expanded="false">
+								<i class="flaticon-alarm-1"></i>
+								<span class="notification  <?php// $relanceTombola > 0 ? "bg-danger" : "bg-success" ?>"><?php //$relanceTombola?></span>
+							</a>-->
+            			   <?php// endif?>

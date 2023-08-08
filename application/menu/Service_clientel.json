@@ -1,0 +1,110 @@
+{   "banniere_sidebar":"images/service_clientel/banniere-sidebar.png",
+	"titre" : "Service clientel",
+	"couleur_nav" : "danger",
+	"couleur_base":"red",
+	"sibarImage" :"images/service_clientel/sibarImage.png",
+	"menu" :[
+		{
+			"text" : "Accueil",
+			"icon" : "flaticon-home",
+			"link" : "service_clientel"
+		},
+		{
+			"text" : "Mes clients",
+			"icon" : "flaticon-users",
+			"link" : "",
+			"sous_menu": [
+				{
+					"text" : "Liste des clients",
+					"icon" : "",
+					"link" : "service_clientel/Mes_clients/Liste_des_clients"
+				}
+			]
+			
+		},{
+			"text" : "Produits",
+			"icon" : "flaticon-box-3",
+			"link" : "",
+			"sous_menu" : [
+				{
+					"text" : "Liste des Produits ",
+					"icon" : "",
+					"link" : "service_clientel/Produits/Liste_des_produits"
+				}
+				
+			]
+		},
+		{
+			"text" : "Etat de livraison",
+			"icon" : "flaticon-graph",
+			"sous_menu" : [
+				{
+					"text" : "Etat de livraison du jour ",
+					"icon" : "",
+					"link" : "service_clientel/Etat_de_livraison/Etat_de_livraison_du_jour"
+				},
+				{
+					"text" : "Exporter livraison",
+					"icon" : "",
+					"link" : "service_clientel/Exporte_livraison"
+				},
+				{
+					"text" : "Etat de livraison du mois",
+					"icon" : "",
+					"link" : "service_clientel/Etat_de_livraison/Etat_de_livraison_du_mois"
+				},
+				{
+					"text" : "Client Sans Achats OLD",
+					"icon" : "",
+					"link" : "service_clientel/Etat_de_livraison/Liste_clients_sans_achat_OLD"
+				},
+				{
+					"text" : "Client Sans Achats",
+					"icon" : "",
+					"link" : "service_clientel/Etat_de_livraison/Clients_sans_achat"
+				},
+				{
+					"text" : "Gain Koty et smails client",
+					"icon" : "",
+					"link" : "service_clientel/Etat_de_livraison/Gain_koty_smiles"
+				},
+				{
+					"text" : "Vente livré 2021",
+					"icon" : "",
+					"link" : "service_clientel/Etat_de_livraison/Vente_annuel"
+				}
+				
+			]
+		},
+		{
+			"text" : "Note de livraison",
+			"icon" : "flaticon-attachment",
+			"link" : "service_clientel/note_de_livraison"
+		},
+		{
+			"text" : "Carte",
+			"icon" : "flaticon-placeholder",
+			"link" : "service_clientel/Carte"
+		},
+		{
+			"text" : "Info annulation",
+			"icon" : "flaticon-error",
+			"link" : "service_clientel/info_annulation"
+		},
+		{
+			"text" : "Livraison Combo",
+			"icon" : "flaticon-delivery-truck",
+			"link" : "service_clientel/livraison_combo"
+		},
+		{
+			"text" : "Exporter livraison ",
+			"icon" : "flaticon-folder",
+			"link" : "service_clientel/Livraison_du_jour_export"
+		},
+		{
+			"text" : "Exporter Commande ",
+			"icon" : "flaticon-folder",
+			"link" : "service_clientel/Commande_du_jour_export"
+		}
+	]		
+}		

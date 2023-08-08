@@ -1,0 +1,34 @@
+{   "banniere_sidebar":"",
+	"titre" : "Service Après Vente",
+	"color_text":"#FF8800",
+	"sibarImage" :"images/service_apres_vente/service-apres-vente.jpg",
+	"menu" :[
+		{
+			"text" : "Etat de livraison",
+			"icon" : "fa fa-signal",
+			"link" : "Service_apres_vente"
+		},
+		{
+			"text" : "Outils de travail",
+			"icon" : "fa fa-cogs",
+			"link" : "",
+			"sous_menu" : [
+				{
+					"text" : "Discussion",
+					"icon" : "",
+					"link" : "Service_apres_vente/nouveau"
+				},
+				{
+					"text" : "Autres",
+					"icon" : "",
+					"link" : "operatrice/Autres"
+				},
+				{
+					"text":"Sondage",
+					"icon":"fa fa-pool",
+					"link":"operatrice/sondage"
+				}
+			]
+		}
+	]		
+}		

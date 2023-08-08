@@ -1,0 +1,64 @@
+{
+    "couleur_base" : "\" style='background-color:#FF4081'",
+    "couleur_nav" :"danger",
+    "title" : "TSENA KOTY",
+    "menu": [{
+            "text" : "Accueil",
+            "icon" : "icon-home",
+            "link" : "Tsena_koty"
+            },{
+            "text": "Client",
+            "icon": "icon-people",
+            "link": "",
+            "sous_menu": [{
+                    "text": "Top 100",
+                    "icon": "fa fa-edit",
+                    "link": "Client/Top_100"
+                },
+                {
+                    "text": "Avec achats",
+                    "icon": "fa fa-list",
+                    "link": "Client/avec_achats"
+                }
+            ]
+        }, {
+            "text": "Etat",
+            "icon": "icon-book-open", 
+            "link": "",
+            "sous_menu": [{
+                    "text": "Etat de vente",
+                    "icon": "fa fa-edit",
+                    "link": "Etat/Etat_de_vente"
+                },
+                {
+                    "text": "Etat de livraison",
+                    "icon": "fa fa-list",
+                    "link": "Etat/Etat_de_livraison"
+                }
+            ]
+        },
+         {
+            "text": "Taches", 
+            "icon": "icon-pin", 
+            "link": "Tsena_koty/Taches"
+        },{
+            "text": "Carte à gratter",
+            "icon": "icon-pin", 
+            "link": "",
+            "sous_menu": [{
+                    "text": "Tirage ",
+                    "icon": "fa fa-edit",
+                    "link": "Tsena_koty/Carte_Gratee/Nouveau"
+                },
+                {
+                    "text": "Etat de Carte à gratter",
+                    "icon": "fa fa-list",
+                    "link": "Tsena_koty/Carte_Gratee/Etat_carte"
+                }
+            ]
+        }
+
+
+
+    ]
+}

@@ -1,0 +1,307 @@
+{
+    "couleur_base": "light-blue2",
+    "couleur_nav": "info",
+    "title": "OPERATRICE",
+    "menu": [{
+            "text": "Accueil",
+            "icon": "flaticon-home",
+            "link": "operatrice"
+        },
+        {
+            "text": "Clients",
+            "icon": "icon-people",
+            "link": "",
+            "sous_menu": [{
+                    "text": "Mes clients",
+                    "icon": "",
+                    "link": "operatrice/Clients/Mes_clients"
+                },
+                {
+                    "text": "Mise à jour client",
+                    "icon": "",
+                    "link": "operatrice/clients/liste_mise_a_jour"
+                },
+                {
+                    "text": "Rang par koty",
+                    "icon": "",
+                    "link": "operatrice/clients/rang"
+                }
+
+            ]
+
+        },
+        {
+            "text": "Tache",
+            "icon": "icon-pin",
+            "link": "operatrice/Tache"
+
+        }, {
+            "text": "Rapport",
+            "icon": "icon-speech",
+            "link": "",
+            "sous_menu": [
+
+                {
+                    "text": "Journalier",
+                    "icon": "",
+                    "link": "operatrice/Rapport/Journalier"
+                },
+
+                {
+                    "text": "Mensuel",
+                    "icon": "",
+                    "link": "operatrice/clients/clientappel"
+                }
+
+            ]
+
+        }, {
+            "text": "Urgence",
+            "icon": "icon-speech",
+            "link": "operatrice/Urgence"
+
+        },
+        {
+            "text": "Relances",
+            "icon": "icon-action-undo",
+            "link": "",
+            "sous_menu": [
+
+                {
+                    "text": "Liste clients à traiter",
+                    "icon": "",
+                    "link": "operatrice/clients/relance"
+                },
+
+                {
+                    "text": "Liste clients call",
+                    "icon": "",
+                    "link": "operatrice/clients/clientappel"
+                }
+
+            ]
+
+        }, {
+            "text": "Liste des relances",
+            "icon": "icon-share-alt",
+            "link": "",
+            "sous_menu": [
+
+                {
+                    "text": "Rapport des relances",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/rapport_relance"
+                },
+                {
+                    "text": "Tombola",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/Tombola"
+                }, {
+                    "text": "Discussion relance",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/Discussion_relance"
+                },
+
+                {
+                    "text": "Relance produit",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/relance_produit"
+                },
+                {
+                    "text": "Liste AAC007",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/liste_clientaac007"
+                },
+                {
+                    "text": "Liste AAC014",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/liste_clientaac014"
+                },
+                {
+                    "text": "Liste AAC021",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/liste_clientaac021"
+                },
+                {
+                    "text": "Liste AAC028",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/liste_clientaac028"
+                },
+                {
+                    "text": "Liste AAC035",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/liste_clientaac035"
+                }
+                ,
+                {
+                    "text": "Liste AAC042",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/liste_clientaac042"
+                },
+
+                {
+                    "text": "Liste AAC049",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/client_a_traiterAAC49"
+                },
+                {
+                    "text": "Liste AAC056",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/liste_clientaac056"
+                },
+                {
+                    "text": "Liste AAC070",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/client_a_traiterAAC70"
+                },
+                {
+                    "text": "Liste CLT007",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/CLT007"
+                },
+                {
+                    "text": "Ventes non livrées",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/vente_non_livrees"
+                },
+                {
+                    "text": "Rendez-vous",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/rendez_vous"
+                },
+                {
+                    "text": "Pospection client",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/jaime"
+                },
+                 {
+                    "text": "Relances non traitées",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/nonTraite"
+                },
+                {
+                    "text": "Relance produit",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/produit_relance"
+                },
+                {
+                    "text": "",
+                    "icon": "",
+                    "link": "",
+                    "sous_sous_menu": [{
+                            "text": "Réaction j'aime",
+                            "icon": "",
+                            "link": "operatrice/Liste_des_relances/jaime"
+                        },
+                        {
+                            "text": "Réaction life style",
+                            "icon": "",
+                            "link": "operatrice/Liste_des_relances/life_style"
+                        }
+
+                    ]
+                }
+
+            ]
+
+        },
+        {
+            "text": "Jeux",
+            "icon": "icon-game-controller",
+            "link": "",
+            "sous_menu": [
+
+                {
+                    "text": "Tombola",
+                    "icon": "",
+                    "link": "operatrice/Jeux/Tombola"
+                }
+
+            ]
+
+        },
+        {
+            "text": "Produits",
+            "icon": "flaticon-cart-1",
+            "link": "",
+            "sous_menu": [
+
+                {
+                    "text": "Liste des produits",
+                    "icon": "",
+                    "link": "operatrice/Produits/Liste_des_produits"
+                },
+                {
+                    "text": "Argumentaire",
+                    "icon": "",
+                    "link": "operatrice/Produits/mise_a_jour"
+                }
+
+            ]
+
+        },
+
+        {
+            "text": "Etat de Ventes",
+            "icon": "flaticon-coins",
+            "link": "operatrice/Etat_de_ventes"
+        },
+        {
+            "text": "Etat de livraison",
+            "icon": "flaticon-graph",
+            "link": "",
+            "sous_menu": [
+
+                {
+                    "text": "Etat de livraison",
+                    "icon": "",
+                    "link": "operatrice/Etat_de_livraison"
+                },
+
+                {
+                    "text": " CA livré semaine passée",
+                    "icon": "",
+                    "link": "operatrice/Ca_livre_semaine_passe"
+                },
+                {
+                    "text": " Livraison de la semaine ",
+                    "icon": "fa fa-money",
+                    "link" : "operatrice/Livraion_du_jour_export"
+                }
+
+            ]
+
+        },{
+            "text": "Cart",
+            "icon": "flaticon-placeholder",
+            "link": "operatrice/Cart"
+        },
+        {
+            "text": "Pense-bête",
+            "icon": "icon-note",
+            "link": "operatrice/Pense_-_bete"
+        },
+        {
+            "text": "Sondage et Temoignages",
+            "icon": "flaticon-graph",
+            "link": "",
+            "sous_menu": [
+                {
+                    "text": "Nouveau",
+                    "icon": "",
+                    "link": "operatrice/Nouveau_sondage"
+                },
+
+                {
+                    "text": "Liste TSF",
+                    "icon": "",
+                    "link": "operatrice/Mes_TSF"
+                }
+
+            ]
+
+        }
+    ]
+
+
+}

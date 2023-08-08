@@ -1,0 +1,71 @@
+{
+    "banniere_sidebar": "images/service_clientel/banniere-sidebar.png",
+    "titre": "Administrateur",
+    "couleur_nav": "secondary",
+    "couleur_base": "purple",
+    "sibarImage": "images/service_clientel/sibarImage.png",
+    "menu": [{
+            "text": "Accueil",
+            "icon": "flaticon-home",
+            "link": "Administrateur"
+        },
+        {
+            "text": "Appel",
+            "icon": "flaticon-whatsapp",
+            "link": "",
+            "sous_menu": [{
+                    "text": "Entrant",
+                    "icon": "",
+                    "link": "Appel_telephonique/Appel/Entrant"
+                },
+                {
+                    "text": "Sortant",
+                    "icon": "",
+                    "link": "Appel_telephonique/Appel/Sortant"
+                },
+                {
+                    "text": "Rapport",
+                    "icon": "",
+                    "link": "Appel_telephonique/Appel/Rapport"
+                }
+            ]
+        },
+        {
+            "text": "Tache",
+            "icon": "icon-pin",
+            "link": "Appel_telephonique/Tache"
+        },
+        {
+            "text": "Liste des relances",
+            "icon": "icon-share-alt",
+            "link": "",
+            "sous_menu": [{
+                "text": "Tombola",
+                "icon": "",
+                "link": "Appel_telephonique/Liste_des_relances/Tombola"
+            }]
+        },
+        {
+            "text": "Clients",
+            "icon": "flaticon-users",
+            "link": "",
+            "sous_menu": [{
+                "text": "Liste des clients",
+                "icon": "",
+                "link": "Appel_telephonique/Clients/Liste_des_clients"
+            }]
+        },
+
+        {
+            "text": "Produits",
+            "icon": "flaticon-box-3",
+            "link": "Appel_telephonique/Produits/Liste_des_produits"
+
+        },
+        {
+            "text": "Etat de Ventes",
+            "icon": "flaticon-calendar",
+            "link": "Appel_telephonique/Etat_de_ventes"
+        }
+    ]
+}

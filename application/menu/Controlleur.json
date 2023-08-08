@@ -1,0 +1,173 @@
+{
+	"banniere_sidebar": "images/operatrice/banniere-sidebar.png",
+	"titre": "Controlleur",
+	"color_text": "#708d23",
+	"sibarImage": "images/operatrice/sibarImage.png",
+	"menu": [
+		{
+			"text": "Accueil",
+			"icon": "icon_house_alt",
+			"link": "operatrice"
+		},
+		{
+			"text": "Relance",
+			"icon": "fa fa-bell",
+			"link": "operatrice"
+		},
+		{
+			"text": "Clients",
+			"icon": "fa fa-users",
+			"link": "",
+			"sous_menu": [
+				{
+					"text": "Client Prospet",
+					"icon": "",
+					"link": "operatrice/clients/Client_prospet"
+				},
+				{
+					"text": "Liste des clients",
+					"icon": "",
+					"link": "controlleur/client_detail"
+				},
+				{
+					"text": "Importer client potentiel",
+					"icon": "",
+					"link": "operatrice/clients/importer_client_potentiel"
+				},
+				{
+					"text": "Client curieux",
+					"icon": "",
+					"link": "Controlleur/clients/curieux"
+				}
+			]
+		},
+		{
+			"text": "Vente",
+			"icon": "fa fa-users",
+			"link": "",
+			"sous_menu": [
+				{
+					"text": "Modifier",
+					"icon": "",
+					"link": "controlleur/Modifier_Vente"
+				}
+			]
+		},
+		{
+			"text": "Relance",
+			"icon": "fa fa-bell",
+			"link": "operatrice"
+		},
+		{
+			"text": "Clients",
+			"icon": "fa fa-users",
+			"link": "",
+			"sous_menu": [
+				{
+					"text": "Client Prospet",
+					"icon": "",
+					"link": "operatrice/clients/Client_prospet"
+				},
+				{
+					"text": "Liste des clients",
+					"icon": "",
+					"link": "controlleur/client_relance"
+				},
+				{
+					"text": "Importer client potentiel",
+					"icon": "",
+					"link": "operatrice/clients/importer_client_potentiel"
+				},
+				{
+					"text": "Client curieux",
+					"icon": "",
+					"link": "Controlleur/clients/curieux"
+				}
+			]
+		},
+		{
+			"text": "Chiffre d'affaire",
+			"icon": "fa fa-money",
+			"link": "",
+			"sous_menu": [
+				{
+					"text": "Vente du jour",
+					"icon": "",
+					"link": "controlleur/detail_calendrier/"
+				},
+				{
+					"text": "Calendrier de vente",
+					"icon": "",
+					"link": "controlleur/Calendrier"
+				},
+				{
+					"text": "CA par OPL",
+					"icon": "",
+					"link": "controlleur/ca"
+				},
+				{
+					"text": "CA livrés",
+					"icon": "",
+					"link": "controlleur/calivre"
+				},
+				{
+					"text": "CA PREV par semaine ",
+					"icon": "",
+					"link": "controlleur/semaine"
+				},
+				{
+					"text": "CA REEL par semaine ",
+					"icon": "",
+					"link": "controlleur/week"
+				}
+			]
+		},
+		{
+			"text": "Présence",
+			"icon": "fa fa-check",
+			"link": "controlleur/presence"
+		},
+		{
+			"text": "Ajout",
+			"icon": "fa fa-plus",
+			"link": "",
+			"sous_menu": [
+				{
+					"text": "Ajout groupe fb",
+					"icon": "",
+					"link": "controlleur/insert/"
+				},
+				{
+					"text": "Ajout OPL",
+					"icon": "",
+					"link": "controlleur/Ajout_OPL"
+				},
+				{
+					"text": "Ajout page",
+					"icon": "",
+					"link": "controlleur/ajout_page"
+				}
+			]
+		},
+		{
+			"text": "Discussion",
+			"icon": "fa fa-envelope",
+			"link": "controlleur/discussions"
+		},
+		{
+			"text": "Gestion des pages",
+			"icon": "fa fa-edit",
+			"link": "controlleur/pages/"
+		},
+		{
+			"text": "Etat mensuel",
+			"icon": "fa fa-bookmark",
+			"link": "controlleur/etat_mensuel"
+		},
+		{
+			"text": "Performance",
+			"icon": "fas fa-database",
+			"link": "controlleur/performance"
+		}
+	]
+}
