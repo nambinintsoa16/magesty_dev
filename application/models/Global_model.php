@@ -2903,7 +2903,7 @@ SUM(
   }
    public function data_page_users($user){
   
-    $this->db->select('comptefb.Nom_page,comptefb.id,.comptefb.Source,comptefb.Type');
+    $this->db->select('comptefb.Nom_page,comptefb.id,comptefb.Source,comptefb.Type');
     $this->db->where('comptefb.statut',"on");
     $this->db->where('page_fb.statut',"on");
     $this->db->where('page_fb.operatrice',$user);
