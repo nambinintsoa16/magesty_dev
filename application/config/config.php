@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-	            	      
+ 	      
 $config['base_url'] = 'http://127.0.0.1/magesty_dev';
 
 $config['index_page'] = '';
