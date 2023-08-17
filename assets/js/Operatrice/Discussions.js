@@ -89,6 +89,9 @@ $(document).ready(function() {
         $(".conclure").attr('disabled', 'disabled');
         $(".conclure").addClass('collapse');
 
+        $(".observation").attr('disabled', 'disabled');
+        $(".observation").addClass('collapse');
+
         $(".rendezvous").attr('disabled', 'disabled');
         $(".rendezvous").addClass('collapse');
 
@@ -113,6 +116,9 @@ $(document).ready(function() {
         $(".conclure").attr('disabled', 'disabled');
         $(".conclure").addClass('collapse');
 
+        $(".observation").attr('disabled', 'disabled');
+        $(".observation").addClass('collapse');
+
         $(".rendezvous").attr('disabled', 'disabled');
         $(".rendezvous").addClass('collapse');
 
@@ -136,6 +142,9 @@ $(document).ready(function() {
 
         $(".conclure").removeAttr('disabled');
         $(".conclure").removeClass('collapse');
+
+        $(".observation").removeAttr('disabled');
+        $(".observation").removeClass('collapse');
 
         $(".asuivre").removeAttr('disabled');
         $(".asuivre").removeClass('collapse');
@@ -948,8 +957,12 @@ $(document).ready(function() {
         $('.form_vente').modal('show');
     });
 
-    $('.rendezvous').on('click', function(event) {
+    $('.observation').on('click', function(event) {
+        event.preventDefault();
+        $('.form_observation').modal('show');
+    });
 
+    $('.rendezvous').on('click', function(event) {
         event.preventDefault();
         $('.RDV').modal('show');
     });

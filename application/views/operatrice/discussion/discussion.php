@@ -223,6 +223,7 @@
     padding-right: 10px
   }
 </style>
+
 <div class="container w-100" style="max-width: 100%!important;">
   <div class="row m-1">
     <div class="col-md-12">
@@ -236,7 +237,7 @@
       </div>
     </div>
     <div class="bg-red mt-2" style="width:25%;">
-      <div class="card text-center" style="height:730px;width: 100%;">
+      <div class="card text-center" style="height:745px;width: 100%;">
         <div class="card-header" style="background:#33b5e5;">
           <strong class="text-white">CHOIX DE L'INTERVENANT</strong>
         </div>
@@ -267,7 +268,7 @@
       </div>
     </div>
     <div class="mt-2 ml-1" style="width:74%;">
-      <div class="card" style="height:730px;width:100%">
+      <div class="card" style="height:745px;width:100%">
         <div class="card-header entetebadge text-white p-1" style="background:#33b5e5;">
           <img class="avatar-img rounded-circle Client" style="width:46px;height:46px;" src="" alt="client">
           <a href="#" class="historique"><span class="code_client_ban ml-3"></span></a>
@@ -303,14 +304,15 @@
               }*/
 
             ?>
-            <div class="form-group col-md-12 row mt-2 text-left btn-init blockerSiNouveau bg-white" style="margin-left:15px!important;">
-              <a href="#" class="btn btn-success pull-left conclure blockerSiNouveau" disabled>CONCLURE</a>
-              <a href="#" class="btn btn-primary pull-left rendezvous blockerSiNouveau" style="margin-left: 10px;" disabled>RENDEZ-VOUS</a>
-              <a href="#" class="btn btn-warning check pull-right blockerSiNouveau mr-2" style="margin-left: 5px;" disabled>CHECK CTL007</a>
-              <a href="#" class="btn btn-danger termier pull-right blockerSiNouveau" style="margin-left: 10px;" disabled>TERMINER</a>
-              <a href="#" class="btn btn-info asuivre pull-right blockerSiNouveau" style="margin-left: 10px" disabled>A SUIVRE</a>
-              <a href="#" class="btn btn-primary firstcontaact collapse pull-right blockerSiNouveau" disabled>PREMIER CONTACT</a>
-              <a href="#" class="btn btn-primary nouveauDiscussion pull-right collapse" style="margin-left: 10px">NOUVELLE DISCUSSION</a>
+            <div class="form-group col-md-12 row text-left btn-init blockerSiNouveau bg-white" style="margin-left:15px!important;">
+              <a href="#" class="btn btn-secondary pull-left observation blockerSiNouveau m-1" style="margin-left: 10px;" disabled>OBSERVATION</a>
+              <a href="#" class="btn btn-success pull-left conclure blockerSiNouveau m-1" disabled>CONCLURE</a>
+              <a href="#" class="btn btn-primary pull-left rendezvous blockerSiNouveau m-1" style="margin-left: 10px;" disabled>RENDEZ-VOUS</a>
+              <a href="#" class="btn btn-warning check pull-right blockerSiNouveau mr-2 m-1" style="margin-left: 5px;" disabled>CHECK CTL007</a>
+              <a href="#" class="btn btn-danger termier pull-right blockerSiNouveau m-1" style="margin-left: 10px;" disabled>TERMINER</a>
+              <a href="#" class="btn btn-info asuivre pull-right blockerSiNouveau m-1" style="margin-left: 10px" disabled>A SUIVRE</a>
+              <a href="#" class="btn btn-primary firstcontaact collapse pull-right m-1 blockerSiNouveau" disabled>PREMIER CONTACT</a>
+              <a href="#" class="btn btn-primary nouveauDiscussion pull-right collapse m-1" style="margin-left: 10px">NOUVELLE DISCUSSION</a>
             </div>
             <div class="form-group col-md-12 text-left collapse btn-disabled">
               <a href="#" class="btn btn-success blockerSiNouveau" disabled>CONCLURE</a>
@@ -322,8 +324,236 @@
     </div>
   </div>
 
+  <div class="modal fade form_observation" id="observationModal" tabindex="-1" role="dialog" aria-labelledby="observationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title text-uppercase" style="text-align:center;width:100%;" id="exampleModalLabel"><b>Observation</b></h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body shadow" style="background:#EEEEEE!important">
+          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
+            <legend class="w-auto">A propos</legend>
+            <div class="row">
+              <div class="col-6">
+                <div class="mb-3">
+                  <label for="account" class="form-label">Comptes</label>
+                  <select class="form-select form-select-sm custom-select" name="account" id="account">
+                    <option selected value="0">COMPTE PERSONNEL</option>
+                    <option value="1">COMPTE PROFESSIONNEL</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6">
+              <div class="mb-3">
+                  <label for="sexe" class="form-label">Sexe</label>
+                  <select class="form-select form-select-sm custom-select" name="sexe" id="sexe">
+                    <option selected value="0">FEMME</option>
+                    <option value="1">HOMME</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="approximateAge" class="form-label">Age approximatif</label>
+                  <input type="number" min="16" max="70" name="approximateAge" id="approximateAge" class="form-control form-control-sm" >
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="fbAge" class="form-label">Age sur Facebook</label>
+                  <input type="number" min="16" max="70" name="fbAge" id="fbAge" class="form-control form-control-sm" >
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          
+          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
+            <legend class="w-auto">Fil d'actualité</legend>
+            <div class="row mb-1">
+              <div class="col-3">
+                <label for="cinema" class="form-label">Cinéma</label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                          -
+                      </button>
+                  </span>
+                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                          +
+                      </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-3">
+                <label for="cinema" class="form-label">Restaurant</label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                          -
+                      </button>
+                  </span>
+                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                          +
+                      </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-3">
+                <label for="cinema" class="form-label">Shopping</label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                          -
+                      </button>
+                  </span>
+                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                          +
+                      </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-3">
+                <label for="cinema" class="form-label">Voyage</label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                          -
+                      </button>
+                  </span>
+                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                          +
+                      </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-3">
+                <label for="cinema" class="form-label">Politique</label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                          -
+                      </button>
+                  </span>
+                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                          +
+                      </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-3">
+                <label for="cinema" class="form-label">Religion</label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                          -
+                      </button>
+                  </span>
+                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                          +
+                      </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-3">
+                <label for="cinema" class="form-label">Sport local</label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                          -
+                      </button>
+                  </span>
+                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                          +
+                      </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-3">
+                <label for="cinema" class="form-label">Sport international</label>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                          -
+                      </button>
+                  </span>
+                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                          +
+                      </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </fieldset>
 
+          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
+            <legend class="w-auto">Monitoring</legend>
+          </fieldset>
 
+          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
+            <legend class="w-auto">Conclusion de la discussion</legend>
+            <div class="row mb-3">
+              <div class="col-4">
+                <label for="name" class="form-label">Nom du produit</label>
+                <select class="form-select form-select-sm custom-select" name="name" id="name">
+                  <option selected>Select one</option>
+                  <option value="">New Delhi</option>
+                  <option value="">Istanbul</option>
+                  <option value="">Jakarta</option>
+                </select>
+              </div>
+              <div class="col-4">
+                <label for="feelingClient" class="form-label">Sentiment du client</label>
+                <select class="form-select form-select-sm custom-select" name="feelingClient" id="feelingClient">
+                  <option selected>Select one</option>
+                  <option value="">New Delhi</option>
+                  <option value="">Istanbul</option>
+                  <option value="">Jakarta</option>
+                </select>
+              </div>
+              <div class="col-4">
+                <label for="appreciation" class="form-label">Appreciation de l'OPLG</label>
+                <select class="form-select form-select-sm custom-select" name="appreciation" id="appreciation">
+                  <option selected>Select one</option>
+                  <option value="">New Delhi</option>
+                  <option value="">Istanbul</option>
+                  <option value="">Jakarta</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-success enregistre_commande">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-------------------------------------------------------------------------------------------------------------------->
   <div class="modal fade form_vente" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
