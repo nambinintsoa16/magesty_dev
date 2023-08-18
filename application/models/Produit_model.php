@@ -58,4 +58,9 @@ class produit_model extends CI_Model{
   public function Selectpromotion($rquette=array()){
     return $this->db->where($rquette)->get('promotion')->row_object();
   }
+
+  public function getAllProducts() {
+    $query = $this->db->get('produit');
+    return $query->result();
+  }
 }

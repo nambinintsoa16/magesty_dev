@@ -223,7 +223,6 @@
     padding-right: 10px
   }
 </style>
-
 <div class="container w-100" style="max-width: 100%!important;">
   <div class="row m-1">
     <div class="col-md-12">
@@ -360,14 +359,65 @@
               <div class="col">
                 <div class="mb-3">
                   <label for="approximateAge" class="form-label">Age approximatif</label>
-                  <input type="number" min="16" max="70" name="approximateAge" id="approximateAge" class="form-control form-control-sm" >
+                  <select class="form-select form-select-sm custom-select" name="approximateAge" id="approximateAge">
+                    <option selected value="0">15-20</option>
+                    <option value="1">20-25</option>
+                    <option value="2">25-30</option>
+                    <option value="3">30-35</option>
+                    <option value="4">35-40</option>
+                    <option value="5">40-45</option>
+                    <option value="6">45-50</option>
+                    <option value="7">55-60</option>
+                    <option value="8">60-65</option>
+                    <option value="9">65-70</option>
+                    <option value="10">70 et plus</option>
+                  </select>
                 </div>
               </div>
               <div class="col">
                 <div class="mb-3">
                   <label for="fbAge" class="form-label">Age sur Facebook</label>
-                  <input type="number" min="16" max="70" name="fbAge" id="fbAge" class="form-control form-control-sm" >
+                  <select class="form-select form-select-sm custom-select" name="fbAge" id="fbAge">
+                    <option selected value="0">15-20</option>
+                    <option value="1">20-25</option>
+                    <option value="2">25-30</option>
+                    <option value="3">30-35</option>
+                    <option value="4">35-40</option>
+                    <option value="5">40-45</option>
+                    <option value="6">45-50</option>
+                    <option value="7">55-60</option>
+                    <option value="8">60-65</option>
+                    <option value="9">65-70</option>
+                    <option value="10">70 et plus</option>
+                  </select>
                 </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+              <div class="mb-3">
+                  <label for="approximateAge" class="form-label">Localisation du client</label>
+                  <select class="form-select form-select-sm custom-select" name="approximateAge" id="approximateAge">
+                    <!-- here is the test, I always have this error: variable regions is undefined -->
+                    <?php foreach ($regions as $region) : ?>
+                        <option value="<?= $region->nom ?>">
+                            <?= $region->chefLieu ?>
+                        </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+              <h1>Régions de Madagascar</h1>
+                <!-- here is the test, I always have this error: variable regions is undefined -->
+                <ul>
+                    <?php foreach ($regions as $region) : ?>
+                        <li>
+                            <strong>Nom :</strong> <?= $region->nom ?>,
+                            <strong>Chef-lieu :</strong> <?= $region->chefLieu ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
               </div>
             </div>
           </fieldset>
@@ -379,11 +429,27 @@
                 <label for="cinema" class="form-label">Cinéma</label>
                 <div class="input-group">
                   <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[0]">
+                          -
+                      </button>
+                  </span>
+                  <input type="number" id="cinema" disabled name="quant[0]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[0]">
+                          +
+                      </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-3">
+                <label for="restaurant" class="form-label">Restaurant</label>
+                <div class="input-group">
+                  <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
                           -
                       </button>
                   </span>
-                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <input type="number" id="restaurant" disabled name="quant[1]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
                   <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
                           +
@@ -392,48 +458,32 @@
                 </div>
               </div>
               <div class="col-3">
-                <label for="cinema" class="form-label">Restaurant</label>
+                <label for="shopping" class="form-label">Shopping</label>
                 <div class="input-group">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[2]">
                           -
                       </button>
                   </span>
-                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <input type="number" id="shopping" disabled name="quant[2]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[2]">
                           +
                       </button>
                   </span>
                 </div>
               </div>
               <div class="col-3">
-                <label for="cinema" class="form-label">Shopping</label>
+                <label for="travel" class="form-label">Voyage</label>
                 <div class="input-group">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[3]">
                           -
                       </button>
                   </span>
-                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <input type="number" id="travel" disabled name="quant[3]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
-                          +
-                      </button>
-                  </span>
-                </div>
-              </div>
-              <div class="col-3">
-                <label for="cinema" class="form-label">Voyage</label>
-                <div class="input-group">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
-                          -
-                      </button>
-                  </span>
-                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[3]">
                           +
                       </button>
                   </span>
@@ -442,64 +492,64 @@
             </div>
             <div class="row mb-3">
               <div class="col-3">
-                <label for="cinema" class="form-label">Politique</label>
+                <label for="politic" class="form-label">Politique</label>
                 <div class="input-group">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[4]">
                           -
                       </button>
                   </span>
-                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <input type="number" id="politic" disabled name="quant[4]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[4]">
                           +
                       </button>
                   </span>
                 </div>
               </div>
               <div class="col-3">
-                <label for="cinema" class="form-label">Religion</label>
+                <label for="religion" class="form-label">Religion</label>
                 <div class="input-group">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[5]">
                           -
                       </button>
                   </span>
-                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <input type="number" id="religion" disabled name="quant[5]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[5]">
                           +
                       </button>
                   </span>
                 </div>
               </div>
               <div class="col-3">
-                <label for="cinema" class="form-label">Sport local</label>
+                <label for="sportlocal" class="form-label">Sport local</label>
                 <div class="input-group">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
                           -
                       </button>
                   </span>
-                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <input type="number" id="sportlocal" disabled name="quant[6]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
                           +
                       </button>
                   </span>
                 </div>
               </div>
               <div class="col-3">
-                <label for="cinema" class="form-label">Sport international</label>
+                <label for="sportint" class="form-label">Sport international</label>
                 <div class="input-group">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[7]">
                           -
                       </button>
                   </span>
-                  <input type="number" id="cinema" name="quant[1]" class="form-control form-control-sm" value="0" min="1" max="20">
+                  <input type="number" id="sportint" disabled name="quant[7]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[7]">
                           +
                       </button>
                   </span>
@@ -516,12 +566,14 @@
             <legend class="w-auto">Conclusion de la discussion</legend>
             <div class="row mb-3">
               <div class="col-4">
-                <label for="name" class="form-label">Nom du produit</label>
-                <select class="form-select form-select-sm custom-select" name="name" id="name">
-                  <option selected>Select one</option>
-                  <option value="">New Delhi</option>
-                  <option value="">Istanbul</option>
-                  <option value="">Jakarta</option>
+                <label for="productName" class="form-label">Nom du produit</label>
+                <select class="form-select form-select-sm custom-select" name="productName" id="productName">
+                    <?php $first = true; ?>
+                    <?php foreach ($data_type as $key => $item) : ?>
+                        <option value="<?= $item->Code_produit ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                            <?= $item->Designation ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
               </div>
               <div class="col-4">

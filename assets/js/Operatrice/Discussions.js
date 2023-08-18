@@ -5,7 +5,20 @@ $(document).ready(function() {
     initialiseNomByCodeClient();
     //initCOmplte();   
 
-
+    $(".btn-number").click(function() {
+        const button = $(this);
+        const fieldName = button.data("field");
+        const inputField = $("input[name='" + fieldName + "']");
+        const currentValue = parseInt(inputField.val());
+        const minValue = parseInt(inputField.attr("min"));
+        const maxValue = parseInt(inputField.attr("max"));
+  
+        if (button.data("type") === "minus" && currentValue >= minValue) {
+          inputField.val(currentValue - 1);
+        } else if (button.data("type") === "plus" && currentValue < maxValue) {
+          inputField.val(currentValue + 1);
+        }
+    });
 
     function mettreBouttonAttente() {
         $(".termier").removeAttr('disabled');
