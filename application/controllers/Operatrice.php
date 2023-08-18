@@ -948,6 +948,8 @@ class operatrice extends My_Controller
   {
     $this->load->model('global_model');
     $this->load->model('produit_model');
+    $json_path = base_url('assets/json/regions.json');
+    $json_data = json_decode(read_file($json_path));
     $data = [
       'produit_user' => $this->global_model->produit_user(),
       'en_cours' => $this->global_model->discussion_en_cours(),
@@ -956,6 +958,7 @@ class operatrice extends My_Controller
       'mission' => $this->global_model->mission(),
       'promotion' => $this->produit_model->promotion(['Pr_Status' => 'en_cours']),
       'data_type' => $this->global_model->produit_users(),
+      'regions' =>  $json_data,
       'bon_achat' => array()
     ];
     $this->render_view('operatrice/discussion/discussion', $data);
@@ -974,8 +977,8 @@ class operatrice extends My_Controller
     $this->load->model('global_model');
     $this->load->model('produit_model');
     $json_path = base_url('assets/json/regions.json');
-    $json_data = json_decode( read_file($json_path));
-    var_dump( $json_data);
+    $json_data = json_decode(read_file($json_path));
+    var_dump($json_data);
     die();
     $data = [
       'produit_user' => $this->global_model->produit_user(),
