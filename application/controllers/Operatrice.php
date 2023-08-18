@@ -975,7 +975,8 @@ class operatrice extends My_Controller
     $this->load->model('global_model');
     $this->load->model('produit_model');
     $json_path = base_url('assets/json/regions.json');
-    $json_data = file_get_contents($json_path);
+    $json_data = json_decode( read_file($json_path));
+
     $data = [
       'produit_user' => $this->global_model->produit_user(),
       'en_cours' => $this->global_model->discussion_en_cours(),
@@ -984,11 +985,7 @@ class operatrice extends My_Controller
       'mission' => $this->global_model->mission(),
       'promotion' => $this->produit_model->promotion(),
       'data_type' => $this->global_model->produit_users(),
-      'regions' => json_decode($json_data),
-      // 'age_range' =>  [
-      //   [ 'value' => 0 , 'range' => "15-20" ],
-      //   [ 'value' => 1 , 'range' => "20-25" ],
-      // ],
+      'regions' =>  $json_data
     ];
     $this->load->view('operatrice/discussion/discussion', $data);
   }
@@ -2165,7 +2162,6 @@ class operatrice extends My_Controller
     $tmp_name = $_FILES["file"]["tmp_name"];
     $name = basename($_FILES["file"]["name"]);
     $array = json_decode($donne);
-    print_r($array);
     if (move_uploaded_file($tmp_name, "$uploads_dir/$name")) {
       if ($xlsx = SimpleXLSX::parse("$uploads_dir/$name")) {
         $header_values = $rows = [];
