@@ -86,6 +86,10 @@
     {
         "nom": "Sava",
         "chefLieu": "Sambava"
+    },
+    {
+        "nom": "Exterieur",
+        "chefLieu": "Exterieur"
     }
   ]
   

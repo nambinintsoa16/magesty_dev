@@ -360,17 +360,11 @@
                 <div class="mb-3">
                   <label for="approximateAge" class="form-label">Age approximatif</label>
                   <select class="form-select form-select-sm custom-select" name="approximateAge" id="approximateAge">
-                    <option selected value="0">15-20</option>
-                    <option value="1">20-25</option>
-                    <option value="2">25-30</option>
-                    <option value="3">30-35</option>
-                    <option value="4">35-40</option>
-                    <option value="5">40-45</option>
-                    <option value="6">45-50</option>
-                    <option value="7">55-60</option>
-                    <option value="8">60-65</option>
-                    <option value="9">65-70</option>
-                    <option value="10">70 et plus</option>
+                    <?php foreach ($age_range as $item) : ?>
+                        <option value="<?= $item->id ?>">
+                            <?= $item->range ?>
+                        </option>
+                    <?php endforeach; ?>
                   </select>
                 </div>
               </div>
@@ -378,46 +372,35 @@
                 <div class="mb-3">
                   <label for="fbAge" class="form-label">Age sur Facebook</label>
                   <select class="form-select form-select-sm custom-select" name="fbAge" id="fbAge">
-                    <option selected value="0">15-20</option>
-                    <option value="1">20-25</option>
-                    <option value="2">25-30</option>
-                    <option value="3">30-35</option>
-                    <option value="4">35-40</option>
-                    <option value="5">40-45</option>
-                    <option value="6">45-50</option>
-                    <option value="7">55-60</option>
-                    <option value="8">60-65</option>
-                    <option value="9">65-70</option>
-                    <option value="10">70 et plus</option>
+                    <?php foreach ($age_range as $item) : ?>
+                        <option value="<?= $item->id ?>">
+                            <?= $item->range ?>
+                        </option>
+                    <?php endforeach; ?>
                   </select>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col">
-              <div class="mb-3">
-                  <label for="approximateAge" class="form-label">Localisation du client</label>
-                  <select class="form-select form-select-sm custom-select" name="approximateAge" id="approximateAge">
-                    <!-- here is the test, I always have this error: variable regions is undefined -->
-                    <?php foreach ($regions as $region) : ?>
-                        <option value="<?= $region->nom ?>">
-                            <?= $region->chefLieu ?>
-                        </option>
+                <div class="mb-3">
+                  <label for="clientLocalisation" class="form-label">Localisation du client</label>
+                  <select class="form-select form-select-sm custom-select" name="clientLocalisation" id="clientLocalisation">
+                    <?php foreach ($regions as $item) : ?>
+                      <option value="<?= $item->nom ?>">
+                              <?= $item->chefLieu ?>
+                      </option>
                     <?php endforeach; ?>
                   </select>
                 </div>
               </div>
               <div class="col">
-              <h1>Régions de Madagascar</h1>
-                <!-- here is the test, I always have this error: variable regions is undefined -->
-                <ul>
-                    <?php foreach ($regions as $region) : ?>
-                        <li>
-                            <strong>Nom :</strong> <?= $region->nom ?>,
-                            <strong>Chef-lieu :</strong> <?= $region->chefLieu ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <div class="mb-3">
+                  <label for="deliveryArea" class="form-label">Axe de livraison</label>
+                  <select class="form-select form-select-sm custom-select" name="deliveryArea" id="deliveryArea">
+                    <option value="1">test</option>
+                  </select>
+                </div>
               </div>
             </div>
           </fieldset>

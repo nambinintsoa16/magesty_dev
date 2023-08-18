@@ -944,13 +944,15 @@ class operatrice extends My_Controller
     ];
     $this->render_view('operatrice/discussion/nouveau', $data);
   }
+
   public function discussion()
   {
     $this->load->model('global_model');
     $this->load->model('produit_model');
-    $json_path = base_url('assets/json/regions.json');
-    $json_data = json_decode(read_file($json_path));
-    
+    $json_path_regions = base_url('assets/json/regions.json');
+    $json_data_regions = json_decode(read_file($json_path_regions));
+    $json_path_age_range = base_url('assets/json/age_range.json');
+    $json_data_age_range = json_decode(read_file($json_path_age_range));
     $data = [
       'produit_user' => $this->global_model->produit_user(),
       'en_cours' => $this->global_model->discussion_en_cours(),
@@ -959,11 +961,13 @@ class operatrice extends My_Controller
       'mission' => $this->global_model->mission(),
       'promotion' => $this->produit_model->promotion(['Pr_Status' => 'en_cours']),
       'data_type' => $this->global_model->produit_users(),
-      'regions' =>  $json_data,
+      'regions' =>  $json_data_regions,
+      'age_range' => $json_data_age_range,
       'bon_achat' => array()
     ];
     $this->render_view('operatrice/discussion/discussion', $data);
   }
+
   public function listDataBon(){
     $client = $this->input->post('client');
     $data = $this->global_model->bon_achat(['STATUT' => "actif","CODE_CLIENT"=> $client]);
@@ -978,10 +982,6 @@ class operatrice extends My_Controller
   {
     $this->load->model('global_model');
     $this->load->model('produit_model');
-    $json_path = base_url('assets/json/regions.json');
-    $json_data = json_decode(read_file($json_path));
-    var_dump($json_data);
-    die();
     $data = [
       'produit_user' => $this->global_model->produit_user(),
       'en_cours' => $this->global_model->discussion_en_cours(),
@@ -990,7 +990,6 @@ class operatrice extends My_Controller
       'mission' => $this->global_model->mission(),
       'promotion' => $this->produit_model->promotion(),
       'data_type' => $this->global_model->produit_users(),
-      'regions' =>  $json_data
     ];
     $this->load->view('operatrice/discussion/discussion', $data);
   }
