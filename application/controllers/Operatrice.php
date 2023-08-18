@@ -950,6 +950,7 @@ class operatrice extends My_Controller
     $this->load->model('produit_model');
     $json_path = base_url('assets/json/regions.json');
     $json_data = json_decode(read_file($json_path));
+    
     $data = [
       'produit_user' => $this->global_model->produit_user(),
       'en_cours' => $this->global_model->discussion_en_cours(),
