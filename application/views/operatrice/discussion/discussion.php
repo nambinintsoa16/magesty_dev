@@ -398,7 +398,9 @@
                 <div class="mb-3">
                   <label for="deliveryArea" class="form-label">Axe de livraison</label>
                   <select class="form-select form-select-sm custom-select" name="deliveryArea" id="deliveryArea">
-                    <option value="1">test</option>
+                    <option value="allDays">Tous les jours</option>
+                    <option value="1">Axe 1</option>
+                    <option value="2">Axe 2</option>
                   </select>
                 </div>
               </div>
@@ -582,7 +584,7 @@
         </div>
         <div class="modal-footer bg-light">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
-          <button type="button" class="btn btn-success enregistre_commande">Enregistrer</button>
+          <button type="button" class="btn btn-success save_observation">Enregistrer</button>
         </div>
       </div>
     </div>
