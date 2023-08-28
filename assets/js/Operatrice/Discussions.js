@@ -981,10 +981,11 @@ $(document).ready(function () {
             for (let prop in data) {
                 if (data.hasOwnProperty(prop)) {
                     htmlContent += `<tr>
-                                        <td>${data[prop].date}</td>
+                                        <td>${data[prop].account_type}<br>${data[prop].sexe}<br>${data[prop].approximate_age}/${data[prop].fb_age}</td>
                                         <td>${data[prop].Designation}</td>
                                         <td>${data[prop].customer_sentiment}</td>
                                         <td>${data[prop].appreciation}</td>
+                                        <td>${data[prop].date}</td>
                                     </tr>`;
                 }
             }

@@ -555,10 +555,11 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Date</th>
+                  <th scope="col">A propos</th>
                   <th scope="col">Produit</th>
                   <th scope="col">Sentiment du client</th>
                   <th scope="col">Appreciation de l'OPLG</th>
+                  <th scope="col">Date</th>
                 </tr>
               </thead>
               <tbody id="observation-table">
