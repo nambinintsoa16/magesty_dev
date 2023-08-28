@@ -81,6 +81,10 @@
     margin-right: 4px;
   }
 
+  .custom-input {
+    height: 2.3rem !important;
+  }
+
   .input-file ins {
     white-space: nowrap;
     display: block;
@@ -339,18 +343,18 @@
               <div class="col-6">
                 <div class="mb-3">
                   <label for="account" class="form-label">Comptes</label>
-                  <select class="form-select form-select-sm custom-select" name="account" id="account">
-                    <option selected value="0">COMPTE PERSONNEL</option>
-                    <option value="1">COMPTE PROFESSIONNEL</option>
+                  <select class="form-select form-select-sm custom-select account" name="account" id="account">
+                    <option selected value="personal_account">COMPTE PERSONNEL</option>
+                    <option value="professional_account">COMPTE PROFESSIONNEL</option>
                   </select>
                 </div>
               </div>
               <div class="col-6">
               <div class="mb-3">
                   <label for="sexe" class="form-label">Sexe</label>
-                  <select class="form-select form-select-sm custom-select" name="sexe" id="sexe">
-                    <option selected value="0">FEMME</option>
-                    <option value="1">HOMME</option>
+                  <select class="form-select form-select-sm custom-select sexe" name="sexe" id="sexe">
+                    <option selected value="woman">FEMME</option>
+                    <option value="man">HOMME</option>
                   </select>
                 </div>
               </div>
@@ -359,9 +363,10 @@
               <div class="col">
                 <div class="mb-3">
                   <label for="approximateAge" class="form-label">Age approximatif</label>
-                  <select class="form-select form-select-sm custom-select" name="approximateAge" id="approximateAge">
+                  <select class="form-select form-select-sm custom-select approximateAge" name="approximateAge" id="approximateAge">
+                    <?php $first = true; ?>
                     <?php foreach ($age_range as $item) : ?>
-                        <option value="<?= $item->id ?>">
+                        <option value="<?= $item->id ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
                             <?= $item->range ?>
                         </option>
                     <?php endforeach; ?>
@@ -371,9 +376,10 @@
               <div class="col">
                 <div class="mb-3">
                   <label for="fbAge" class="form-label">Age sur Facebook</label>
-                  <select class="form-select form-select-sm custom-select" name="fbAge" id="fbAge">
+                  <select class="form-select form-select-sm custom-select fbAge" name="fbAge" id="fbAge">
+                    <?php $first = true; ?>
                     <?php foreach ($age_range as $item) : ?>
-                        <option value="<?= $item->id ?>">
+                        <option value="<?= $item->id ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
                             <?= $item->range ?>
                         </option>
                     <?php endforeach; ?>
@@ -385,9 +391,10 @@
               <div class="col">
                 <div class="mb-3">
                   <label for="clientLocalisation" class="form-label">Localisation du client</label>
-                  <select class="form-select form-select-sm custom-select" name="clientLocalisation" id="clientLocalisation">
+                  <select class="form-select form-select-sm custom-select clientLocalisation" name="clientLocalisation" id="clientLocalisation">
+                    <?php $first = true; ?>
                     <?php foreach ($regions as $item) : ?>
-                      <option value="<?= $item->nom ?>">
+                      <option value="<?= $item->nom ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
                               <?= $item->chefLieu ?>
                       </option>
                     <?php endforeach; ?>
@@ -397,8 +404,8 @@
               <div class="col">
                 <div class="mb-3">
                   <label for="deliveryArea" class="form-label">Axe de livraison</label>
-                  <select class="form-select form-select-sm custom-select" name="deliveryArea" id="deliveryArea">
-                    <option value="allDays">Tous les jours</option>
+                  <select class="form-select form-select-sm custom-select deliveryArea" name="deliveryArea" id="deliveryArea">
+                    <option selected value="allDays">Tous les jours</option>
                     <option value="1">Axe 1</option>
                     <option value="2">Axe 2</option>
                   </select>
@@ -418,7 +425,7 @@
                           -
                       </button>
                   </span>
-                  <input type="number" id="cinema" disabled name="quant[0]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
+                  <input type="number" id="cinema" disabled name="quant[0]" class="form-control form-control-sm text-center cinema" value="0" min="1" max="20">
                   <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[0]">
                           +
@@ -434,7 +441,7 @@
                           -
                       </button>
                   </span>
-                  <input type="number" id="restaurant" disabled name="quant[1]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
+                  <input type="number" id="restaurant" disabled name="quant[1]" class="form-control form-control-sm text-center restaurant" value="0" min="1" max="20">
                   <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
                           +
@@ -450,7 +457,7 @@
                           -
                       </button>
                   </span>
-                  <input type="number" id="shopping" disabled name="quant[2]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
+                  <input type="number" id="shopping" disabled name="quant[2]" class="form-control form-control-sm text-center shopping" value="0" min="1" max="20">
                   <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[2]">
                           +
@@ -466,7 +473,7 @@
                           -
                       </button>
                   </span>
-                  <input type="number" id="travel" disabled name="quant[3]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
+                  <input type="number" id="travel" disabled name="quant[3]" class="form-control form-control-sm text-center travel" value="0" min="1" max="20">
                   <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[3]">
                           +
@@ -484,7 +491,7 @@
                           -
                       </button>
                   </span>
-                  <input type="number" id="politic" disabled name="quant[4]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
+                  <input type="number" id="politic" disabled name="quant[4]" class="form-control form-control-sm text-center politic" value="0" min="1" max="20">
                   <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[4]">
                           +
@@ -500,7 +507,7 @@
                           -
                       </button>
                   </span>
-                  <input type="number" id="religion" disabled name="quant[5]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
+                  <input type="number" id="religion" disabled name="quant[5]" class="form-control form-control-sm text-center religion" value="0" min="1" max="20">
                   <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[5]">
                           +
@@ -516,7 +523,7 @@
                           -
                       </button>
                   </span>
-                  <input type="number" id="sportlocal" disabled name="quant[6]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
+                  <input type="number" id="sportlocal" disabled name="quant[6]" class="form-control form-control-sm text-center sportlocal" value="0" min="1" max="20">
                   <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
                           +
@@ -532,7 +539,7 @@
                           -
                       </button>
                   </span>
-                  <input type="number" id="sportint" disabled name="quant[7]" class="form-control form-control-sm text-center" value="0" min="1" max="20">
+                  <input type="number" id="sportint" disabled name="quant[7]" class="form-control form-control-sm text-center sportint" value="0" min="1" max="20">
                   <span class="input-group-btn">
                       <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[7]">
                           +
@@ -543,16 +550,28 @@
             </div>
           </fieldset>
 
-          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
+          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;" id="monitoring-fieldset">
             <legend class="w-auto">Monitoring</legend>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Produit</th>
+                  <th scope="col">Sentiment du client</th>
+                  <th scope="col">Appreciation de l'OPLG</th>
+                </tr>
+              </thead>
+              <tbody id="observation-table">
+              </tbody>
+            </table>
           </fieldset>
 
           <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
             <legend class="w-auto">Conclusion de la discussion</legend>
             <div class="row mb-3">
-              <div class="col-4">
+              <div class="col-6">
                 <label for="productName" class="form-label">Nom du produit</label>
-                <select class="form-select form-select-sm custom-select" name="productName" id="productName">
+                <select class="form-select form-select-sm custom-select productName" name="productName" id="productName">
                     <?php $first = true; ?>
                     <?php foreach ($data_type as $key => $item) : ?>
                         <option value="<?= $item->Code_produit ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
@@ -561,23 +580,27 @@
                     <?php endforeach; ?>
                 </select>
               </div>
-              <div class="col-4">
-                <label for="feelingClient" class="form-label">Sentiment du client</label>
-                <select class="form-select form-select-sm custom-select" name="feelingClient" id="feelingClient">
-                  <option selected>Select one</option>
-                  <option value="">New Delhi</option>
-                  <option value="">Istanbul</option>
-                  <option value="">Jakarta</option>
+              <div class="col-6">
+                <label for="customerSentiment" class="form-label">Sentiment du client</label>
+                <select class="form-select form-select-sm custom-select customerSentiment" name="customerSentiment" id="customerSentiment">
+                  <option selected value="expensive">Trop cher (lafo loatra)</option>
+                  <option value="noMoney">Sans argent (tsy manam-bola)</option>
+                  <option value="noAnswer">Ne reponds pas (tsy mamaly)</option>
                 </select>
               </div>
-              <div class="col-4">
+            </div>
+            <div class="row mb-3">
+              <div class="col-6">
                 <label for="appreciation" class="form-label">Appreciation de l'OPLG</label>
-                <select class="form-select form-select-sm custom-select" name="appreciation" id="appreciation">
-                  <option selected>Select one</option>
-                  <option value="">New Delhi</option>
-                  <option value="">Istanbul</option>
-                  <option value="">Jakarta</option>
+                <select class="form-select form-select-sm custom-select appreciation" name="appreciation" id="appreciation">
+                  <option selected value="curiousWithPurchase">Curieux sans achat (liana fa tsy mividy)</option>
+                  <option value="curiousWithoutPurchase">Curieux avec achat (liana ary mividy)</option>
+                  <option value="Disinterested">Desinteresse (tsy mamaly, tsy tiany ilay entana)</option>
                 </select>
+              </div>
+              <div class="col-6">
+                <label for="priceWishes" class="form-label">Prix souhaite par le client</label>
+                <input type="number" class="form-control custom-input" value="0" id="priceWishes" name="priceWishes" min="0">
               </div>
             </div>
           </fieldset>

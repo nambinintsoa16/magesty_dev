@@ -949,6 +949,8 @@ class operatrice extends My_Controller
   {
     $this->load->model('global_model');
     $this->load->model('produit_model');
+    $this->load->model('Observation_model');
+    // $codeClient = localStorage.getItem('codeclient');
     $json_path_regions = base_url('assets/json/regions.json');
     $json_data_regions = json_decode(read_file($json_path_regions));
     $json_path_age_range = base_url('assets/json/age_range.json');
@@ -963,6 +965,7 @@ class operatrice extends My_Controller
       'data_type' => $this->global_model->produit_users(),
       'regions' =>  $json_data_regions,
       'age_range' => $json_data_age_range,
+      // 'observations' => $this->Observation_model->getAllObservationsByCodeClient($codeClient),
       'bon_achat' => array()
     ];
     $this->render_view('operatrice/discussion/discussion', $data);
@@ -1760,6 +1763,54 @@ class operatrice extends My_Controller
     $json['statut'] = $typeDisc;
     echo json_encode($json);
   }
+
+  public function getAllObservationsByCodeClient() {
+    $codeClient = $this->input->get('codeClient');
+    
+    $this->load->model('Observation_model');
+    $observations = $this->Observation_model->getAllObservationsByCodeClient($codeClient);
+    
+    header('Content-Type: application/json');
+    echo json_encode($observations);
+  }
+
+  public function saveObservation() {
+    $postData = $this->input->post();
+
+    $codeClient = $postData['codeClient'];
+    $appreciation = $postData['appreciation'];
+
+    $this->load->model('Observation_model');
+    
+    if ($appreciation == 'curiousWithPurchase') {
+        $purchaseNumber = (int)$this->Observation_model->getPurchaseNumberByCodeClient($codeClient) + 1;
+        $numberOfRefusals = (int)$this->Observation_model->getNumberOfRefusalsByCodeClient($codeClient);
+    } else {
+        $purchaseNumber = (int)$this->Observation_model->getPurchaseNumberByCodeClient($codeClient);
+        $numberOfRefusals = (int)$this->Observation_model->getNumberOfRefusalsByCodeClient($codeClient) + 1;
+    }
+    
+    $observationData = array(
+        'account_type' => $postData['accountType'],
+        'sexe' => $postData['sexe'],
+        'approximate_age' => $postData['approximateAge'],
+        'fb_age' => $postData['fbAge'],
+        'client_localisation' => $postData['clientLocalisation'],
+        'delivery_area' => $postData['deliveryArea'],
+        'product_name' => $postData['productName'],
+        'price_wishes' => $postData['priceWishes'],
+        'appreciation' => $postData['appreciation'],
+        'customer_sentiment' => $postData['customerSentiment'],
+        'news' => $postData['news'],
+        'purchase_number' => $purchaseNumber,
+        'number_of_refusals' => $numberOfRefusals,
+        'date' => date('Y-m-d H:i:s', (int)$postData['date'] / 1000),
+        'code_client' => $codeClient
+    );
+
+    $this->Observation_model->saveObservation($observationData);
+}
+
 
   public function sauvemessages()
   {
