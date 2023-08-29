@@ -344,8 +344,8 @@
                 <div class="mb-3">
                   <label for="account" class="form-label">Comptes</label>
                   <select class="form-select form-select-sm custom-select account" name="account" id="account">
-                    <option selected value="personal_account">COMPTE PERSONNEL</option>
-                    <option value="professional_account">COMPTE PROFESSIONNEL</option>
+                    <option selected value="compte personnel">COMPTE PERSONNEL</option>
+                    <option value="compte professionnel">COMPTE PROFESSIONNEL</option>
                   </select>
                 </div>
               </div>
@@ -353,8 +353,8 @@
               <div class="mb-3">
                   <label for="sexe" class="form-label">Sexe</label>
                   <select class="form-select form-select-sm custom-select sexe" name="sexe" id="sexe">
-                    <option selected value="woman">FEMME</option>
-                    <option value="man">HOMME</option>
+                    <option selected value="femme">FEMME</option>
+                    <option value="homme">HOMME</option>
                   </select>
                 </div>
               </div>
@@ -405,9 +405,12 @@
                 <div class="mb-3">
                   <label for="deliveryArea" class="form-label">Axe de livraison</label>
                   <select class="form-select form-select-sm custom-select deliveryArea" name="deliveryArea" id="deliveryArea">
-                    <option selected value="allDays">Tous les jours</option>
-                    <option value="1">Axe 1</option>
-                    <option value="2">Axe 2</option>
+                    <?php $first = true; ?>
+                    <?php foreach ($delivery_area as $item) : ?>
+                      <option value="<?= $item->id_delivery_area ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                              <?= $item->axe ?>
+                      </option>
+                    <?php endforeach; ?>
                   </select>
                 </div>
               </div>
@@ -584,9 +587,12 @@
               <div class="col-6">
                 <label for="customerSentiment" class="form-label">Sentiment du client</label>
                 <select class="form-select form-select-sm custom-select customerSentiment" name="customerSentiment" id="customerSentiment">
-                  <option selected value="expensive">Trop cher (lafo loatra)</option>
-                  <option value="noMoney">Sans argent (tsy manam-bola)</option>
-                  <option value="noAnswer">Ne reponds pas (tsy mamaly)</option>
+                    <?php $first = true; ?>
+                    <?php foreach ($customer_sentiment as $item) : ?>
+                        <option value="<?= $item->id_customer_sentiment ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                            <?= $item->description_sentiment ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
               </div>
             </div>
@@ -594,9 +600,12 @@
               <div class="col-6">
                 <label for="appreciation" class="form-label">Appreciation de l'OPLG</label>
                 <select class="form-select form-select-sm custom-select appreciation" name="appreciation" id="appreciation">
-                  <option selected value="curiousWithPurchase">Curieux sans achat (liana fa tsy mividy)</option>
-                  <option value="curiousWithoutPurchase">Curieux avec achat (liana ary mividy)</option>
-                  <option value="Disinterested">Desinteresse (tsy mamaly, tsy tiany ilay entana)</option>
+                    <?php $first = true; ?>
+                    <?php foreach ($appreciation_oplg as $item) : ?>
+                        <option value="<?= $item->id_appreciation_oplg ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                            <?= $item->description_appreciation ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
               </div>
               <div class="col-6">

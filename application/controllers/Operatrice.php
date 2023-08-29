@@ -950,7 +950,9 @@ class operatrice extends My_Controller
     $this->load->model('global_model');
     $this->load->model('produit_model');
     $this->load->model('Observation_model');
-    // $codeClient = localStorage.getItem('codeclient');
+    $this->load->model('Appreciation_oplg_model');
+    $this->load->model('Delivery_area_model');
+    $this->load->model('Customer_sentiment_model');
     $json_path_regions = base_url('assets/json/regions.json');
     $json_data_regions = json_decode(read_file($json_path_regions));
     $json_path_age_range = base_url('assets/json/age_range.json');
@@ -965,8 +967,10 @@ class operatrice extends My_Controller
       'data_type' => $this->global_model->produit_users(),
       'regions' =>  $json_data_regions,
       'age_range' => $json_data_age_range,
-      // 'observations' => $this->Observation_model->getAllObservationsByCodeClient($codeClient),
-      'bon_achat' => array()
+      'bon_achat' => array(),
+      'appreciation_oplg' => $this->Appreciation_oplg_model->getAllAppreciationOplg(),
+      'delivery_area' => $this->Delivery_area_model->getAllDeliveryArea(),
+      'customer_sentiment' => $this->Customer_sentiment_model->getAllCustomerSentiment()
     ];
     $this->render_view('operatrice/discussion/discussion', $data);
   }
