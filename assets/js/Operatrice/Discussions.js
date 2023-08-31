@@ -20,6 +20,18 @@ $(document).ready(function () {
         }
     });
 
+    var selectedRadio; // Stocker l'élément radio sélectionné
+    
+    $('input[name="displayOptions"]').change(function() {
+      selectedRadio = this; // Stocker l'élément actuellement sélectionné
+
+      if (selectedRadio.id === "displayActu") {
+        $('#actu').show(); // Afficher le div "actu"
+      } else if (selectedRadio.id === "NotDisplayActu") {
+        $('#actu').hide(); // Masquer le div "actu"
+      }
+    });
+
     function mettreBouttonAttente() {
         $(".termier").removeAttr('disabled');
         $(".termier").removeClass("collapse");
@@ -975,7 +987,6 @@ $(document).ready(function () {
         $('.form_observation').modal('show');
         let codeClient = localStorage.getItem('codeclient');
         $.get(base_url + 'operatrice/getAllObservationsByCodeClient?codeClient=' + codeClient, (data) => {
-            console.log(data);
             let tableBody = document.getElementById('observation-table');
             let htmlContent = '';
             for (let prop in data) {
@@ -1808,14 +1819,15 @@ $(document).ready(function () {
             let customerSentiment = $('.constraint option:selected').val();
             let date = new Date();
             let news = [];
-            news.push({ "name": "cinema", "val": +($('.cinema').val()) });
+            news.push({ "name": "other", "val": +($('.other').val()) });
             news.push({ "name": "restaurant", "val": +($('.restaurant').val()) });
             news.push({ "name": "shopping", "val": +($('.shopping').val()) });
             news.push({ "name": "travel", "val": +($('.travel').val()) });
-            news.push({ "name": "religion", "val": +($('.religion').val()) });
+            news.push({ "name": "newsPeople", "val": +($('.newsPeople').val()) });
             news.push({ "name": "politic", "val": +($('.politic').val()) });
-            news.push({ "name": "sportlocal", "val": +($('.sportlocal').val()) });
-            news.push({ "name": "sportint", "val": +($('.sportint').val()) });
+            news.push({ "name": "sport", "val": +($('.sport').val()) });
+            news.push({ "name": "wellHealth", "val": +($('.wellHealth').val()) });
+            news.push({ "name": "social", "val": +($('.social').val()) });
             const maxValItem = news.reduce((maxItem, currentItem) => {
                 return currentItem.val > maxItem.val ? currentItem : maxItem;
             }, { "val": -Infinity });
@@ -1831,7 +1843,7 @@ $(document).ready(function () {
                 priceWishes: parseInt(priceWishes),
                 appreciation: appreciation,
                 constraint: customerSentiment,
-                news: maxValItem.name,
+                news: maxValItem.val == 0 ? "" : maxValItem.name,
                 date: date.getTime()
             }, () => {
                 $('.fade').modal('hide');

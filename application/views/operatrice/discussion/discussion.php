@@ -419,136 +419,202 @@
           
           <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
             <legend class="w-auto">Fil d'actualité</legend>
-            <div class="row mb-1">
-              <div class="col-3">
-                <label for="cinema" class="form-label">Cinéma</label>
-                <div class="input-group">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[0]">
-                          -
-                      </button>
-                  </span>
-                  <input type="number" id="cinema" disabled name="quant[0]" class="form-control form-control-sm text-center cinema" value="0" min="1" max="20">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[0]">
-                          +
-                      </button>
-                  </span>
-                </div>
+            <div class="row mx-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="displayOptions" id="displayActu" value="withActu" checked>
+                <label class="form-check-label" for="displayActu">
+                  Avec fil d'actualité
+                </label>
               </div>
-              <div class="col-3">
-                <label for="restaurant" class="form-label">Restaurant</label>
-                <div class="input-group">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
-                          -
-                      </button>
-                  </span>
-                  <input type="number" id="restaurant" disabled name="quant[1]" class="form-control form-control-sm text-center restaurant" value="0" min="1" max="20">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
-                          +
-                      </button>
-                  </span>
-                </div>
-              </div>
-              <div class="col-3">
-                <label for="shopping" class="form-label">Shopping</label>
-                <div class="input-group">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[2]">
-                          -
-                      </button>
-                  </span>
-                  <input type="number" id="shopping" disabled name="quant[2]" class="form-control form-control-sm text-center shopping" value="0" min="1" max="20">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[2]">
-                          +
-                      </button>
-                  </span>
-                </div>
-              </div>
-              <div class="col-3">
-                <label for="travel" class="form-label">Voyage</label>
-                <div class="input-group">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[3]">
-                          -
-                      </button>
-                  </span>
-                  <input type="number" id="travel" disabled name="quant[3]" class="form-control form-control-sm text-center travel" value="0" min="1" max="20">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[3]">
-                          +
-                      </button>
-                  </span>
-                </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="displayOptions" id="NotDisplayActu" value="withoutActu">
+                <label class="form-check-label" for="NotDisplayActu">
+                  Sans fil d'actualité
+                </label>
               </div>
             </div>
-            <div class="row mb-3">
-              <div class="col-3">
-                <label for="politic" class="form-label">Politique</label>
-                <div class="input-group">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[4]">
-                          -
-                      </button>
-                  </span>
-                  <input type="number" id="politic" disabled name="quant[4]" class="form-control form-control-sm text-center politic" value="0" min="1" max="20">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[4]">
-                          +
-                      </button>
-                  </span>
+            <div id="actu">
+              <div class="row mb-1">
+                <div class="col-3">
+                  <label for="wellHealth" class="form-label">Bien etre</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="wellHealth" disabled name="quant[6]" class="form-control form-control-sm text-center wellHealth" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="restaurant" class="form-label">Restaurant et nourriture</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="restaurant" disabled name="quant[1]" class="form-control form-control-sm text-center restaurant" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="shopping" class="form-label">Shopping</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[2]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="shopping" disabled name="quant[2]" class="form-control form-control-sm text-center shopping" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[2]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="travel" class="form-label">Voyage</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[3]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="travel" disabled name="quant[3]" class="form-control form-control-sm text-center travel" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[3]">
+                            +
+                        </button>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div class="col-3">
-                <label for="religion" class="form-label">Religion</label>
-                <div class="input-group">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[5]">
-                          -
-                      </button>
-                  </span>
-                  <input type="number" id="religion" disabled name="quant[5]" class="form-control form-control-sm text-center religion" value="0" min="1" max="20">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[5]">
-                          +
-                      </button>
-                  </span>
+              <div class="row mb-1">
+                <div class="col-3">
+                  <label for="politic" class="form-label">Politique</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[4]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="politic" disabled name="quant[4]" class="form-control form-control-sm text-center politic" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[4]">
+                            +
+                        </button>
+                    </span>
+                  </div>
                 </div>
+                <div class="col-3">
+                  <label for="social" class="form-label">Social</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[5]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="social" disabled name="quant[5]" class="form-control form-control-sm text-center social" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[5]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="newsPeople" class="form-label">Actu people</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="newsPeople" disabled name="quant[6]" class="form-control form-control-sm text-center newsPeople" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="sport" class="form-label">Sport</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="sport" disabled name="quant[6]" class="form-control form-control-sm text-center sport" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div> 
               </div>
-              <div class="col-3">
-                <label for="sportlocal" class="form-label">Sport local</label>
-                <div class="input-group">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
-                          -
-                      </button>
-                  </span>
-                  <input type="number" id="sportlocal" disabled name="quant[6]" class="form-control form-control-sm text-center sportlocal" value="0" min="1" max="20">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
-                          +
-                      </button>
-                  </span>
-                </div>
-              </div>
-              <div class="col-3">
-                <label for="sportint" class="form-label">Sport international</label>
-                <div class="input-group">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[7]">
-                          -
-                      </button>
-                  </span>
-                  <input type="number" id="sportint" disabled name="quant[7]" class="form-control form-control-sm text-center sportint" value="0" min="1" max="20">
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[7]">
-                          +
-                      </button>
-                  </span>
-                </div>
+              <div class="row mb-3">
+                <div class="col-3">
+                  <label for="cosmetique" class="form-label">Cosmetique</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="cosmetique" disabled name="quant[6]" class="form-control form-control-sm text-center cosmetique" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>   
+                <div class="col-3">
+                  <label for="mode" class="form-label">Mode</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="mode" disabled name="quant[6]" class="form-control form-control-sm text-center mode" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>   
+                <div class="col-3">
+                  <label for="other" class="form-label">Autre</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="other" disabled name="quant[6]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>         
               </div>
             </div>
           </fieldset>

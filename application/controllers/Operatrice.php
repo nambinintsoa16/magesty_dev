@@ -1804,7 +1804,7 @@ class operatrice extends My_Controller
         'product_name' => $postData['productName'],
         'price_wishes' => $postData['priceWishes'],
         'appreciation' => $postData['appreciation'],
-        'customer_sentiment' => $postData['customerSentiment'],
+        'constraint_customer' => $postData['constraint'],
         'news' => $postData['news'],
         'purchase_number' => $purchaseNumber,
         'number_of_refusals' => $numberOfRefusals,
