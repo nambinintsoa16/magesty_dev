@@ -1,12 +1,12 @@
 <?php
-class Customer_sentiment_model extends CI_Model {
+class Constraint_customer_model extends CI_Model {
     public function __construct(){
 
     }
 
-    public function getAllCustomerSentiment() {
+    public function getAllConstraints() {
         $this->db->select('*');
-        $this->db->from('customer_sentiment');
+        $this->db->from('constraint_customer');
         $query = $this->db->get();
         return $query->result();
     }  

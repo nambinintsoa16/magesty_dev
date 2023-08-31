@@ -952,9 +952,9 @@ class operatrice extends My_Controller
     $this->load->model('Observation_model');
     $this->load->model('Appreciation_oplg_model');
     $this->load->model('Delivery_area_model');
-    $this->load->model('Customer_sentiment_model');
-    $json_path_regions = base_url('assets/json/regions.json');
-    $json_data_regions = json_decode(read_file($json_path_regions));
+    $this->load->model('Constraint_customer_model');
+    // $json_path_regions = base_url('assets/json/regions.json');
+    // $json_data_regions = json_decode(read_file($json_path_regions));
     $json_path_age_range = base_url('assets/json/age_range.json');
     $json_data_age_range = json_decode(read_file($json_path_age_range));
     $data = [
@@ -965,12 +965,12 @@ class operatrice extends My_Controller
       'mission' => $this->global_model->mission(),
       'promotion' => $this->produit_model->promotion(['Pr_Status' => 'en_cours']),
       'data_type' => $this->global_model->produit_users(),
-      'regions' =>  $json_data_regions,
+      'districts' =>  $this->global_model->get_all_discricts(),
       'age_range' => $json_data_age_range,
       'bon_achat' => array(),
       'appreciation_oplg' => $this->Appreciation_oplg_model->getAllAppreciationOplg(),
       'delivery_area' => $this->Delivery_area_model->getAllDeliveryArea(),
-      'customer_sentiment' => $this->Customer_sentiment_model->getAllCustomerSentiment()
+      'constraint' => $this->Constraint_customer_model->getAllConstraints()
     ];
     $this->render_view('operatrice/discussion/discussion', $data);
   }

@@ -393,9 +393,9 @@
                   <label for="clientLocalisation" class="form-label">Localisation du client</label>
                   <select class="form-select form-select-sm custom-select clientLocalisation" name="clientLocalisation" id="clientLocalisation">
                     <?php $first = true; ?>
-                    <?php foreach ($regions as $item) : ?>
-                      <option value="<?= $item->nom ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
-                              <?= $item->chefLieu ?>
+                    <?php foreach ($districts as $item) : ?>
+                      <option value="<?= $item->District ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                              <?= $item->District ?>
                       </option>
                     <?php endforeach; ?>
                   </select>
@@ -560,7 +560,7 @@
                 <tr>
                   <th scope="col">A propos</th>
                   <th scope="col">Produit</th>
-                  <th scope="col">Sentiment du client</th>
+                  <th scope="col">Contraintes</th>
                   <th scope="col">Appreciation de l'OPLG</th>
                   <th scope="col">Date</th>
                 </tr>
@@ -585,12 +585,12 @@
                 </select>
               </div>
               <div class="col-6">
-                <label for="customerSentiment" class="form-label">Sentiment du client</label>
-                <select class="form-select form-select-sm custom-select customerSentiment" name="customerSentiment" id="customerSentiment">
+                <label for="constraint" class="form-label">Contraintes</label>
+                <select class="form-select form-select-sm custom-select constraint" name="constraint" id="constraint">
                     <?php $first = true; ?>
-                    <?php foreach ($customer_sentiment as $item) : ?>
-                        <option value="<?= $item->id_customer_sentiment ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
-                            <?= $item->description_sentiment ?>
+                    <?php foreach ($constraint as $item) : ?>
+                        <option value="<?= $item->id_constraint ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                            <?= $item->description_customer ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

@@ -983,7 +983,7 @@ $(document).ready(function () {
                     htmlContent += `<tr>
                                         <td>${data[prop].account_type}<br>${data[prop].sexe}<br>${data[prop].approximate_age}/${data[prop].fb_age}</td>
                                         <td>${data[prop].Designation}</td>
-                                        <td>${data[prop].description_sentiment}</td>
+                                        <td>${data[prop].description_customer}</td>
                                         <td>${data[prop].description_appreciation}</td>
                                         <td>${data[prop].date}</td>
                                     </tr>`;
@@ -1805,7 +1805,7 @@ $(document).ready(function () {
             let productName = $('.productName option:selected').val();
             let priceWishes = $('.priceWishes').val();
             let appreciation = $('.appreciation option:selected').val();
-            let customerSentiment = $('.customerSentiment option:selected').val();
+            let customerSentiment = $('.constraint option:selected').val();
             let date = new Date();
             let news = [];
             news.push({ "name": "cinema", "val": +($('.cinema').val()) });
@@ -1830,7 +1830,7 @@ $(document).ready(function () {
                 productName: productName,
                 priceWishes: parseInt(priceWishes),
                 appreciation: appreciation,
-                customerSentiment: customerSentiment,
+                constraint: customerSentiment,
                 news: maxValItem.name,
                 date: date.getTime()
             }, () => {

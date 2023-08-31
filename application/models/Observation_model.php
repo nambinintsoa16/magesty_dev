@@ -13,7 +13,7 @@ class Observation_model extends CI_Model {
         $this->db->from('observation');
         $this->db->join('produit', 'observation.product_name = produit.code_produit', 'left');
         $this->db->join('delivery_area', 'observation.delivery_area = delivery_area.id_delivery_area', 'left');
-        $this->db->join('customer_sentiment', 'observation.customer_sentiment = customer_sentiment.id_customer_sentiment', 'left');
+        $this->db->join('constraint_customer', 'observation.constraint_customer = constraint_customer.id_constraint', 'left');
         $this->db->join('appreciation_oplg', 'observation.appreciation = appreciation_oplg.id_appreciation_oplg', 'left');
         $this->db->where('observation.code_client', $codeClient);
         $this->db->order_by('observation.date', 'desc'); 
