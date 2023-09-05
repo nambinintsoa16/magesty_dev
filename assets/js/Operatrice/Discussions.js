@@ -32,6 +32,63 @@ $(document).ready(function () {
       }
     });
 
+    // ajouter un produit dans le modal observation
+    $(document).on('click', '.add-product', function() {
+        const productContainer = $('#product-container');
+        const productRow = $('.product-row').first(); // Prenez le premier champ existant
+        const newProductRow = productRow.clone(); // Clonez-le
+
+        // Sélectionnez automatiquement le premier élément dans le clone
+        productRow.find('.productName option:first').prop('selected', true);
+        
+        productContainer.append(newProductRow);
+        checkDuplicate();
+    });
+
+    // supprimer un produit dans le modal observation
+    $(document).on('click', '.remove-product', function() {
+        const productContainer = $('#product-container');
+        const productRow = $(this).closest('.product-row');
+        if (productRow.length > 0 && productContainer.find('.product-row').length > 1) {
+            productRow.remove();
+        }
+        checkDuplicate();
+    });
+
+    // Gestionnaire de changement de sélection pour toutes les sélections de produits
+    $(document).on('change', '.productName', function() {
+        checkDuplicate();
+    });
+
+    function checkDuplicate () {
+        // Vérifiez les doublons
+        let hasDuplicates = checkForDuplicates();
+        // Désactivez le bouton "Enregistrer" si des doublons sont présents
+        if (hasDuplicates) {
+            $('.save_observation').prop('disabled', true);
+        } else {
+            $('.save_observation').prop('disabled', false);
+        }
+    }
+
+    // Fonction pour vérifier les doublons dans les sélections de produits
+    function checkForDuplicates() {
+        var selectedProducts = [];
+        var hasDuplicates = false;
+
+        // Parcourez toutes les sélections de produits
+        $('.productName').each(function() {
+            var selectedProduct = $(this).val();
+            if (selectedProducts.indexOf(selectedProduct) !== -1) {
+                hasDuplicates = true;
+            } else {
+                selectedProducts.push(selectedProduct);
+            }
+        });
+
+        return hasDuplicates;
+    }
+
     function mettreBouttonAttente() {
         $(".termier").removeAttr('disabled');
         $(".termier").removeClass("collapse");
@@ -993,7 +1050,7 @@ $(document).ready(function () {
                 if (data.hasOwnProperty(prop)) {
                     htmlContent += `<tr>
                                         <td>${data[prop].account_type}<br>${data[prop].sexe}<br>${data[prop].approximate_age}/${data[prop].fb_age}</td>
-                                        <td>${data[prop].Designation}</td>
+                                        <td>${data[prop].products}</td>
                                         <td>${data[prop].description_customer}</td>
                                         <td>${data[prop].description_appreciation}</td>
                                         <td>${data[prop].date}</td>
@@ -1807,13 +1864,19 @@ $(document).ready(function () {
         let page = localStorage.getItem('pageUsers');
         let codeClient = localStorage.getItem('codeclient');
         if (page != "vide") {
+            const selectedProducts = [];
+            $('.productName').each(function() {
+                const selectedOption = $(this).find('option:selected');
+                if (selectedOption.val()) {
+                    selectedProducts.push(selectedOption.val());
+                }
+            });
             let accountType = $('.account').val();
             let sexe = $('.sexe').val();
             let approximateAge = $('.approximateAge option:selected').val();
             let fbAge = $('.fbAge option:selected').val();
             let clientLocalisation = $('.clientLocalisation option:selected').val();
             let deliveryArea = $('.deliveryArea option:selected').val();
-            let productName = $('.productName option:selected').val();
             let priceWishes = $('.priceWishes').val();
             let appreciation = $('.appreciation option:selected').val();
             let customerSentiment = $('.constraint option:selected').val();
@@ -1839,7 +1902,7 @@ $(document).ready(function () {
                 fbAge: parseInt(fbAge),
                 clientLocalisation: clientLocalisation,
                 deliveryArea: deliveryArea,
-                productName: productName,
+                selectedProducts: selectedProducts,
                 priceWishes: parseInt(priceWishes),
                 appreciation: appreciation,
                 constraint: customerSentiment,

@@ -1793,6 +1793,8 @@ class operatrice extends My_Controller
         $purchaseNumber = (int)$this->Observation_model->getPurchaseNumberByCodeClient($codeClient);
         $numberOfRefusals = (int)$this->Observation_model->getNumberOfRefusalsByCodeClient($codeClient) + 1;
     }
+
+    $selectedProducts = $postData['selectedProducts'];
     
     $observationData = array(
         'account_type' => $postData['accountType'],
@@ -1801,7 +1803,6 @@ class operatrice extends My_Controller
         'fb_age' => $postData['fbAge'],
         'client_localisation' => $postData['clientLocalisation'],
         'delivery_area' => $postData['deliveryArea'],
-        'product_name' => $postData['productName'],
         'price_wishes' => $postData['priceWishes'],
         'appreciation' => $postData['appreciation'],
         'constraint_customer' => $postData['constraint'],
@@ -1812,7 +1813,7 @@ class operatrice extends My_Controller
         'code_client' => $codeClient
     );
 
-    $this->Observation_model->saveObservation($observationData);
+    $this->Observation_model->saveObservation($observationData, $selectedProducts);
 }
 
 

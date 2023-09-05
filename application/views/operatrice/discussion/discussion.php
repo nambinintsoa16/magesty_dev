@@ -439,13 +439,13 @@
                   <label for="wellHealth" class="form-label">Bien etre</label>
                   <div class="input-group">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[0]">
                             -
                         </button>
                     </span>
-                    <input type="number" id="wellHealth" disabled name="quant[6]" class="form-control form-control-sm text-center wellHealth" value="0" min="1" max="20">
+                    <input type="number" id="wellHealth" disabled name="quant[0]" class="form-control form-control-sm text-center wellHealth" value="0" min="1" max="20">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[0]">
                             +
                         </button>
                     </span>
@@ -553,13 +553,13 @@
                   <label for="sport" class="form-label">Sport</label>
                   <div class="input-group">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[7]">
                             -
                         </button>
                     </span>
-                    <input type="number" id="sport" disabled name="quant[6]" class="form-control form-control-sm text-center sport" value="0" min="1" max="20">
+                    <input type="number" id="sport" disabled name="quant[7]" class="form-control form-control-sm text-center sport" value="0" min="1" max="20">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[7]">
                             +
                         </button>
                     </span>
@@ -571,13 +571,13 @@
                   <label for="cosmetique" class="form-label">Cosmetique</label>
                   <div class="input-group">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[8]">
                             -
                         </button>
                     </span>
-                    <input type="number" id="cosmetique" disabled name="quant[6]" class="form-control form-control-sm text-center cosmetique" value="0" min="1" max="20">
+                    <input type="number" id="cosmetique" disabled name="quant[8]" class="form-control form-control-sm text-center cosmetique" value="0" min="1" max="20">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[8]">
                             +
                         </button>
                     </span>
@@ -587,13 +587,13 @@
                   <label for="mode" class="form-label">Mode</label>
                   <div class="input-group">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[9]">
                             -
                         </button>
                     </span>
-                    <input type="number" id="mode" disabled name="quant[6]" class="form-control form-control-sm text-center mode" value="0" min="1" max="20">
+                    <input type="number" id="mode" disabled name="quant[9]" class="form-control form-control-sm text-center mode" value="0" min="1" max="20">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[9]">
                             +
                         </button>
                     </span>
@@ -603,13 +603,13 @@
                   <label for="other" class="form-label">Autre</label>
                   <div class="input-group">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[10]">
                             -
                         </button>
                     </span>
-                    <input type="number" id="other" disabled name="quant[6]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
+                    <input type="number" id="other" disabled name="quant[10]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[10]">
                             +
                         </button>
                     </span>
@@ -625,7 +625,7 @@
               <thead>
                 <tr>
                   <th scope="col">A propos</th>
-                  <th scope="col">Produit</th>
+                  <th scope="col">Produits</th>
                   <th scope="col">Contraintes</th>
                   <th scope="col">Appreciation de l'OPLG</th>
                   <th scope="col">Date</th>
@@ -641,14 +641,20 @@
             <div class="row mb-3">
               <div class="col-6">
                 <label for="productName" class="form-label">Nom du produit</label>
-                <select class="form-select form-select-sm custom-select productName" name="productName" id="productName">
-                    <?php $first = true; ?>
-                    <?php foreach ($data_type as $key => $item) : ?>
-                        <option value="<?= $item->Code_produit ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
-                            <?= $item->Designation ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div id="product-container">
+                  <div class="product-row">
+                    <select class="form-select form-select-sm custom-select productName" name="productName[]" id="productName">
+                        <?php foreach ($data_type as $key => $item) : ?>
+                            <option value="<?= $item->Code_produit ?>">
+                                <?= $item->Designation ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-primary add-product"><b>+</b></button>
+                    <button type="button" class="btn btn-sm btn-danger remove-product"><b>-</b></button>
+                  </div>
+                </div>
+                
               </div>
               <div class="col-6">
                 <label for="constraint" class="form-label">Contraintes</label>
