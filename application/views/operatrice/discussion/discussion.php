@@ -81,6 +81,10 @@
     margin-right: 4px;
   }
 
+  .custom-input {
+    height: 2.3rem !important;
+  }
+
   .input-file ins {
     white-space: nowrap;
     display: block;
@@ -236,7 +240,7 @@
       </div>
     </div>
     <div class="bg-red mt-2" style="width:25%;">
-      <div class="card text-center" style="height:730px;width: 100%;">
+      <div class="card text-center" style="height:745px;width: 100%;">
         <div class="card-header" style="background:#33b5e5;">
           <strong class="text-white">CHOIX DE L'INTERVENANT</strong>
         </div>
@@ -267,7 +271,7 @@
       </div>
     </div>
     <div class="mt-2 ml-1" style="width:74%;">
-      <div class="card" style="height:730px;width:100%">
+      <div class="card" style="height:745px;width:100%">
         <div class="card-header entetebadge text-white p-1" style="background:#33b5e5;">
           <img class="avatar-img rounded-circle Client" style="width:46px;height:46px;" src="" alt="client">
           <a href="#" class="historique"><span class="code_client_ban ml-3"></span></a>
@@ -303,14 +307,15 @@
               }*/
 
             ?>
-            <div class="form-group col-md-12 row mt-2 text-left btn-init blockerSiNouveau bg-white" style="margin-left:15px!important;">
-              <a href="#" class="btn btn-success pull-left conclure blockerSiNouveau" disabled>CONCLURE</a>
-              <a href="#" class="btn btn-primary pull-left rendezvous blockerSiNouveau" style="margin-left: 10px;" disabled>RENDEZ-VOUS</a>
-              <a href="#" class="btn btn-warning check pull-right blockerSiNouveau mr-2" style="margin-left: 5px;" disabled>CHECK CTL007</a>
-              <a href="#" class="btn btn-danger termier pull-right blockerSiNouveau" style="margin-left: 10px;" disabled>TERMINER</a>
-              <a href="#" class="btn btn-info asuivre pull-right blockerSiNouveau" style="margin-left: 10px" disabled>A SUIVRE</a>
-              <a href="#" class="btn btn-primary firstcontaact collapse pull-right blockerSiNouveau" disabled>PREMIER CONTACT</a>
-              <a href="#" class="btn btn-primary nouveauDiscussion pull-right collapse" style="margin-left: 10px">NOUVELLE DISCUSSION</a>
+            <div class="form-group col-md-12 row text-left btn-init blockerSiNouveau bg-white" style="margin-left:15px!important;">
+              <a href="#" class="btn btn-secondary pull-left observation blockerSiNouveau m-1" style="margin-left: 10px;" disabled>OBSERVATION</a>
+              <a href="#" class="btn btn-success pull-left conclure blockerSiNouveau m-1" disabled>CONCLURE</a>
+              <a href="#" class="btn btn-primary pull-left rendezvous blockerSiNouveau m-1" style="margin-left: 10px;" disabled>RENDEZ-VOUS</a>
+              <a href="#" class="btn btn-warning check pull-right blockerSiNouveau mr-2 m-1" style="margin-left: 5px;" disabled>CHECK CTL007</a>
+              <a href="#" class="btn btn-danger termier pull-right blockerSiNouveau m-1" style="margin-left: 10px;" disabled>TERMINER</a>
+              <a href="#" class="btn btn-info asuivre pull-right blockerSiNouveau m-1" style="margin-left: 10px" disabled>A SUIVRE</a>
+              <a href="#" class="btn btn-primary firstcontaact collapse pull-right m-1 blockerSiNouveau" disabled>PREMIER CONTACT</a>
+              <a href="#" class="btn btn-primary nouveauDiscussion pull-right collapse m-1" style="margin-left: 10px">NOUVELLE DISCUSSION</a>
             </div>
             <div class="form-group col-md-12 text-left collapse btn-disabled">
               <a href="#" class="btn btn-success blockerSiNouveau" disabled>CONCLURE</a>
@@ -322,8 +327,375 @@
     </div>
   </div>
 
+  <div class="modal fade form_observation" id="observationModal" tabindex="-1" role="dialog" aria-labelledby="observationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title text-uppercase" style="text-align:center;width:100%;" id="exampleModalLabel"><b>Observation</b></h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body shadow" style="background:#EEEEEE!important">
+          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
+            <legend class="w-auto">A propos</legend>
+            <div class="row">
+              <div class="col-6">
+                <div class="mb-3">
+                  <label for="account" class="form-label">Comptes</label>
+                  <select class="form-select form-select-sm custom-select account" name="account" id="account">
+                    <option selected value="compte personnel">COMPTE PERSONNEL</option>
+                    <option value="compte professionnel">COMPTE PROFESSIONNEL</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6">
+              <div class="mb-3">
+                  <label for="sexe" class="form-label">Sexe</label>
+                  <select class="form-select form-select-sm custom-select sexe" name="sexe" id="sexe">
+                    <option selected value="femme">FEMME</option>
+                    <option value="homme">HOMME</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="approximateAge" class="form-label">Age approximatif</label>
+                  <select class="form-select form-select-sm custom-select approximateAge" name="approximateAge" id="approximateAge">
+                    <?php $first = true; ?>
+                    <?php foreach ($age_range as $item) : ?>
+                        <option value="<?= $item->id ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                            <?= $item->range ?>
+                        </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="fbAge" class="form-label">Age sur Facebook</label>
+                  <select class="form-select form-select-sm custom-select fbAge" name="fbAge" id="fbAge">
+                    <?php $first = true; ?>
+                    <?php foreach ($age_range as $item) : ?>
+                        <option value="<?= $item->id ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                            <?= $item->range ?>
+                        </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="clientLocalisation" class="form-label">Localisation du client</label>
+                  <select class="form-select form-select-sm custom-select clientLocalisation" name="clientLocalisation" id="clientLocalisation">
+                    <?php $first = true; ?>
+                    <?php foreach ($districts as $item) : ?>
+                      <option value="<?= $item->District ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                              <?= $item->District ?>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="deliveryArea" class="form-label">Axe de livraison</label>
+                  <select class="form-select form-select-sm custom-select deliveryArea" name="deliveryArea" id="deliveryArea">
+                    <?php $first = true; ?>
+                    <?php foreach ($delivery_area as $item) : ?>
+                      <option value="<?= $item->id_delivery_area ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                              <?= $item->axe ?>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          
+          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
+            <legend class="w-auto">Fil d'actualité</legend>
+            <div class="row mx-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="displayOptions" id="displayActu" value="withActu" checked>
+                <label class="form-check-label" for="displayActu">
+                  Avec fil d'actualité
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="displayOptions" id="NotDisplayActu" value="withoutActu">
+                <label class="form-check-label" for="NotDisplayActu">
+                  Sans fil d'actualité
+                </label>
+              </div>
+            </div>
+            <div id="actu">
+              <div class="row mb-1">
+                <div class="col-3">
+                  <label for="wellHealth" class="form-label">Bien etre</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[0]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="wellHealth" disabled name="quant[0]" class="form-control form-control-sm text-center wellHealth" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[0]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="restaurant" class="form-label">Restaurant et nourriture</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="restaurant" disabled name="quant[1]" class="form-control form-control-sm text-center restaurant" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[1]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="shopping" class="form-label">Shopping</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[2]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="shopping" disabled name="quant[2]" class="form-control form-control-sm text-center shopping" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[2]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="travel" class="form-label">Voyage</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[3]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="travel" disabled name="quant[3]" class="form-control form-control-sm text-center travel" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[3]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-3">
+                  <label for="politic" class="form-label">Politique</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[4]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="politic" disabled name="quant[4]" class="form-control form-control-sm text-center politic" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[4]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="social" class="form-label">Social</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[5]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="social" disabled name="quant[5]" class="form-control form-control-sm text-center social" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[5]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="newsPeople" class="form-label">Actu people</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[6]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="newsPeople" disabled name="quant[6]" class="form-control form-control-sm text-center newsPeople" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[6]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="sport" class="form-label">Sport</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[7]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="sport" disabled name="quant[7]" class="form-control form-control-sm text-center sport" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[7]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div> 
+              </div>
+              <div class="row mb-3">
+                <div class="col-3">
+                  <label for="cosmetique" class="form-label">Cosmetique</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[8]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="cosmetique" disabled name="quant[8]" class="form-control form-control-sm text-center cosmetique" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[8]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>   
+                <div class="col-3">
+                  <label for="mode" class="form-label">Mode</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[9]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="mode" disabled name="quant[9]" class="form-control form-control-sm text-center mode" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[9]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>   
+                <div class="col-3">
+                  <label for="other" class="form-label">Autre</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[10]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="other" disabled name="quant[10]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[10]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div>         
+              </div>
+            </div>
+          </fieldset>
 
+          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;" id="monitoring-fieldset">
+            <legend class="w-auto">Monitoring</legend>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">A propos</th>
+                  <th scope="col">Produits</th>
+                  <th scope="col">Contraintes</th>
+                  <th scope="col">Appreciation de l'OPLG</th>
+                  <th scope="col">Date</th>
+                </tr>
+              </thead>
+              <tbody id="observation-table">
+              </tbody>
+            </table>
+          </fieldset>
 
+          <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;">
+            <legend class="w-auto">Conclusion de la discussion</legend>
+            <div class="row mb-3">
+              <div class="col-6">
+                <label for="productName" class="form-label">Nom du produit</label>
+                <div id="product-container">
+                  <div class="product-row">
+                    <select class="form-select form-select-sm custom-select productName" name="productName[]" id="productName">
+                        <?php foreach ($data_type as $key => $item) : ?>
+                            <option value="<?= $item->Code_produit ?>">
+                                <?= $item->Designation ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-primary add-product"><b>+</b></button>
+                    <button type="button" class="btn btn-sm btn-danger remove-product"><b>-</b></button>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-6">
+                <label for="constraint" class="form-label">Contraintes</label>
+                <select class="form-select form-select-sm custom-select constraint" name="constraint" id="constraint">
+                    <?php $first = true; ?>
+                    <?php foreach ($constraint as $item) : ?>
+                        <option value="<?= $item->id_constraint ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                            <?= $item->description_customer ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-6">
+                <label for="appreciation" class="form-label">Appreciation de l'OPLG</label>
+                <select class="form-select form-select-sm custom-select appreciation" name="appreciation" id="appreciation">
+                    <?php $first = true; ?>
+                    <?php foreach ($appreciation_oplg as $item) : ?>
+                        <option value="<?= $item->id_appreciation_oplg ?>" <?php if ($first) { echo 'selected'; $first = false; } ?>>
+                            <?= $item->description_appreciation ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="col-6">
+                <label for="priceWishes" class="form-label">Prix souhaite par le client</label>
+                <input type="number" class="form-control custom-input" value="0" id="priceWishes" name="priceWishes" min="0">
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-success save_observation">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-------------------------------------------------------------------------------------------------------------------->
   <div class="modal fade form_vente" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">

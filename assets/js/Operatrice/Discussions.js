@@ -1,11 +1,93 @@
-$(document).ready(function() {
+$(document).ready(function () {
     Init_produit();
     choixPages();
     $('.code_client_ban').empty().append(localStorage.getItem('codeclient'));
     initialiseNomByCodeClient();
     //initCOmplte();   
 
+    $(".btn-number").click(function () {
+        const button = $(this);
+        const fieldName = button.data("field");
+        const inputField = $("input[name='" + fieldName + "']");
+        const currentValue = parseInt(inputField.val());
+        const minValue = parseInt(inputField.attr("min"));
+        const maxValue = parseInt(inputField.attr("max"));
 
+        if (button.data("type") === "minus" && currentValue >= minValue) {
+            inputField.val(currentValue - 1);
+        } else if (button.data("type") === "plus" && currentValue < maxValue) {
+            inputField.val(currentValue + 1);
+        }
+    });
+
+    var selectedRadio; // Stocker l'élément radio sélectionné
+    
+    $('input[name="displayOptions"]').change(function() {
+      selectedRadio = this; // Stocker l'élément actuellement sélectionné
+
+      if (selectedRadio.id === "displayActu") {
+        $('#actu').show(); // Afficher le div "actu"
+      } else if (selectedRadio.id === "NotDisplayActu") {
+        $('#actu').hide(); // Masquer le div "actu"
+      }
+    });
+
+    // ajouter un produit dans le modal observation
+    $(document).on('click', '.add-product', function() {
+        const productContainer = $('#product-container');
+        const productRow = $('.product-row').first(); // Prenez le premier champ existant
+        const newProductRow = productRow.clone(); // Clonez-le
+
+        // Sélectionnez automatiquement le premier élément dans le clone
+        productRow.find('.productName option:first').prop('selected', true);
+        
+        productContainer.append(newProductRow);
+        checkDuplicate();
+    });
+
+    // supprimer un produit dans le modal observation
+    $(document).on('click', '.remove-product', function() {
+        const productContainer = $('#product-container');
+        const productRow = $(this).closest('.product-row');
+        if (productRow.length > 0 && productContainer.find('.product-row').length > 1) {
+            productRow.remove();
+        }
+        checkDuplicate();
+    });
+
+    // Gestionnaire de changement de sélection pour toutes les sélections de produits
+    $(document).on('change', '.productName', function() {
+        checkDuplicate();
+    });
+
+    function checkDuplicate () {
+        // Vérifiez les doublons
+        let hasDuplicates = checkForDuplicates();
+        // Désactivez le bouton "Enregistrer" si des doublons sont présents
+        if (hasDuplicates) {
+            $('.save_observation').prop('disabled', true);
+        } else {
+            $('.save_observation').prop('disabled', false);
+        }
+    }
+
+    // Fonction pour vérifier les doublons dans les sélections de produits
+    function checkForDuplicates() {
+        var selectedProducts = [];
+        var hasDuplicates = false;
+
+        // Parcourez toutes les sélections de produits
+        $('.productName').each(function() {
+            var selectedProduct = $(this).val();
+            if (selectedProducts.indexOf(selectedProduct) !== -1) {
+                hasDuplicates = true;
+            } else {
+                selectedProducts.push(selectedProduct);
+            }
+        });
+
+        return hasDuplicates;
+    }
 
     function mettreBouttonAttente() {
         $(".termier").removeAttr('disabled');
@@ -21,35 +103,35 @@ $(document).ready(function() {
         $(".codeProduit").removeAttr('disabled');
         $(".valide_content").removeAttr('disabled');
     }
-    $('.type-facture').on('change', function() {
-            let type = $('.type-facture option:selected').text();
-            let total = $('.total').text().split(' ');
-            total = total[0];
+    $('.type-facture').on('change', function () {
+        let type = $('.type-facture option:selected').text();
+        let total = $('.total').text().split(' ');
+        total = total[0];
 
-            $('.codePromo option').each(function() {
-                if (typeof($(this).val) != " ") {
-                    $(this).removeAttr('hidden');
-                }
-                let $this = $(this);
-                let codePromo = $this.val();
-
-                $.post(base_url + 'operatrice/testPrixPromotion', { codePromo }, function(data) {
-
-                    if (parseInt($.trim(total)) > parseInt($.trim(data.Pr_Montant))) {
-                        $this.attr('hidden', 'hidden');
-                    }
-
-                });
-            });
-
-
-            if (type == 'Promotion') {
-                $('.type-promo').removeClass('collapse');
-            } else if (!$('.type-promo').hasClass('collpase')) {
-                $('.type-promo').addClass('collapse');
+        $('.codePromo option').each(function () {
+            if (typeof ($(this).val) != " ") {
+                $(this).removeAttr('hidden');
             }
+            let $this = $(this);
+            let codePromo = $this.val();
 
-        }),
+            $.post(base_url + 'operatrice/testPrixPromotion', { codePromo }, function (data) {
+
+                if (parseInt($.trim(total)) > parseInt($.trim(data.Pr_Montant))) {
+                    $this.attr('hidden', 'hidden');
+                }
+
+            });
+        });
+
+
+        if (type == 'Promotion') {
+            $('.type-promo').removeClass('collapse');
+        } else if (!$('.type-promo').hasClass('collpase')) {
+            $('.type-promo').addClass('collapse');
+        }
+
+    }),
 
 
         function mettreBouttonASuivre() {
@@ -68,7 +150,7 @@ $(document).ready(function() {
     function afficherStatutDiscussion(afficherStatut, datas) {
         //$('.page').find('option:selected').val();
         if (afficherStatut) {
-            $.post(base_url + 'operatrice/getStatutDiscussion', { client: localStorage.getItem("codeclient"), idPage: localStorage.getItem('pageUsers') }, function(data) {
+            $.post(base_url + 'operatrice/getStatutDiscussion', { client: localStorage.getItem("codeclient"), idPage: localStorage.getItem('pageUsers') }, function (data) {
                 if (data.type == 'termier') {
                     mettreBouttonTermnier();
                 } else if (data.type == 'a suivre') {
@@ -88,6 +170,9 @@ $(document).ready(function() {
 
         $(".conclure").attr('disabled', 'disabled');
         $(".conclure").addClass('collapse');
+
+        $(".observation").attr('disabled', 'disabled');
+        $(".observation").addClass('collapse');
 
         $(".rendezvous").attr('disabled', 'disabled');
         $(".rendezvous").addClass('collapse');
@@ -113,6 +198,9 @@ $(document).ready(function() {
         $(".conclure").attr('disabled', 'disabled');
         $(".conclure").addClass('collapse');
 
+        $(".observation").attr('disabled', 'disabled');
+        $(".observation").addClass('collapse');
+
         $(".rendezvous").attr('disabled', 'disabled');
         $(".rendezvous").addClass('collapse');
 
@@ -137,6 +225,9 @@ $(document).ready(function() {
         $(".conclure").removeAttr('disabled');
         $(".conclure").removeClass('collapse');
 
+        $(".observation").removeAttr('disabled');
+        $(".observation").removeClass('collapse');
+
         $(".asuivre").removeAttr('disabled');
         $(".asuivre").removeClass('collapse');
 
@@ -153,17 +244,17 @@ $(document).ready(function() {
     }
 
     function initialiseNomByCodeClient() {
-        $.post(base_url + 'operatrice/detail_clients', { codeclient: localStorage.getItem("codeclient") }, function(data) {
+        $.post(base_url + 'operatrice/detail_clients', { codeclient: localStorage.getItem("codeclient") }, function (data) {
             if (data.message === true) {
                 $('.nom_client_ban').empty().append(data.content.toUpperCase());
                 $('.Client').css('border-top', '7px ridge' + data.color);
-            } else {}
+            } else { }
         }, 'json');
     }
 
     function insertNouveauDiscussion(idp) {
         if (idp != "vide") {
-            $.post(base_url + 'operatrice/insertNouveauDiscussion', { codeclient: localStorage.getItem("codeclient"), idPage: idp }, function(data) {
+            $.post(base_url + 'operatrice/insertNouveauDiscussion', { codeclient: localStorage.getItem("codeclient"), idPage: idp }, function (data) {
                 localStorage.removeItem('isNouveau');
                 if (data.message == 'insertion content reussit') {
                     localStorage.setItem('DISC', data.idDiscussion);
@@ -189,7 +280,7 @@ $(document).ready(function() {
 
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: 'termier', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function(data) {
+            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: 'termier', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
                     $('.conten-message').empty().append(data.content);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -197,7 +288,7 @@ $(document).ready(function() {
                     afficherStatutDiscussion(afficherStatut, data);
                     $('#message').val("");
                 }
-                $.post(base_url + 'operatrice/sauveRelanceDiscussion', { client: localStorage.getItem("codeclient"), page: page }, function() {
+                $.post(base_url + 'operatrice/sauveRelanceDiscussion', { client: localStorage.getItem("codeclient"), page: page }, function () {
                     stopload();
                     alertMessage('Succé', 'Discussion terminé', 'success', 'btn btn-success');
                 });
@@ -222,7 +313,7 @@ $(document).ready(function() {
         let type = 'a suivre';
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function(data) {
+            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
                     $('.conten-message').empty().append(data.content);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -230,7 +321,7 @@ $(document).ready(function() {
                     afficherStatutDiscussion(afficherStatut, data);
                     $('#message').val("");
                 }
-                $.post(base_url + 'operatrice/sauveRelanceDiscussion', { client: localStorage.getItem("codeclient"), page: page }, function() {
+                $.post(base_url + 'operatrice/sauveRelanceDiscussion', { client: localStorage.getItem("codeclient"), page: page }, function () {
                     stopload();
                     alertMessage('Succé', 'Discussion à suivre', 'success', 'btn btn-success');
                 });
@@ -251,7 +342,7 @@ $(document).ready(function() {
         let type = 'NouvelleDiscussion';
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function(data) {
+            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
                     //localstorage.setItem('DISC',data.idDisc);
                     $('.conten-message').empty().append(data.content);
@@ -266,7 +357,7 @@ $(document).ready(function() {
             alertMessage('Erreur', 'veuillez choisir une page.', 'error', 'btn btn-danger');
         }
     }
-    $('.nouveauDiscussion').on('click', function(event) {
+    $('.nouveauDiscussion').on('click', function (event) {
         event.preventDefault();
         passerAuneNouvelleDiscussion();
     });
@@ -274,7 +365,7 @@ $(document).ready(function() {
     function reloadContentMessage(idclient, page) {
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/testDiscution', { idclient: idclient, page: page }, function(data) {
+            $.post(base_url + 'operatrice/testDiscution', { idclient: idclient, page: page }, function (data) {
                 if (data.message === true) {
                     $('.conten-message').empty().append(data.content);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -289,7 +380,7 @@ $(document).ready(function() {
 
                 }
                 stopload();
-            }, 'json').fail(function() {
+            }, 'json').fail(function () {
 
                 alertMessage('Erreur', "Une erreur s'est produite contacter le service informatique.", 'error', 'btn btn-danger');
                 stopload();
@@ -304,14 +395,14 @@ $(document).ready(function() {
 
     function messageDeBienvenue(id) {
         if (id != "vide") {
-            $.post(base_url + 'operatrice/get_message_bienvenu', { idPage: id }, function(data) {
+            $.post(base_url + 'operatrice/get_message_bienvenu', { idPage: id }, function (data) {
                 alertMessage("Bienvenue", "Faly miarahaba anao tongasoa eto amin page : " + data.Nom_page, "success", "btn-success");
             }, 'json');
         }
     }
 
     function changerpageclient(image, client) {
-        $.post(base_url + 'operatrice/get_liste_page', {}, function(data) {
+        $.post(base_url + 'operatrice/get_liste_page', {}, function (data) {
             var listePage = '<form action="" class="formName"><div class="form-group"><select class="selectPage form-control">';
             listePage += '<option value="null"></option>';
             data.forEach(element => {
@@ -323,7 +414,7 @@ $(document).ready(function() {
                 content: 'Quelle page voulez vous activer?' + listePage,
                 buttons: {
                     button: {
-                        action: function() {
+                        action: function () {
 
                         },
                         text: 'Fermer',
@@ -332,7 +423,7 @@ $(document).ready(function() {
                     formSubmit: {
                         text: 'confirmer',
                         btnClass: 'btn-blue',
-                        action: function() {
+                        action: function () {
                             let id = this.$content.find('.selectPage').val();
                             if (id != "null") {
                                 localStorage.setItem('codeclient', client);
@@ -358,7 +449,7 @@ $(document).ready(function() {
                                     title: '<p style="color: red">Attention!</p>',
                                     content: '<p>vous devez choisir une page</p>',
                                     buttons: {
-                                        ok: function() {
+                                        ok: function () {
                                             changerpageclient(image, client);
                                         }
                                     }
@@ -374,7 +465,7 @@ $(document).ready(function() {
     }
 
     function changerpage() {
-        $.post(base_url + 'operatrice/get_liste_page', {}, function(data) {
+        $.post(base_url + 'operatrice/get_liste_page', {}, function (data) {
             var listePage = '<form action="" class="formName"><div class="form-group"><select class="selectPage form-control">';
             listePage += '<option value="null"></option>';
             data.forEach(element => {
@@ -387,7 +478,7 @@ $(document).ready(function() {
                 content: 'Quelle page voulez vous activer?' + listePage,
                 buttons: {
                     button: {
-                        action: function() {
+                        action: function () {
                             let id = this.$content.find('.selectPage').val();
                             if (id != "null") {
                                 codeclient = localStorage.getItem('codeclient');
@@ -415,7 +506,7 @@ $(document).ready(function() {
                     formSubmit: {
                         text: 'confirmer',
                         btnClass: 'btn-blue',
-                        action: function() {
+                        action: function () {
                             let id = this.$content.find('.selectPage').val();
                             if (id != "null") {
                                 codeclient = localStorage.getItem('codeclient');
@@ -431,7 +522,7 @@ $(document).ready(function() {
                                     title: '<p style="color: red">Attention!</p>',
                                     content: '<p>vous devez choisir une page</p>',
                                     buttons: {
-                                        ok: function() {
+                                        ok: function () {
                                             changerpage();
                                         }
                                     }
@@ -458,8 +549,8 @@ $(document).ready(function() {
                     formSubmit: {
                         text: '<span style="font-size:12px" >lancer la discussion</span>',
                         btnClass: 'btn-blue',
-                        action: function() {
-                            $.post(base_url + 'operatrice/insertDetailPage', { idPage: page, codeClient: localStorage.getItem('codeclient') }, function(datas) {
+                        action: function () {
+                            $.post(base_url + 'operatrice/insertDetailPage', { idPage: page, codeClient: localStorage.getItem('codeclient') }, function (datas) {
                                 messageDeBienvenue(datas.idPage)
                                 insertNouveauDiscussion(datas.idPage);
                                 //var page_text = $('.page').find('option:selected').text();
@@ -474,7 +565,7 @@ $(document).ready(function() {
                     annuler: {
                         text: '<span style="font-size:12px" >annuler</span>',
                         btnClass: 'btn-red',
-                        action: function() {
+                        action: function () {
                             $('.firstcontaact').removeAttr('disabled');
                             $('.firstcontaact').removeClass('collapse');
                         }
@@ -487,7 +578,7 @@ $(document).ready(function() {
 
     function choixPages() {
         if ((localStorage.hasOwnProperty('isNouveau')) && (localStorage.getItem('isNouveau'))) {
-            $.post(base_url + 'operatrice/insertDetailPage', { idPage: localStorage.getItem('pageUsers'), codeClient: localStorage.getItem('codeclient') }, function(datas) {
+            $.post(base_url + 'operatrice/insertDetailPage', { idPage: localStorage.getItem('pageUsers'), codeClient: localStorage.getItem('codeclient') }, function (datas) {
                 messageDeBienvenue(localStorage.getItem('pageUsers'));
                 insertNouveauDiscussion(localStorage.getItem('pageUsers'));
                 var page_text = localStorage.getItem('pagetext');
@@ -498,7 +589,7 @@ $(document).ready(function() {
     function choixPage() {
         if ((localStorage.hasOwnProperty('isNouveau')) && (localStorage.getItem('isNouveau'))) {
             verouiller();
-            $.post(base_url + 'operatrice/get_liste_page', {}, function(data) {
+            $.post(base_url + 'operatrice/get_liste_page', {}, function (data) {
 
                 var listePage = '<form action="" class="formName"><div class="form-group"><select class="selectPage form-control">';
                 listePage += '<option value="null"></option>';
@@ -513,11 +604,11 @@ $(document).ready(function() {
                         formSubmit: {
                             text: 'confirmer',
                             btnClass: 'btn-blue',
-                            action: function() {
+                            action: function () {
                                 let pageChoisit = this.$content.find('.selectPage').find('option:selected').text();
                                 let id = this.$content.find('.selectPage').val();
                                 if (id != "null") {
-                                    $.post(base_url + 'operatrice/insertDetailPage', { idPage: localStorage.getItem('pageUsers'), codeClient: localStorage.getItem('codeclient') }, function(datas) {
+                                    $.post(base_url + 'operatrice/insertDetailPage', { idPage: localStorage.getItem('pageUsers'), codeClient: localStorage.getItem('codeclient') }, function (datas) {
                                         messageDeBienvenue(id);
                                         insertNouveauDiscussion(id);
                                         //codeclient=localStorage.getItem('codeclient');
@@ -534,7 +625,7 @@ $(document).ready(function() {
                                         title: '<p style="color: red">Attention!</p>',
                                         content: '<p>vous devez choisir une page</p>',
                                         buttons: {
-                                            ok: function() {
+                                            ok: function () {
                                                 choixPage();
                                             }
                                         }
@@ -542,7 +633,7 @@ $(document).ready(function() {
                                 }
                             }
                         },
-                        Annuler: function() {
+                        Annuler: function () {
                             stopload();
                         }
                     }
@@ -568,7 +659,7 @@ $(document).ready(function() {
         var DISC = localStorage.getItem('DISC');
         var codeclient = localStorage.getItem('codeclient');
 
-        $.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function(data) {
+        $.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function (data) {
             if (data.message == false) {
                 $('.pageusers').empty().append(page_text);
                 $('.entetebadge').css('background-color', data.color);
@@ -580,7 +671,7 @@ $(document).ready(function() {
         }, 'json');
 
 
-        $.post(base_url + 'operatrice/testDiscution', { idclient: codeclient, page: page }, function(data) {
+        $.post(base_url + 'operatrice/testDiscution', { idclient: codeclient, page: page }, function (data) {
 
             if (data.message === true) {
                 $('.conten-message').empty().append(data.content);
@@ -601,7 +692,7 @@ $(document).ready(function() {
 
 
 
-    $('.page').on('change', function() {
+    $('.page').on('change', function () {
         var page = $('.page').find('option:selected').val();
         if (page == "vide") {
             $('.conten-message').empty();
@@ -614,7 +705,7 @@ $(document).ready(function() {
             var DISC = localStorage.getItem('DISC');
             var codeclient = localStorage.getItem('codeclient');
 
-            $.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function(data) {
+            $.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function (data) {
                 if (data.message == false) {
                     $('.pageusers').empty().append(page_text);
                     $('.entetebadge').css('background-color', data.color);
@@ -626,7 +717,7 @@ $(document).ready(function() {
             }, 'json');
 
 
-            $.post(base_url + 'operatrice/testDiscution', { idclient: codeclient, page: page }, function(data) {
+            $.post(base_url + 'operatrice/testDiscution', { idclient: codeclient, page: page }, function (data) {
 
                 if (data.message === true) {
                     $('.conten-message').empty().append(data.content);
@@ -655,16 +746,16 @@ $(document).ready(function() {
 
     $('.pageusers').empty().append($('.page').find('option:selected').text());
 
-    $('.chercher').on('keyup', function() {
+    $('.chercher').on('keyup', function () {
         let chain = $(this).val();
 
-        $.post(base_url + 'operatrice/listeclientss', { client: chain }, function(data) {
+        $.post(base_url + 'operatrice/listeclientss', { client: chain }, function (data) {
             $('.listeclients').empty().append(data.content);
             chargedisc();
         }, 'json');
     });
 
-    $('.firstcontaact').on('click', function(event) {
+    $('.firstcontaact').on('click', function (event) {
         event.preventDefault();
         //var page = $('.page').find('option:selected').val();
         var page = localStorage.getItem('pageUsers');
@@ -673,7 +764,7 @@ $(document).ready(function() {
     });
 
     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 20);
-    $('.user').on('click', function() {
+    $('.user').on('click', function () {
         $('.PJ').attr('id', 'OPL');
         if ($('.clientMessage').attr("class") == "form-control clientMessage w-100") {
             $('.clientMessage').addClass('collapse');
@@ -694,13 +785,13 @@ $(document).ready(function() {
         var tachs = localStorage.getItem('tache');
         /*$('.entetebadge').css("background",  '#e6ee9c');  
          $('.entetebadge').css("color",  '#000');  */
-        $.post(base_url + 'operatrice/completeTache', { code: tachs }, function(data) {
+        $.post(base_url + 'operatrice/completeTache', { code: tachs }, function (data) {
             $.confirm({
                 title: '<p class="text-center" style="font-size:14px;"><b>MESSAGE DU CLIENT</b></p>',
                 content: '<form><select  class="form-control action">' + data + '</select></form>',
                 buttons: {
                     button: {
-                        action: function() {
+                        action: function () {
 
                         },
                         text: 'Fermer',
@@ -709,7 +800,7 @@ $(document).ready(function() {
                     formSubmit: {
                         text: 'valider',
                         btnClass: 'btn-blue',
-                        action: function() {
+                        action: function () {
                             var name;
                             name = this.$content.find('.action option:selected').val();
                             var tache = this.$content.find('.action option:selected').text();
@@ -717,7 +808,7 @@ $(document).ready(function() {
                                 $.alert('provide a valid name' + name);
                                 return false;
                             }
-                            $.post(base_url + "operatrice/typeTache", { tache: tache.trim() }, function(data) {
+                            $.post(base_url + "operatrice/typeTache", { tache: tache.trim() }, function (data) {
                                 if (data.message == "joint") {
                                     $('.PJ').click();
                                 }
@@ -730,9 +821,9 @@ $(document).ready(function() {
                     },
 
                 },
-                onContentReady: function() {
+                onContentReady: function () {
                     var jc = this;
-                    this.$content.find('form').on('submit', function(e) {
+                    this.$content.find('form').on('submit', function (e) {
                         e.preventDefault();
                         jc.$$formSubmit.trigger('click'); // reference the button and click it
                     });
@@ -741,7 +832,7 @@ $(document).ready(function() {
         });
 
     });
-    $('.Client').on('click', function() {
+    $('.Client').on('click', function () {
         $('.PJ').attr('id', 'CLT');
         if ($('#reponse_client').attr("class") == "form-control typeahead ui-autocomplete-input") {
             $('.clientMessage').removeClass('collapse');
@@ -778,7 +869,7 @@ $(document).ready(function() {
             columnClass: 'col-md-8 col-md-4 col-md-offset-2',
             buttons: {
                 button: {
-                    action: function() {
+                    action: function () {
 
                     },
                     text: 'Fermer',
@@ -787,7 +878,7 @@ $(document).ready(function() {
                 formSubmit: {
                     text: 'Envoyer',
                     btnClass: 'btn-blue',
-                    action: function() {
+                    action: function () {
                         var name;
                         loding();
                         name = this.$content.find('.message_contes').val();
@@ -800,7 +891,7 @@ $(document).ready(function() {
                         let type = 'message';
                         let tache = localStorage.getItem('taches');
                         let idRep = $('#reponse_client').val();
-                        $.post(base_url + 'operatrice/sauvemessage', { tache: tache, message: name, date: date, heure: heure, Id_zone: Id_zone, id_con: id_con, Type: type, sender: $('.PJ').attr('id'), page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function(data) {
+                        $.post(base_url + 'operatrice/sauvemessage', { tache: tache, message: name, date: date, heure: heure, Id_zone: Id_zone, id_con: id_con, Type: type, sender: $('.PJ').attr('id'), page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                             if (data.message == true) {
                                 $('.conten-message').empty().append(data.content);
                                 $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -809,7 +900,7 @@ $(document).ready(function() {
                                 afficherStatutDiscussion(afficherStatut, data);
 
                                 $('#message').val("");
-                                $.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function(data) {
+                                $.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function (data) {
                                     if (data.message == false) {
                                         $('.pageusers').empty().append(page_text);
                                         $('.entetebadge').css('background-color', data.color);
@@ -831,9 +922,9 @@ $(document).ready(function() {
                 },
 
             },
-            onContentReady: function() {
+            onContentReady: function () {
                 var jc = this;
-                this.$content.find('form').on('submit', function(e) {
+                this.$content.find('form').on('submit', function (e) {
                     e.preventDefault();
                     jc.$$formSubmit.trigger('click'); // reference the button and click it
                 });
@@ -846,7 +937,7 @@ $(document).ready(function() {
 
 
 
-    $('#message').on('change', function() {
+    $('#message').on('change', function () {
         let content = $(this).val();
 
 
@@ -875,7 +966,7 @@ $(document).ready(function() {
 
                     buttons: {
                         button: {
-                            action: function() {
+                            action: function () {
 
                             },
                             text: 'Annuler',
@@ -884,7 +975,7 @@ $(document).ready(function() {
                         formSubmit: {
                             text: 'Suivant',
                             btnClass: 'btn-blue',
-                            action: function() {
+                            action: function () {
                                 var date;
                                 date = this.$content.find('.date').val();
                                 var heure = this.$content.find('.heure').val();
@@ -898,9 +989,9 @@ $(document).ready(function() {
                         },
 
                     },
-                    onContentReady: function() {
+                    onContentReady: function () {
                         var jc = this;
-                        this.$content.find('form').on('submit', function(e) {
+                        this.$content.find('form').on('submit', function (e) {
                             e.preventDefault();
                             jc.$$formSubmit.trigger('click'); // reference the button and click it
                         });
@@ -933,7 +1024,7 @@ $(document).ready(function() {
     /********************************************************************************************************************/
 
 
-    $('.conclure').on('click', function(event) {
+    $('.conclure').on('click', function (event) {
         event.preventDefault();
         $('.table_commande .tbody').empty();
 
@@ -948,14 +1039,35 @@ $(document).ready(function() {
         $('.form_vente').modal('show');
     });
 
-    $('.rendezvous').on('click', function(event) {
+    $('.observation').on('click', function (event) {
+        event.preventDefault();
+        $('.form_observation').modal('show');
+        let codeClient = localStorage.getItem('codeclient');
+        $.get(base_url + 'operatrice/getAllObservationsByCodeClient?codeClient=' + codeClient, (data) => {
+            let tableBody = document.getElementById('observation-table');
+            let htmlContent = '';
+            for (let prop in data) {
+                if (data.hasOwnProperty(prop)) {
+                    htmlContent += `<tr>
+                                        <td>${data[prop].account_type}<br>${data[prop].sexe}<br>${data[prop].approximate_age}/${data[prop].fb_age}</td>
+                                        <td>${data[prop].products}</td>
+                                        <td>${data[prop].description_customer}</td>
+                                        <td>${data[prop].description_appreciation}</td>
+                                        <td>${data[prop].date}</td>
+                                    </tr>`;
+                }
+            }
+            tableBody.innerHTML = htmlContent;
+        });
+    });
 
+    $('.rendezvous').on('click', function (event) {
         event.preventDefault();
         $('.RDV').modal('show');
     });
 
 
-    $('.datelivre').on('change', function() {
+    $('.datelivre').on('change', function () {
         let date = $(this).val();
         let now = new Date();
         let ladate = new Date(date);
@@ -967,20 +1079,20 @@ $(document).ready(function() {
         }
 
     });
-    $('.ville').on('focusout', function() {
+    $('.ville').on('focusout', function () {
         let ville = this.value;
         $('.ville').val(ville.toUpperCase());
     });
-    $('.zone,.groupe').on('change', function() {
+    $('.zone,.groupe').on('change', function () {
         let groupe = $('.groupe').val();
         let famille = $('.famille').val();
         let zone = $('.zone').val();
         produitname(groupe, famille, zone)
     });
-    $('.famille').on('change', function() {
+    $('.famille').on('change', function () {
         //Init_produit();
         let famille = $('.famille').val();
-        $.post(base_url + 'globale/famille', { famille: famille }, function(data) {
+        $.post(base_url + 'globale/famille', { famille: famille }, function (data) {
             if (data.message == true) {
                 $('.groupe').empty().append(data.content);
                 var groupe = $('.groupe').val();
@@ -991,7 +1103,7 @@ $(document).ready(function() {
             }
         }, 'json');
     });
-    $(".validproduit").on('click', function(event) {
+    $(".validproduit").on('click', function (event) {
         event.preventDefault();
         let tempPrix = $('.produitname option:selected').val().split('|');
         let tempProduit = $('.produitname option:selected').text().split('|');
@@ -1006,7 +1118,7 @@ $(document).ready(function() {
             linkImage = "http://magesty-prod.combo.fun/images/operatrice/default_image.jpg";
         }
         //console.log($('.id_facture_collapse').text());
-        if (typeof($('.prod').html()) == 'undefined') {
+        if (typeof ($('.prod').html()) == 'undefined') {
             if ($('.id_facture_collapse').text() == '') {
 
 
@@ -1019,7 +1131,7 @@ $(document).ready(function() {
             }
             $('.total').empty().append(tempPrix[1] + ' MGA');
         } else {
-            $('.prod').each(function() {
+            $('.prod').each(function () {
                 table.push($(this).text());
             });
             if ($.inArray(tempProduit[0], table) != -1) {
@@ -1035,8 +1147,8 @@ $(document).ready(function() {
             }
 
             var sum = 0;
-            if (typeof($('.tot').html()) !== 'undefined') {
-                $('.tot').each(function() {
+            if (typeof ($('.tot').html()) !== 'undefined') {
+                $('.tot').each(function () {
                     sum += parseInt($(this).html());
                 });
                 $('.total').empty().append(sum + ' MGA');
@@ -1050,16 +1162,16 @@ $(document).ready(function() {
 
 
     });
-    $(".qt").on('change', function() {
+    $(".qt").on('change', function () {
         let quantite = $(this).val();
         let priproduit = $('.contprix .prix').text();
         let total = quantite * priproduit;
         $('.total .conttotal').empty().append(total + " Ar");
         let table = $(this).parent().parent();
     });
-    $(".new_client").on('click', function(event) {
+    $(".new_client").on('click', function (event) {
         event.preventDefault();
-        $.post(base_url + 'operatrice/Autresin', function(data) {
+        $.post(base_url + 'operatrice/Autresin', function (data) {
             $('.autreinpp').empty().append(data);
             $('.plus_client').modal('toggle');
             autres();
@@ -1067,7 +1179,7 @@ $(document).ready(function() {
     });
 
     function autres() {
-        $('.btn-test').on('click', function(e) {
+        $('.btn-test').on('click', function (e) {
             e.preventDefault();
             var option = $('.select2 option:selected').val();
             var options = $('.select2 option:selected').text();
@@ -1097,7 +1209,7 @@ $(document).ready(function() {
             } else {
                 loding();
                 initable();
-                $.post(base_url + 'operatrice/autre_outil', { option: option, options: options, type: type, pageUsers: pageUsers, codepublication: codepublication, codeproduit: codeproduit, nomproduit: nomproduit, date: date, time: time, codegroupe: codegroupe, nomgroupe: nomgroupe, Lien_support: Lien_support }, function() {
+                $.post(base_url + 'operatrice/autre_outil', { option: option, options: options, type: type, pageUsers: pageUsers, codepublication: codepublication, codeproduit: codeproduit, nomproduit: nomproduit, date: date, time: time, codegroupe: codegroupe, nomgroupe: nomgroupe, Lien_support: Lien_support }, function () {
                     stopload();
                     swal('Success', "Enregistrée avec succès", {
                         icon: "success",
@@ -1117,7 +1229,7 @@ $(document).ready(function() {
 
         $(".codegroupe").autocomplete({
             source: base_url + "operatrice/autocomplete_codegroupe",
-            select: function(t, ti) {
+            select: function (t, ti) {
                 t.preventDefault();
                 let items = ti.item.label.split('|');
                 $('.codegroupe').val(items[0]);
@@ -1128,7 +1240,7 @@ $(document).ready(function() {
 
         $(".codeproduit").autocomplete({
             source: base_url + "operatrice/autocomplete_codeproduit",
-            select: function(e, ui) {
+            select: function (e, ui) {
                 e.preventDefault();
                 let items = ui.item.label.split('|');
                 $('.codeproduit').val(items[0]);
@@ -1137,10 +1249,10 @@ $(document).ready(function() {
         });
 
 
-        $(".select1").on('change', function() {
+        $(".select1").on('change', function () {
             var codes = $(".select1 option:selected").text();
             var taches = $(".select2 option:selected").text();
-            $.post(base_url + 'operatrice/completeTache', { code: codes, taches: taches }, function(data) {
+            $.post(base_url + 'operatrice/completeTache', { code: codes, taches: taches }, function (data) {
                 $('.select2').empty().append(data);
             });
 
@@ -1149,7 +1261,7 @@ $(document).ready(function() {
     }
 
     function initable() {
-        $.post(base_url + 'operatrice/tableAutre', function(data) {
+        $.post(base_url + 'operatrice/tableAutre', function (data) {
             if (data.message == true) {
                 $('.tabeContect').empty().append(data.content);
                 stopload();
@@ -1160,14 +1272,14 @@ $(document).ready(function() {
 
     function chargedisc() {
 
-        $(".client_lat").on('click', function() {
+        $(".client_lat").on('click', function () {
             let image = $(this).attr("src");
             let client = $(this).attr("id");
             changerpageclient(image, client);
         });
     }
 
-    $('.termier').on('click', function(event) {
+    $('.termier').on('click', function (event) {
         event.preventDefault();
         $.confirm({
             title: '<p style="color: #2a5591">Confirmation</p>',
@@ -1176,21 +1288,21 @@ $(document).ready(function() {
 
                 oui: {
                     btnClass: 'btn-success',
-                    action: function() {
+                    action: function () {
 
                         terminer();
                     }
                 },
                 non: {
                     btnClass: 'btn-danger',
-                    action: function() {
+                    action: function () {
 
                     }
                 }
             }
         });
     });
-    $('.asuivre').on('click', function(event) {
+    $('.asuivre').on('click', function (event) {
         event.preventDefault();
         $.confirm({
             title: '<p style="color: #2a5591">Confirmation</p>',
@@ -1199,13 +1311,13 @@ $(document).ready(function() {
 
                 oui: {
                     btnClass: 'btn-success',
-                    action: function() {
+                    action: function () {
                         asuivre();
                     }
                 },
                 non: {
                     btnClass: 'btn-danger',
-                    action: function() {
+                    action: function () {
 
                     }
                 }
@@ -1227,11 +1339,11 @@ $(document).ready(function() {
     });
 
 
-    $('#liensurfb').on('change', function() {
+    $('#liensurfb').on('change', function () {
         var link = $(this).val();
         loding();
         if (link != "") {
-            $.post(base_url + 'globale/testLink', { liensurfb: link, type: 'link' }, function(data) {
+            $.post(base_url + 'globale/testLink', { liensurfb: link, type: 'link' }, function (data) {
                 if (data.exist == 'true') {
                     stopload();
                     alertMessage('Erreur', 'Ce client existe déjà.', 'error', 'btn btn-danger');
@@ -1260,18 +1372,18 @@ $(document).ready(function() {
 
         }
     });
-    $('.save').on('click', function() {
+    $('.save').on('click', function () {
         let type = "potentiel";
         loding();
-        $.post(base_url + 'operatrice/nouveau_codeClient', { type: type }, function(data) {
+        $.post(base_url + 'operatrice/nouveau_codeClient', { type: type }, function (data) {
             uploadImage(data);
         }, 'json');
     });
-    $('.testPo').on('click', function(event) {
+    $('.testPo').on('click', function (event) {
         $.alert('ok');
     });
 
-    $('.next').on('click', function(event) {
+    $('.next').on('click', function (event) {
         event.preventDefault();
         $.post(base_url + 'operatrice/testIfClientPo', { lienFb: $('#liensurfb').val() }, 'json');
         //var page = $('.page').find('option:selected').val();
@@ -1291,11 +1403,11 @@ $(document).ready(function() {
 
         //$.alert($('#liensurfb').val());
 
-        $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function(data) {
+        $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function (data) {
             if (data.message == 'false')
-                $.post(base_url + 'operatrice/new_discussion', { client: localStorage.getItem('codeclient') }, function(datas) {
+                $.post(base_url + 'operatrice/new_discussion', { client: localStorage.getItem('codeclient') }, function (datas) {
                     localStorage.setItem("DISC", datas);
-                    $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function(data) {
+                    $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function (data) {
                         if (data.message === true) {
                             $('.conten-message').empty().append(data.content);
                             $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -1309,7 +1421,7 @@ $(document).ready(function() {
                 }, 'json');
             else if (data.message) {
                 localStorage.setItem("DISC", data.id_discussion);
-                $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function(data) {
+                $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function (data) {
                     if (data.message === true) {
                         $('.conten-message').empty().append(data.content);
                         $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -1325,7 +1437,7 @@ $(document).ready(function() {
         }, 'json');
         $('.plus_client').modal('hide');
     });
-    $('.valide_content').on('click', function(event) {
+    $('.valide_content').on('click', function (event) {
         event.preventDefault();
         let reponse_clien = $('#reponse_client').val();
         //let idproduit = $('.codeProduit option:selected').val();
@@ -1335,7 +1447,7 @@ $(document).ready(function() {
         let idRep = $('#reponse_client').val();
         let page = localStorage.getItem('pageUsers');
         //let page = $('.page').find('option:selected').val();
-        $.get(base_url + 'operatrice/dataProduitUsers/' + reponse_clien + '/' + idproduit, function(data) {
+        $.get(base_url + 'operatrice/dataProduitUsers/' + reponse_clien + '/' + idproduit, function (data) {
             var text = 'test';
             if (page != "vide") {
                 $.confirm({
@@ -1346,7 +1458,7 @@ $(document).ready(function() {
                         formSubmit: {
                             text: 'Envoyer',
                             btnClass: 'btn-blue',
-                            action: function() {
+                            action: function () {
                                 $(".firstcontaact").addClass("collapse");
                                 var name;
                                 name = this.$content.find('.message_contes').val();
@@ -1361,7 +1473,7 @@ $(document).ready(function() {
                                 //alert();
                                 loding();
                                 //ici
-                                $.post(base_url + 'operatrice/sauvemessages', { tache: tache, types: types, message: name, Id_zone: Id_zone, id_con: id_con, Type: type, sender: $('.PJ').attr('id'), idRep: idRep, page: page, client: localStorage.getItem("codeclient") }, function(data) {
+                                $.post(base_url + 'operatrice/sauvemessages', { tache: tache, types: types, message: name, Id_zone: Id_zone, id_con: id_con, Type: type, sender: $('.PJ').attr('id'), idRep: idRep, page: page, client: localStorage.getItem("codeclient") }, function (data) {
                                     if (data.message == true) {
                                         //localstorage.setItem('DISC',data.idDisc);
                                         $('.conten-message').empty().append(data.content);
@@ -1381,9 +1493,9 @@ $(document).ready(function() {
 
                         },
                     },
-                    onContentReady: function() {
+                    onContentReady: function () {
                         var jc = this;
-                        this.$content.find('form').on('submit', function(e) {
+                        this.$content.find('form').on('submit', function (e) {
                             e.preventDefault();
                             jc.$$formSubmit.trigger('click'); // reference the button and click it
                         });
@@ -1407,10 +1519,10 @@ $(document).ready(function() {
 
                 let coach = coach_temp.split('|');
                 let commerciale = commerciale_temp.split('|');
-                $.post(base_url + 'operatrice/save_detail', { liensurfb: liensurfb, identifient: identifient, codeclient: codeClient, coach: coach[0], commerciale: commerciale[0] }, function(data) {
+                $.post(base_url + 'operatrice/save_detail', { liensurfb: liensurfb, identifient: identifient, codeclient: codeClient, coach: coach[0], commerciale: commerciale[0] }, function (data) {
                     if (data) {
                         localStorage.setItem("codeclient", codeClient);
-                        $.post(base_url + 'operatrice/new_discussion', { client: codeClient }, function(data) {
+                        $.post(base_url + 'operatrice/new_discussion', { client: codeClient }, function (data) {
                             localStorage.setItem("DISC", data);
                             window.location.replace(base_url + 'operatrice/Discussions');
                         }, 'json');
@@ -1420,10 +1532,10 @@ $(document).ready(function() {
 
         } else {
 
-            $.post(base_url + 'operatrice/save_detail', { liensurfb: liensurfb, identifient: identifient, codeclient: codeClient }, function(data) {
+            $.post(base_url + 'operatrice/save_detail', { liensurfb: liensurfb, identifient: identifient, codeclient: codeClient }, function (data) {
                 if (data) {
                     localStorage.setItem("codeclient", codeClient);
-                    $.post(base_url + 'operatrice/new_discussion', { client: codeClient }, function(data) {
+                    $.post(base_url + 'operatrice/new_discussion', { client: codeClient }, function (data) {
                         localStorage.setItem("DISC", data);
                         window.location.replace(base_url + 'operatrice/Discussions');
                     }, 'json');
@@ -1444,12 +1556,12 @@ $(document).ready(function() {
             data: fd,
             contentType: false,
             processData: false,
-            success: function(data) {
+            success: function (data) {
                 saveDetail(codeClient);
                 stopload();
             },
 
-            error: function(resultat, statut, erreur) {
+            error: function (resultat, statut, erreur) {
 
                 saveDetail(codeClient);
                 stopload();
@@ -1461,7 +1573,7 @@ $(document).ready(function() {
     }
 
     let famille = $('.famille').val();
-    $.post(base_url + 'globale/famille', { famille: famille }, function(data) {
+    $.post(base_url + 'globale/famille', { famille: famille }, function (data) {
         if (data.message == true) {
             $('.groupe').empty().append(data.content);
             var groupe = $('.groupe').val();
@@ -1475,7 +1587,7 @@ $(document).ready(function() {
     function Init_produit() {
 
         loding();
-        $.post(base_url + 'operatrice/listeclients', {}, function(data) {
+        $.post(base_url + 'operatrice/listeclients', {}, function (data) {
 
             $('.listeclients').empty().append(data.content);
 
@@ -1483,23 +1595,23 @@ $(document).ready(function() {
             stopload();
         }, 'json');
 
-        $.post(base_url + 'operatrice/listDataBon', { client: localStorage.getItem('codeclient') }, function(data) {
+        $.post(base_url + 'operatrice/listDataBon', { client: localStorage.getItem('codeclient') }, function (data) {
             $('.bon-achat').empty().append(data);
-            if(data=="<option id='0'></option>"){
-                 $('.bon-Achat-Alert').empty().append("<div class='alert alert-danger w-75 '>Ce client n'a pas de bon d'achat</div>");
-            }else{
+            if (data == "<option id='0'></option>") {
+                $('.bon-Achat-Alert').empty().append("<div class='alert alert-danger w-75 '>Ce client n'a pas de bon d'achat</div>");
+            } else {
                 $('.bon-Achat-Alert').empty().append("<div class='alert alert-success w-75 '>Ce client benifichie de bon d'achat.</div>");
             }
 
         });
 
-        $.post(base_url + "Clients/testImage/", { codeclient: localStorage.getItem('codeclient') }, function(datas) {
+        $.post(base_url + "Clients/testImage/", { codeclient: localStorage.getItem('codeclient') }, function (datas) {
             if (datas == "true") {
                 $('.Client').attr("src", base_url + "images/client/" + localStorage.getItem('codeclient') + ".jpg");
             } else {
                 $('.Client').attr("src", base_url + "images/default_user.png");
             }
-        }).fail(function() {
+        }).fail(function () {
             alertMessage('Erreur', 'Veuillez choisir une photo.', 'error', 'btn btn-danger');
 
         });
@@ -1512,7 +1624,7 @@ $(document).ready(function() {
         let pagechose = localStorage.getItem('pageUsers');
         //var pagechose = $('.page').val();
 
-        $.post(base_url + 'operatrice/test_discussion_en_cours', { client: localStorage.getItem('codeclient') }, function(data) {
+        $.post(base_url + 'operatrice/test_discussion_en_cours', { client: localStorage.getItem('codeclient') }, function (data) {
             if (data.error === false) {
                 //
                 //$.alert('init produit :'+localStorage.getItem('codeclient'));
@@ -1534,7 +1646,7 @@ $(document).ready(function() {
                 $(".firstcontaact").attr('disabled', 'disabled');
 
 
-                $.post(base_url + 'operatrice/test_statut_client', { page: pagechose, DISC: id_conversation, codeclient: codeclient }, function(data) {
+                $.post(base_url + 'operatrice/test_statut_client', { page: pagechose, DISC: id_conversation, codeclient: codeclient }, function (data) {
                     if (data.message === false) {
                         $('.pageusers').empty().append(page_text);
                         $('.entetebadge').css('background-color', data.color);
@@ -1590,7 +1702,7 @@ $(document).ready(function() {
         //var page_text = $('.page').find('option:selected').text();
         var DISC = localStorage.getItem('DISC');
         var codeclient = localStorage.getItem('codeclient');
-        $.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function(data) {
+        $.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function (data) {
             if (data.message == false) {
                 $('.pageusers').empty().append(page_text);
                 $('.entetebadge').css('background-color', data.color);
@@ -1606,7 +1718,7 @@ $(document).ready(function() {
 
 
 
-        $.post(base_url + 'operatrice/detail_clients', { codeclient: localStorage.getItem('codeclient') }, function(data) {
+        $.post(base_url + 'operatrice/detail_clients', { codeclient: localStorage.getItem('codeclient') }, function (data) {
             if (data.message == true) {
                 //$('.nom_client_ban').empty().append(data.content.toUpperCase());
                 // suppr
@@ -1619,7 +1731,7 @@ $(document).ready(function() {
         $.post(base_url + 'operatrice/testDiscution', {
             idclient: localStorage.getItem('codeclient'),
             page: page
-        }, function(data) {
+        }, function (data) {
             if (data.message === true) {
                 $('.conten-message').empty().append(data.content);
                 $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -1632,7 +1744,7 @@ $(document).ready(function() {
                 verouiller();
             }
         }, 'json');
-        $.post(base_url + 'operatrice/detail_clients', { codeclient: localStorage.getItem('codeclient') }, function(data) {
+        $.post(base_url + 'operatrice/detail_clients', { codeclient: localStorage.getItem('codeclient') }, function (data) {
             if (data.message == true) {
                 $('.Client').css('border-top', '7px ridge' + data.color);
                 if (data.commercial == true) {
@@ -1647,12 +1759,12 @@ $(document).ready(function() {
 
 
     }
-    $('.scrolldown').on('click', function() {
+    $('.scrolldown').on('click', function () {
         $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
     });
 
     function fonctiondel() {
-        $('.suppr').on('click', function() {
+        $('.suppr').on('click', function () {
             $(this).parent().parent().remove();
             totaltab();
             $('.type-promo').addClass('collapse');
@@ -1665,8 +1777,8 @@ $(document).ready(function() {
 
         function totaltab() {
             let sum = 0;
-            if (typeof($('.tot').html()) !== 'undefined') {
-                $('.tot').each(function() {
+            if (typeof ($('.tot').html()) !== 'undefined') {
+                $('.tot').each(function () {
                     sum += parseInt($(this).html());
                 });
                 let aff = $('.total').empty().append(sum + ' MGA');
@@ -1676,7 +1788,7 @@ $(document).ready(function() {
             }
         }
 
-        $('.Qua').on('change', function() {
+        $('.Qua').on('change', function () {
             if ($(this).val() < 1) {
                 alertMessage('Erreur', 'Le nombre de produit ne doit pas être inférieur a 1.', 'error', 'btn btn-danger');
                 $(this).val('1');
@@ -1695,7 +1807,7 @@ $(document).ready(function() {
     }
 
     function produitname(groupe, famille, zone) {
-        $.post(base_url + 'globale/produitname', { groupe: groupe, famille: famille, zone: zone }, function(data) {
+        $.post(base_url + 'globale/produitname', { groupe: groupe, famille: famille, zone: zone }, function (data) {
             if (data.message == true) {
                 $('.produitname').empty().append(data.content);
             } else {
@@ -1705,7 +1817,7 @@ $(document).ready(function() {
     }
 
     function init_lateral_bar(id_discussion) {
-        $('.client_lat').each(function() {
+        $('.client_lat').each(function () {
             if ($(this).attr('id') == id_discussion) {
                 $(this).parent().remove();
             }
@@ -1713,7 +1825,7 @@ $(document).ready(function() {
     }
 
     /************************************ Enregistrement vente ****************************************/
-    $('.ress_sec_oplg').on('focusout', function() {
+    $('.ress_sec_oplg').on('focusout', function () {
         var choix = $('.nature_sc').find('option:selected').text();
         if (choix == '') {
             alertMessage('Erreur', 'Erreur.', 'error', 'btn btn-danger');
@@ -1723,7 +1835,7 @@ $(document).ready(function() {
     });
 
 
-    $('.nature_sc').on('change', function() {
+    $('.nature_sc').on('change', function () {
         /* var choix = $('.ress_sec_oplg').text();
          if(choix==''){
              $.alert('');
@@ -1740,14 +1852,71 @@ $(document).ready(function() {
             $('div .ress_sec_oplg').removeAttr('disabled');
         }
     });
-    $('.bon-achat').on('change', function(e) {
+    $('.bon-achat').on('change', function (e) {
         e.preventDefault();
         let valeur = $('.bon-achat option:selected').attr('id');
         $('.bon-achat-input').val(valeur);
 
     });
 
-    $('.enregistre_commande').on('click', function(event) {
+    $('.save_observation').on('click', function (event) {
+        event.preventDefault();
+        let page = localStorage.getItem('pageUsers');
+        let codeClient = localStorage.getItem('codeclient');
+        if (page != "vide") {
+            const selectedProducts = [];
+            $('.productName').each(function() {
+                const selectedOption = $(this).find('option:selected');
+                if (selectedOption.val()) {
+                    selectedProducts.push(selectedOption.val());
+                }
+            });
+            let accountType = $('.account').val();
+            let sexe = $('.sexe').val();
+            let approximateAge = $('.approximateAge option:selected').val();
+            let fbAge = $('.fbAge option:selected').val();
+            let clientLocalisation = $('.clientLocalisation option:selected').val();
+            let deliveryArea = $('.deliveryArea option:selected').val();
+            let priceWishes = $('.priceWishes').val();
+            let appreciation = $('.appreciation option:selected').val();
+            let customerSentiment = $('.constraint option:selected').val();
+            let date = new Date();
+            let news = [];
+            news.push({ "name": "other", "val": +($('.other').val()) });
+            news.push({ "name": "restaurant", "val": +($('.restaurant').val()) });
+            news.push({ "name": "shopping", "val": +($('.shopping').val()) });
+            news.push({ "name": "travel", "val": +($('.travel').val()) });
+            news.push({ "name": "newsPeople", "val": +($('.newsPeople').val()) });
+            news.push({ "name": "politic", "val": +($('.politic').val()) });
+            news.push({ "name": "sport", "val": +($('.sport').val()) });
+            news.push({ "name": "wellHealth", "val": +($('.wellHealth').val()) });
+            news.push({ "name": "social", "val": +($('.social').val()) });
+            const maxValItem = news.reduce((maxItem, currentItem) => {
+                return currentItem.val > maxItem.val ? currentItem : maxItem;
+            }, { "val": -Infinity });
+            $.post(base_url + 'operatrice/saveObservation', { 
+                codeClient: codeClient,
+                accountType: accountType,
+                sexe: sexe,
+                approximateAge: parseInt(approximateAge),
+                fbAge: parseInt(fbAge),
+                clientLocalisation: clientLocalisation,
+                deliveryArea: deliveryArea,
+                selectedProducts: selectedProducts,
+                priceWishes: parseInt(priceWishes),
+                appreciation: appreciation,
+                constraint: customerSentiment,
+                news: maxValItem.val == 0 ? "" : maxValItem.name,
+                date: date.getTime()
+            }, () => {
+                $('.fade').modal('hide');
+                stopload();
+                alertMessage('Succes', "L'observation a été effectué avec succès.", 'success', 'btn btn-success');
+            });
+        }
+    })
+
+    $('.enregistre_commande').on('click', function (event) {
         event.preventDefault();
         let page = localStorage.getItem('pageUsers');
         // var page = $('.page').find('option:selected').val();
@@ -1782,11 +1951,11 @@ $(document).ready(function() {
             let bon_achat_input = $('.bon-achat-input').val();
             var detailcommande = [];
 
-            $('.tbody tr').each(function() {
+            $('.tbody tr').each(function () {
                 detailcommande.push($(this).find('.idPrix').text() + "|" + $(this).find('.quant input').val());
             });
 
-            if (typeof($('.prod').text()) == undefined) {
+            if (typeof ($('.prod').text()) == undefined) {
                 alertMessage('Erreur', 'Veuillez entre au moins une produit.', 'error', 'btn btn-danger');
             } else if (Debut > Fin || Debut == Fin) {
                 alertMessage('Erreur', "Tranche d'heure de livraison incorrect,veuiilez entrer tranche d'heure valide.", 'error', 'btn btn-danger');
@@ -1803,13 +1972,13 @@ $(document).ready(function() {
             } else {
                 let idRep = $('#reponse_client').val();
                 loding();
-                $.post(base_url + 'operatrice/newfacture', function(data) {
+                $.post(base_url + 'operatrice/newfacture', function (data) {
                     var fact = data.codefact;
-                    $.post(base_url + 'operatrice/sauvemessage', { message: fact, Id_zone: id_zone, id_con: id_con, Type: 'vente', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function() {});
-                    $.post(base_url + 'operatrice/enregistre_commande', { Localite: Localite, fraisderetrait: fraisderetrait, typeFacture: typeFacture, codePromo: codePromo, Id_discussion: Id_discussion, contact: contact, fact: fact, Id_zone: Id_zone, date: date, Debut: Debut, Fin: Fin, ville: ville, quartier: quartier, lieu_de_livraison: lieulivre, remarque: remarque, produits: detailcommande, client: client, frailivre: frailivre, District: District, page: page, cotactlivre: cotactlivre, result_mattr: result_mattr, bonus: bonus, bon_achat: bon_achat, bon_achat_input: bon_achat_input }, function(datas) {
+                    $.post(base_url + 'operatrice/sauvemessage', { message: fact, Id_zone: id_zone, id_con: id_con, Type: 'vente', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function () { });
+                    $.post(base_url + 'operatrice/enregistre_commande', { Localite: Localite, fraisderetrait: fraisderetrait, typeFacture: typeFacture, codePromo: codePromo, Id_discussion: Id_discussion, contact: contact, fact: fact, Id_zone: Id_zone, date: date, Debut: Debut, Fin: Fin, ville: ville, quartier: quartier, lieu_de_livraison: lieulivre, remarque: remarque, produits: detailcommande, client: client, frailivre: frailivre, District: District, page: page, cotactlivre: cotactlivre, result_mattr: result_mattr, bonus: bonus, bon_achat: bon_achat, bon_achat_input: bon_achat_input }, function (datas) {
 
                         if (datas.message === true) {
-                            $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function(data) {
+                            $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function (data) {
                                 if (data.message === true) {
                                     $('.conten-message').empty().append(data.content);
                                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -1847,16 +2016,16 @@ $(document).ready(function() {
     $('.ville').autocomplete({
         source: base_url + "operatrice/autocomplete_ville/"
     });
-    $('.ville').on('change', function() {
+    $('.ville').on('change', function () {
         $.alert();
     });
 
     $('.quartier').autocomplete({
         source: base_url + "operatrice/autocomplete_quartier",
         appendTo: '.form_vente',
-        select: function(e, ui) {
+        select: function (e, ui) {
             $('.fade ').modal('hide');
-            $.post(base_url + 'operatrice/autocomplete_ville', { quartier: ui.item.value }, function(data) {
+            $.post(base_url + 'operatrice/autocomplete_ville', { quartier: ui.item.value }, function (data) {
                 $.confirm({
                     title: 'Choisir ville',
                     content: data,
@@ -1864,9 +2033,9 @@ $(document).ready(function() {
                         formSubmit: {
                             text: 'choisir',
                             btnClass: 'btn-blue',
-                            action: function() {
+                            action: function () {
                                 var name;
-                                this.$content.find('.chose').each(function() {
+                                this.$content.find('.chose').each(function () {
 
                                     if ($(this).prop('checked')) {
                                         name = $(this).val();
@@ -1884,14 +2053,14 @@ $(document).ready(function() {
                         cancel: {
                             btnClass: 'btn-danger',
                             text: 'Fermer',
-                            action: function() {
+                            action: function () {
                                 //close
                             }
                         },
                     },
-                    onContentReady: function() {
+                    onContentReady: function () {
                         var jc = this;
-                        this.$content.find('.chose').on('click', function(e) {
+                        this.$content.find('.chose').on('click', function (e) {
                             e.preventDefault();
                             jc.$$formSubmit.trigger('click'); // reference the button and click it
                         });
@@ -1904,10 +2073,10 @@ $(document).ready(function() {
 
     });
 
-    $('.codeProduit').on('change', function() {
+    $('.codeProduit').on('change', function () {
         //initCOmplte();
     });
-    $('#quartier').on('focus', function() {
+    $('#quartier').on('focus', function () {
         // $(this).val('');
         //  $('#District').val("");
         // $('#ville').val("");
@@ -1952,7 +2121,7 @@ $(document).ready(function() {
     }
 
     function discrict_chose(quartier, ville) {
-        $.post(base_url + 'operatrice/autocomplete_discrict', { quartier: quartier, ville: ville }, function(data) {
+        $.post(base_url + 'operatrice/autocomplete_discrict', { quartier: quartier, ville: ville }, function (data) {
             $.confirm({
                 title: 'Choisir discrict',
                 content: data,
@@ -1960,9 +2129,9 @@ $(document).ready(function() {
                     formSubmit: {
                         text: 'choisir',
                         btnClass: 'btn-blue',
-                        action: function() {
+                        action: function () {
                             var name;
-                            this.$content.find('.chose').each(function() {
+                            this.$content.find('.chose').each(function () {
 
                                 if ($(this).prop('checked')) {
                                     name = $(this).val();
@@ -1982,12 +2151,12 @@ $(document).ready(function() {
                     cancel: {
                         text: 'Fermer',
                         btnClass: 'btn-danger',
-                        action: function() {}
+                        action: function () { }
                     },
                 },
-                onContentReady: function() {
+                onContentReady: function () {
                     var jc = this;
-                    this.$content.find('.chose').on('click', function(e) {
+                    this.$content.find('.chose').on('click', function (e) {
                         e.preventDefault();
                         jc.$$formSubmit.trigger('click'); // reference the button and click it
                     });
@@ -2002,7 +2171,7 @@ $(document).ready(function() {
 
 
     $('#reponse_client').autocomplete({
-        source: function(request, response) {
+        source: function (request, response) {
             let idproduit = localStorage.getItem('produitUsers');
             //var idproduit = $('.codeProduit option:selected').val();
             $.ajax({
@@ -2012,7 +2181,7 @@ $(document).ready(function() {
                     term: request.term,
                     produit: idproduit
                 },
-                success: function(data) {
+                success: function (data) {
                     response(data);
                 }
             });
@@ -2047,7 +2216,7 @@ $(document).ready(function() {
         });
     }
 
-    $('.PJ').on('change', function(event) {
+    $('.PJ').on('change', function (event) {
         event.preventDefault();
         loding();
         let fd = new FormData();
@@ -2067,7 +2236,7 @@ $(document).ready(function() {
         let idRep = $('#reponse_client').val();
         let tache = localStorage.getItem('taches');
         if (page != "vide") {
-            $.post(base_url + 'operatrice/sauvemessage', { tache: tache, message: message, Id_zone: Id_zone, id_con: id_con, Type: 'image', sender: sender, page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function(data) {
+            $.post(base_url + 'operatrice/sauvemessage', { tache: tache, message: message, Id_zone: Id_zone, id_con: id_con, Type: 'image', sender: sender, page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
 
 
@@ -2078,7 +2247,7 @@ $(document).ready(function() {
                         data: fd,
                         contentType: false,
                         processData: false,
-                        success: function(datas) {
+                        success: function (datas) {
                             $('.conten-message').empty().append(data.content);
                             $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
                             afficherStatut = true;
@@ -2088,7 +2257,7 @@ $(document).ready(function() {
                             stopload();
                         },
 
-                        error: function(resultat, statut, erreur) {
+                        error: function (resultat, statut, erreur) {
                             afficherStatutDiscussion(afficherStatut, data);
                             $('.conten-message').empty().append(data.content);
                             $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -2116,12 +2285,12 @@ $(document).ready(function() {
     function edit_facture() {
 
 
-        $('div .modify').on('click', function(e) {
+        $('div .modify').on('click', function (e) {
             e.preventDefault();
             var id = $(this).children().first().attr('id');
 
             if ($('#lock').attr('class') == 'fa fa-unlock-alt') {
-                $.post(base_url + 'operatrice/dettail_vente_modif', { facture: id }, function(data) {
+                $.post(base_url + 'operatrice/dettail_vente_modif', { facture: id }, function (data) {
 
                     if (data.message == 'true') {
                         $('.mask').addClass('collapse');
@@ -2146,29 +2315,29 @@ $(document).ready(function() {
 
     function edit_produit() {
 
-        $('.edit_produit').on('click', function(event) {
+        $('.edit_produit').on('click', function (event) {
             event.preventDefault();
             var parent = $(this).parent().parent();
             var quantite = parent.find('.Qua').val();
             var facture = parent.find('.idfacture').text();
-            $.post(base_url + 'operatrice/modifquantite', { idvente: facture, quantite: quantite }, function(data) {
+            $.post(base_url + 'operatrice/modifquantite', { idvente: facture, quantite: quantite }, function (data) {
 
             });
 
         });
 
-        $('.updatedate').on('click', function(event) {
+        $('.updatedate').on('click', function (event) {
             event.preventDefault();
             var facture = $('.id_facture_collapse').text();
             var date = $('.datelivre').val();
-            $.post(base_url + 'operatrice/changedatefacture', { id: facture, date: date }, function(data) {});
+            $.post(base_url + 'operatrice/changedatefacture', { id: facture, date: date }, function (data) { });
         });
 
-        $('.delete_produit').on('click', function(event) {
+        $('.delete_produit').on('click', function (event) {
             event.preventDefault();
             var parent = $(this).parent().parent();
             var facture = parent.find('.idfacture').text();
-            $.post(base_url + 'operatrice/annuleproduit', { idvente: facture }, function(data) {
+            $.post(base_url + 'operatrice/annuleproduit', { idvente: facture }, function (data) {
 
             });
         });
@@ -2177,20 +2346,20 @@ $(document).ready(function() {
     }
 
     function addPRoduit() {
-        $('.add_produit').on('click', function(event) {
+        $('.add_produit').on('click', function (event) {
             event.preventDefault();
             var parent = $(this).parent().parent();
             var quantite = parent.find('.Qua').val();
             var idPrix = parent.find('.idPrix').text();
             var facture = $('.id_facture_collapse').text();
-            $.post(base_url + 'operatrice/addProduit', { facture: facture, idPrix: idPrix, quantite: quantite }, function(data) {
+            $.post(base_url + 'operatrice/addProduit', { facture: facture, idPrix: idPrix, quantite: quantite }, function (data) {
 
             });
 
         });
     }
 
-    $('.saveContact').on('click', function(event) {
+    $('.saveContact').on('click', function (event) {
         event.preventDefault();
         var daterdv = $('.daterdv').val();
         var heurervd = $('.heurervd').val();
@@ -2203,22 +2372,22 @@ $(document).ready(function() {
         var obs = $('.produiRV').val();
         var TypeMessage = localStorage.getItem('TypeMessage');
         var codeclient = localStorage.getItem('codeclient');
-        $.post(base_url + 'operatrice/rendezvous', { obs: obs, TypeMessage: TypeMessage, idDiscussion: idDiscussion, taches: taches, tache: tache, codeclient: codeclient, daterdv: daterdv, heurervd: heurervd, contactRvd: contactRvd, produitUsers: produitUsers, pageUsers: pageUsers }, function(data) {
+        $.post(base_url + 'operatrice/rendezvous', { obs: obs, TypeMessage: TypeMessage, idDiscussion: idDiscussion, taches: taches, tache: tache, codeclient: codeclient, daterdv: daterdv, heurervd: heurervd, contactRvd: contactRvd, produitUsers: produitUsers, pageUsers: pageUsers }, function (data) {
             $('.daterdv').val("");
             $('.heurervd').val("");
             $('.contactRvd').val("");
             $('.RDV').modal('hide');
             $('.conten-message').empty().append(data.content);
             $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 20);
-        }, 'json').done(function() {
+        }, 'json').done(function () {
             alertMessage("Succè!", "Rendez-vous", "success", "btn btn-success");
-        }).fail(function() {
+        }).fail(function () {
             alertMessage("Erreur!", "Ooops!", "error", "btn btn-danger");
         });
 
     });
 
-    $('.contact,.cotactlivre,.contactRvd').on('keyup', function() {
+    $('.contact,.cotactlivre,.contactRvd').on('keyup', function () {
         var valeur = $(this).val();
         if (valeur.length == 9) {
             $(this).mask("+261 99 99 999 99");
@@ -2239,7 +2408,7 @@ $(document).ready(function() {
         $(".codeProduit").attr('disabled', 'disabled');
         $(".valide_content").attr('disabled', 'disabled');
     }
-    $('.check').on('click', function(event) {
+    $('.check').on('click', function (event) {
         event.preventDefault();
         var page = localStorage.getItem("pageUsers");
         var code_client = localStorage.getItem("codeclient");
@@ -2247,20 +2416,20 @@ $(document).ready(function() {
         var typeRelance = localStorage.getItem("typeRelance");
 
         if (typeRelance == null) {
-            $.post(base_url + 'operatrice/check', { code_client: code_client, matricule: matricule, page: page }, function(data) {
+            $.post(base_url + 'operatrice/check', { code_client: code_client, matricule: matricule, page: page }, function (data) {
                 alertMessage('Succé', 'Check terminé', 'success', 'btn btn-success');
             });
 
         } else {
             if (typeRelance == "Relance sans achat") {
-                $.post(base_url + 'operatrice/sauveRelanceDiscussion', { client: localStorage.getItem("codeclient"), page: localStorage.getItem('pageUsers') }, function() {
+                $.post(base_url + 'operatrice/sauveRelanceDiscussion', { client: localStorage.getItem("codeclient"), page: localStorage.getItem('pageUsers') }, function () {
                     stopload();
                     alertMessage('Succé', 'Check terminé', 'success', 'btn btn-success');
                 });
             }
             if (typeRelance == "Relance avec achat") {
                 var idRelance = localStorage.getItem("idRelance");
-                $.post(base_url + 'operatrice/checkDiscussionRelance', { idRelance }, function(data) {
+                $.post(base_url + 'operatrice/checkDiscussionRelance', { idRelance }, function (data) {
                     localStorage.removeItem("typeRelance");
                     localStorage.removeItem("idRelance");
                     alertMessage('Succé', 'Check terminé', 'success', 'btn btn-success');
@@ -2286,7 +2455,7 @@ $(document).ready(function() {
 
     function test_Link_Image(images) {
         var retour = false;
-        $.get("http://magesty-prod.combo.fun/images/produit/''" + images + "'.jpg", function() {
+        $.get("http://magesty-prod.combo.fun/images/produit/''" + images + "'.jpg", function () {
             retour = true;
         });
         return retour;

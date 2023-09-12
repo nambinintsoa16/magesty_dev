@@ -944,13 +944,19 @@ class operatrice extends My_Controller
     ];
     $this->render_view('operatrice/discussion/nouveau', $data);
   }
+
   public function discussion()
   {
     $this->load->model('global_model');
     $this->load->model('produit_model');
-    $json_path = base_url('assets/json/regions.json');
-    $json_data = json_decode(read_file($json_path));
-    
+    $this->load->model('Observation_model');
+    $this->load->model('Appreciation_oplg_model');
+    $this->load->model('Delivery_area_model');
+    $this->load->model('Constraint_customer_model');
+    // $json_path_regions = base_url('assets/json/regions.json');
+    // $json_data_regions = json_decode(read_file($json_path_regions));
+    $json_path_age_range = base_url('assets/json/age_range.json');
+    $json_data_age_range = json_decode(read_file($json_path_age_range));
     $data = [
       'produit_user' => $this->global_model->produit_user(),
       'en_cours' => $this->global_model->discussion_en_cours(),
@@ -959,11 +965,16 @@ class operatrice extends My_Controller
       'mission' => $this->global_model->mission(),
       'promotion' => $this->produit_model->promotion(['Pr_Status' => 'en_cours']),
       'data_type' => $this->global_model->produit_users(),
-      'regions' =>  $json_data,
-      'bon_achat' => array()
+      'districts' =>  $this->global_model->get_all_discricts(),
+      'age_range' => $json_data_age_range,
+      'bon_achat' => array(),
+      'appreciation_oplg' => $this->Appreciation_oplg_model->getAllAppreciationOplg(),
+      'delivery_area' => $this->Delivery_area_model->getAllDeliveryArea(),
+      'constraint' => $this->Constraint_customer_model->getAllConstraints()
     ];
     $this->render_view('operatrice/discussion/discussion', $data);
   }
+
   public function listDataBon(){
     $client = $this->input->post('client');
     $data = $this->global_model->bon_achat(['STATUT' => "actif","CODE_CLIENT"=> $client]);
@@ -973,14 +984,11 @@ class operatrice extends My_Controller
     }
     echo  $reponse;
   }
+
   public function discussions()
   {
     $this->load->model('global_model');
     $this->load->model('produit_model');
-    $json_path = base_url('assets/json/regions.json');
-    $json_data = json_decode(read_file($json_path));
-    var_dump($json_data);
-    die();
     $data = [
       'produit_user' => $this->global_model->produit_user(),
       'en_cours' => $this->global_model->discussion_en_cours(),
@@ -989,7 +997,6 @@ class operatrice extends My_Controller
       'mission' => $this->global_model->mission(),
       'promotion' => $this->produit_model->promotion(),
       'data_type' => $this->global_model->produit_users(),
-      'regions' =>  $json_data
     ];
     $this->load->view('operatrice/discussion/discussion', $data);
   }
@@ -1760,6 +1767,55 @@ class operatrice extends My_Controller
     $json['statut'] = $typeDisc;
     echo json_encode($json);
   }
+
+  public function getAllObservationsByCodeClient() {
+    $codeClient = $this->input->get('codeClient');
+    
+    $this->load->model('Observation_model');
+    $observations = $this->Observation_model->getAllObservationsByCodeClient($codeClient);
+    
+    header('Content-Type: application/json');
+    echo json_encode($observations);
+  }
+
+  public function saveObservation() {
+    $postData = $this->input->post();
+
+    $codeClient = $postData['codeClient'];
+    $appreciation = $postData['appreciation'];
+
+    $this->load->model('Observation_model');
+    
+    if ($appreciation == 'curiousWithPurchase') {
+        $purchaseNumber = (int)$this->Observation_model->getPurchaseNumberByCodeClient($codeClient) + 1;
+        $numberOfRefusals = (int)$this->Observation_model->getNumberOfRefusalsByCodeClient($codeClient);
+    } else {
+        $purchaseNumber = (int)$this->Observation_model->getPurchaseNumberByCodeClient($codeClient);
+        $numberOfRefusals = (int)$this->Observation_model->getNumberOfRefusalsByCodeClient($codeClient) + 1;
+    }
+
+    $selectedProducts = $postData['selectedProducts'];
+    
+    $observationData = array(
+        'account_type' => $postData['accountType'],
+        'sexe' => $postData['sexe'],
+        'approximate_age' => $postData['approximateAge'],
+        'fb_age' => $postData['fbAge'],
+        'client_localisation' => $postData['clientLocalisation'],
+        'delivery_area' => $postData['deliveryArea'],
+        'price_wishes' => $postData['priceWishes'],
+        'appreciation' => $postData['appreciation'],
+        'constraint_customer' => $postData['constraint'],
+        'news' => $postData['news'],
+        'purchase_number' => $purchaseNumber,
+        'number_of_refusals' => $numberOfRefusals,
+        'date' => date('Y-m-d H:i:s', (int)$postData['date'] / 1000),
+        'code_client' => $codeClient
+    );
+
+    $this->Observation_model->saveObservation($observationData, $selectedProducts);
+}
+
 
   public function sauvemessages()
   {

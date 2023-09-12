@@ -1675,6 +1675,15 @@ class global_model extends CI_Model
     return $this->db->get('villes')->result_object();
   }
 
+  public function get_all_discricts()
+  {
+    $this->db->distinct();
+    $this->db->select('District');
+    $this->db->from('villes');
+    $this->db->where('District !=', '');
+    return $this->db->get()->result();
+  }
+
   public function autocomplete_coach($mot)
   {
     $this->db->select('Matricule,Nom,Prenom');
