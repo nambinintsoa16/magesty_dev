@@ -219,10 +219,12 @@ class global_model extends CI_Model
   public function produit_users()
   {
     $this->db->select('produit.Code_produit, produit.Designation');
-    $this->db->join('produit', 'produit.Code_produit=Produit_user.CodePoduit');
+    /*$this->db->join('produit', 'produit.Code_produit=Produit_user.CodePoduit');
     $this->db->where('Produit_user.Statut', 'On');
     $this->db->where('Produit_user.User', $this->session->userdata('matricule'));
-    return $this->db->get('Produit_user')->result_object();
+		return $this->db->get('Produit_user')->result_object();
+		*/
+    return $this->db->get('produit')->result_object();
   }
 
 
