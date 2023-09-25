@@ -402,7 +402,8 @@ class relance extends My_Controller
     }
     foreach ($datas as $row) {
       $client = $this->client_model->infoclientPo($row->CodeClient);
-      if($client){
+			$methodOk = $client != null ;
+      if($methodOk){
       $page = $this->discussion_model->selectPageFb($this->session->userdata("page"));
       $sub_array = array();
       //$sub_array[] = $row->DateRD;
@@ -419,9 +420,12 @@ class relance extends My_Controller
         $sub_array[] = '<i class="fa fa-times-circle text-success"></i>';
         $sub_array[] = '<a href="#" class="btn btn-warning btn-sm "><i class="fa fa-envelope-open"></i></a>';
       }
-    }    
-      $data[] = $sub_array;
-     
+    }  
+
+			if($methodOk) {
+				$data[] = $sub_array;
+			}
+    
     }
     $output = array(
       "data" => $data
