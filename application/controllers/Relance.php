@@ -383,7 +383,12 @@ class relance extends My_Controller
   {
     $this->render_view('operatrice/Relances/Discussion_relance');
   }
-
+  public function checkRelanceDiscussion(){
+   
+		$this->load->model('discussion_model');
+		$refnum = $this->input->post('refnum');
+		echo $this->discussion_model->UpdateRelanceDiscussion(['IdRD'=>$refnum],['statuRelanceRD'=>'off']);
+	}
   public function ListeRElasnceDiscussion()
   {
     $this->load->model('discussion_model');
@@ -397,7 +402,7 @@ class relance extends My_Controller
       $datas = $this->discussion_model->selectsRelanceDiscussion(["OperatriceRD"=>$this->session->userdata('matricule'),"DateRD"=>$date,"statuRelanceRD"=>'on','Type'=>"Relance sans achat","PageRD"=>$this->session->userdata("page")]);
     }else{
     
-      $datas = $this->discussion_model->selectsRelanceDiscussion("(`OperatriceRD` = '".$this->session->userdata('matricule')."' AND   `Type`='Relance sans achat' ) AND  (`DateRD` < '$date' AND `PageRD`=".$this->session->userdata('page').")");
+      $datas = $this->discussion_model->selectsRelanceDiscussion("(`OperatriceRD` = '".$this->session->userdata('matricule')."' AND   `Type`='Relance sans achat' ) AND  (`DateRD` < '$date' AND `PageRD`=".$this->session->userdata('page').") AND statuRelanceRD ='on'");
 
     }
     foreach ($datas as $row) {
@@ -416,10 +421,13 @@ class relance extends My_Controller
       if($row->statuRelanceRD=="on"){
         $sub_array[] = '<i class="fa fa-times-circle text-danger"></i>';
         $sub_array[] = '<a href="'.$row->PageRD.'" id="'.$row->IdRD.'" class="btn btn-info btn-sm valopy"><i class="fa fa-envelope"></i></a>';
-      }else{
+				$sub_array[] = '<a href="'.$row->PageRD.'" id="'.$row->IdRD.'" class="btn btn-success btn-sm check"><i class="fa fa-check"></i></a>';
+			
+			}else{
         $sub_array[] = '<i class="fa fa-times-circle text-success"></i>';
         $sub_array[] = '<a href="#" class="btn btn-warning btn-sm "><i class="fa fa-envelope-open"></i></a>';
-      }
+				$sub_array[] = '';
+			}
     }  
 
 			if($methodOk) {

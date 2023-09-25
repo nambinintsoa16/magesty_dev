@@ -83,6 +83,7 @@ public function selectsRelanceDiscussion($param){
    return $this->db->where($param)->get('relanceDiscussion')->result_object();
    
 }  
+
 public function selectRelanceDiscussion($param){
    return $this->db->where($param)->get('relanceDiscussion')->row_object();
    

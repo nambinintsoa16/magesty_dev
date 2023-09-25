@@ -40,6 +40,7 @@
 			<th>Nombre de relance </th>
 			<th>Date de dernière discussion</th>
 			<th>Statut</th>
+			<th>Check</th>
         	<th></th>
       </tr>
     </thead>

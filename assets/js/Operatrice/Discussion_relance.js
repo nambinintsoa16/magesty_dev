@@ -1,10 +1,10 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
     Table = $('.table-relanceDisc').DataTable({
         processing: true,
 
-        "rowCallback": function (row, data) {
-            $('.valopy').on('click', function (e) {
+        "rowCallback": function(row, data) {
+            $('.valopy').on('click', function(e) {
                 e.preventDefault();
                 let This = $(this);
                 let parent = This.parent().parent();
@@ -20,10 +20,18 @@ $(document).ready(function () {
 
 
             });
+            $('.check').on('click', function(e) {
+                e.preventDefault();
+                let refnum = $(this).attr('id');
+                $.post(base_url + 'relance/checkRelanceDiscussion', { refnum }, function() {
+                    Table.ajax.reload();
+                });
+
+            });
         },
 
-        "drawCallback": function (settings) {
-            $('.valopy').on('click', function (e) {
+        "drawCallback": function(settings) {
+            $('.valopy').on('click', function(e) {
                 e.preventDefault();
                 let This = $(this);
                 let parent = This.parent().parent();
@@ -39,9 +47,17 @@ $(document).ready(function () {
 
 
             });
+            $('.check').on('click', function(e) {
+                e.preventDefault();
+                let refnum = $(this).attr('id');
+                $.post(base_url + 'relance/checkRelanceDiscussion', { refnum }, function() {
+                    Table.ajax.reload();
+                });
+
+            });
         },
-        initComplete: function (settings, json) {
-            $('.valopy').on('click', function (e) {
+        initComplete: function(settings, json) {
+            $('.valopy').on('click', function(e) {
                 e.preventDefault();
                 let This = $(this);
                 let parent = This.parent().parent();
@@ -54,9 +70,18 @@ $(document).ready(function () {
                 localStorage.setItem('tache', "RELANCE DISCUSSION");
                 localStorage.setItem("idRelance", This.attr('id'));
                 window.open(base_url + 'operatrice/Discussions');
-
+            });
+            $('.check').on('click', function(e) {
+                e.preventDefault();
+                let refnum = $(this).attr('id');
+                $.post(base_url + 'relance/checkRelanceDiscussion', { refnum }, function() {
+                    Table.ajax.reload();
+                });
 
             });
+
+
+
         },
         autoFill: {
             alwaysAsk: true
@@ -69,7 +94,7 @@ $(document).ready(function () {
 
     })
 
-    $('.btn-click').on('click', function (e) {
+    $('.btn-click').on('click', function(e) {
 
         e.preventDefault();
         var page = $(this).children().find('b').text();
@@ -114,12 +139,12 @@ $(document).ready(function () {
           $('.jconfirm').remove();
          }*/
     function evenTdiscussion() {
-        $('.valopy').on('click', function (e) {
+        $('.valopy').on('click', function(e) {
             e.preventDefault();
             let This = $(this);
             let parent = This.parent().parent();
             let code_client = parent.children().eq(0).text();
-            $.post(base_url + 'operatrice/new_discussion', { client: code_client }, function (data) {
+            $.post(base_url + 'operatrice/new_discussion', { client: code_client }, function(data) {
                 localStorage.setItem("codeclient", code_client);
                 localStorage.setItem("DISC", data);
                 window.open(base_url + 'operatrice/Discussions');
