@@ -33,6 +33,24 @@ class Administrateur extends My_Controller
     return $this->load->view('administrateur/vente/deTailModif', $data);
   }
 
+  public function modifQuartier(){
+
+     $this->load->model('calendrier_model');
+     $quartier =$this->input->post('quartier');
+     $ville = $this->input->post('ville');
+     $District = $this->input->post('District');
+     $id = $this->input->post('id');
+
+    $data = [
+      'Quartier' => $quartier,
+      'Ville'=>$ville,
+      'District'=>$District
+    ];
+    
+    echo json_encode($this->calendrier_model->updateFacture($id, $data));
+
+  }
+
   public function modifVenteStatut()
   {
     $this->load->model('calendrier_model');

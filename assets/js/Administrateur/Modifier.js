@@ -201,64 +201,11 @@ $(document).ready(function () {
 
         $('.edit_lieu_livraison').on('click',function(event){
             event.preventDefault();
-
-        $('.quartier').autocomplete({
-        source: base_url + "operatrice/autocomplete_quartier",
-        appendTo: '.form_vente',
-        select: function (e, ui) {
-            $('.fade ').modal('hide');
-            $.post(base_url + 'operatrice/autocomplete_ville', { quartier: ui.item.value }, function (data) {
-                $.confirm({
-                    title: 'Choisir ville',
-                    content: data,
-                    buttons: {
-                        formSubmit: {
-                            text: 'choisir',
-                            btnClass: 'btn-blue',
-                            action: function () {
-                                var name;
-                                this.$content.find('.chose').each(function () {
-
-                                    if ($(this).prop('checked')) {
-                                        name = $(this).val();
-                                    }
-
-                                });
-                                if (!name) {
-                                    $.alert('provide a valid name' + name);
-                                    return false;
-                                }
-                                $('#ville').val(name);
-                                discrict_chose(name, ui.item.value);
-                            }
-                        },
-                        cancel: {
-                            btnClass: 'btn-danger',
-                            text: 'Fermer',
-                            action: function () {
-                                //close
-                            }
-                        },
-                    },
-                    onContentReady: function () {
-                        var jc = this;
-                        this.$content.find('.chose').on('click', function (e) {
-                            e.preventDefault();
-                            jc.$$formSubmit.trigger('click'); // reference the button and click it
-                        });
-                    }
-                });
-
-
-            }, 'json');
-        }
-
-    });
-
-
+            $('#modateQuartier').modal("show");
+            
         });
 
-        
+        editquartier();
 
 
         $('.modifiDetail').on('click', function (event) {
@@ -413,7 +360,126 @@ $(document).ready(function () {
     }
 
 
+function editquartier(){
+    $('#quartier').autocomplete({
+        source: base_url + "operatrice/autocomplete_quartier",
+        appendTo: '#modateQuartier',
+        select: function (e, ui) {
+            $.post(base_url + 'operatrice/autocomplete_ville', { quartier: ui.item.value }, function (data) {
+                $.confirm({
+                    title: 'Choisir ville',
+                    content: data,
+                    buttons: {
+                        formSubmit: {
+                            text: 'choisir',
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                var name;
+                                this.$content.find('.chose').each(function () {
 
+                                    if ($(this).prop('checked')) {
+                                        name = $(this).val();
+                                    }
+
+                                });
+                                if (!name) {
+                                    $.alert('provide a valid name' + name);
+                                    return false;
+                                }
+                                $('#ville').val(name);
+                                discrict_chose(name, ui.item.value);
+                            }
+                        },
+                        cancel: {
+                            btnClass: 'btn-danger',
+                            text: 'Fermer',
+                            action: function () {
+                                //close
+                            }
+                        },
+                    },
+                    onContentReady: function () {
+                        var jc = this;
+                        this.$content.find('.chose').on('click', function (e) {
+                            e.preventDefault();
+                            jc.$$formSubmit.trigger('click'); // reference the button and click it
+                        });
+                    }
+                });
+
+
+            }, 'json');
+        }
+
+    });
+}
+
+function discrict_chose(quartier, ville) {
+        $.post(base_url + 'operatrice/autocomplete_discrict', { quartier: quartier, ville: ville }, function (data) {
+            $.confirm({
+                title: 'Choisir discrict',
+                content: data,
+                buttons: {
+                    formSubmit: {
+                        text: 'choisir',
+                        btnClass: 'btn-blue',
+                        action: function () {
+                            var name;
+                            this.$content.find('.chose').each(function () {
+
+                                if ($(this).prop('checked')) {
+                                    name = $(this).val();
+                                }
+
+                            });
+                            if (!name) {
+                                $.alert('provide a valid name' + name);
+                                return false;
+                            }
+                            $('#District').val(name);
+                            $('.form_vente ').modal('show');
+                            $('.RDV').modal('hide');
+
+                        }
+                    },
+                    cancel: {
+                        text: 'Fermer',
+                        btnClass: 'btn-danger',
+                        action: function () { }
+                    },
+                },
+                onContentReady: function () {
+                    var jc = this;
+                    this.$content.find('.chose').on('click', function (e) {
+                        e.preventDefault();
+                        jc.$$formSubmit.trigger('click'); // reference the button and click it
+                    });
+                }
+            });
+
+
+        }, 'json');
+
+
+        $('.enregistre_quartier').on('click',function(event){
+      event.preventDefault();
+      let quartier  = $('#quartier').val();
+      let ville  = $('#ville').val();
+      let District  = $('#District').val();
+      let id = $('.idfactureId').text().trim();
+      $.post(base_url+'Administrateur/modifQuartier',{quartier,ville,District,id},function(){
+         $('#quartier').val("");
+         $('#ville').val("");
+         $('#District').val("");
+         $('#modateQuartier').modal("hide");
+            loaddata();
+      });
+
+   });
+
+    }
+
+   
 
 
 });

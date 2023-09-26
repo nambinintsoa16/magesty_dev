@@ -188,3 +188,37 @@
         </fieldset>
     </div>
 <?php endif ?>
+
+<div class="modal fade" id="modateQuartier" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modifier lieu de livraison</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="row col-md-12 m-auto p-0 border text-left">
+     
+                <div class="form-group col-md-4">
+                  <label for="cemail" class="control-label col-lg-4">Quartier<span class="required"> *</span></label>
+                  <input class="form-control quartier form-control-sm" onKeyUp="javascript:this.value=this.value.toUpperCase();" id="quartier" type="text" name="quartier" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="cemail" class="control-label col-lg-4">Ville<span class="required"> *</span></label>
+                  <input class="form-control ville form-control-sm" id="ville" disabled type="text" name="livraison" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="cemail" class="control-label col-lg-4">District<span class="required">*</span></label>
+                  <input class="form-control District form-control-sm" id="District" disabled type="text" name="livraison" />
+                </div>
+              </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-success enregistre_quartier">Enregistre</button>
+      </div>
+    </div>
+  </div>
+</div>
