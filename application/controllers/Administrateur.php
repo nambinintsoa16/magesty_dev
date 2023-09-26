@@ -29,6 +29,7 @@ class Administrateur extends My_Controller
       'commande' => $this->calendrier_model->detail_commande_facture($idfacture),
       'facture' => $this->calendrier_model->detail_facture_discussion($idfacture)
     ];
+
     return $this->load->view('administrateur/vente/deTailModif', $data);
   }
 
@@ -40,6 +41,16 @@ class Administrateur extends My_Controller
     ];
     $id = $this->input->post('idfacture');
     echo json_encode($this->calendrier_model->updateFacture($id, $data));
+  }
+
+  public function modif_date(){
+    $this->load->model('calendrier_model');
+    $date = $this->input->post('date');
+    $data = [
+      'date_de_livraison' => $date
+    ];
+    $id = $this->input->post('idLivraison');
+    echo json_encode($this->calendrier_model->updateLivre(['id'=>$id], $data));
   }
   public function modifVenteDelete()
   {

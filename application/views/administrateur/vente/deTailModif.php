@@ -89,6 +89,8 @@
                     </td>
                     <td style="text-align: center;">
                         <?= $client->date_de_livraison ?>
+                        &nbsp;<a href="#" id="<?= $client->id ?>" class="btn btn-warning btn-sm edit_date_livraison"> <i class="fa fa-edit"></i> </a>
+
                     </td>
                     <td style="text-align: center;">
                         <?php
@@ -101,6 +103,7 @@
                     </td>
                     <td style="text-align: center;">
                         <?= $client->Quartier ?>
+                        &nbsp;<a href="#" id="<?= $client->id ?>" class="btn btn-warning btn-sm edit_lieu_livraison"> <i class="fa fa-edit"></i> </a>
                     </td>
                     <td style="text-align: center;">
                         <?= $client->frais ?> &nbsp; Ariary &nbsp;

@@ -169,6 +169,97 @@ $(document).ready(function () {
 
 
         });
+          
+        $('.edit_date_livraison').on('click',function(event){
+            event.preventDefault();
+             var idLivraison = $(this).attr('id');
+            $.confirm({
+                title: '<p class="text-center">Entre nouvelle date</p>',
+                content: '<input type="date" class="form-control date_livre">',
+                buttons: {
+                    formSubmit: {
+                        text: 'confirmer',
+                        btnClass: 'btn-success',
+                        action: function () {
+                            let date = this.$content.find('.date_livre').val();
+                            $.post(base_url + 'Administrateur/modif_date', { date, idLivraison }, function (data, textStatus, xhr) {
+                                loaddata();
+                            });
+                        }
+                    },
+                    Annuler: {
+                        text: 'Annuler',
+                        btnClass: 'btn-danger',
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
+
+        });
+
+        $('.edit_lieu_livraison').on('click',function(event){
+            event.preventDefault();
+
+        $('.quartier').autocomplete({
+        source: base_url + "operatrice/autocomplete_quartier",
+        appendTo: '.form_vente',
+        select: function (e, ui) {
+            $('.fade ').modal('hide');
+            $.post(base_url + 'operatrice/autocomplete_ville', { quartier: ui.item.value }, function (data) {
+                $.confirm({
+                    title: 'Choisir ville',
+                    content: data,
+                    buttons: {
+                        formSubmit: {
+                            text: 'choisir',
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                var name;
+                                this.$content.find('.chose').each(function () {
+
+                                    if ($(this).prop('checked')) {
+                                        name = $(this).val();
+                                    }
+
+                                });
+                                if (!name) {
+                                    $.alert('provide a valid name' + name);
+                                    return false;
+                                }
+                                $('#ville').val(name);
+                                discrict_chose(name, ui.item.value);
+                            }
+                        },
+                        cancel: {
+                            btnClass: 'btn-danger',
+                            text: 'Fermer',
+                            action: function () {
+                                //close
+                            }
+                        },
+                    },
+                    onContentReady: function () {
+                        var jc = this;
+                        this.$content.find('.chose').on('click', function (e) {
+                            e.preventDefault();
+                            jc.$$formSubmit.trigger('click'); // reference the button and click it
+                        });
+                    }
+                });
+
+
+            }, 'json');
+        }
+
+    });
+
+
+        });
+
+        
+
 
         $('.modifiDetail').on('click', function (event) {
             event.preventDefault();
