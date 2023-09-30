@@ -229,6 +229,9 @@ class Administrateur_model extends CI_Model
     {
         return $this->db->where($requette)->update('facture', $data);
     }
-      
+    
+    public function getComptefb($param){
+       return $this->db->where($param)->get('comptefb')->row_object();
+    }
 
 }

@@ -222,7 +222,7 @@ class calendrier_model extends CI_Model
   public function detail_facture($id)
   {
     $this->db->select("
-		client.Code_client,client.Nom,facture.Id,livraison.id,
+		client.Code_client,client.Nom,facture.Id,livraison.id,facture.Matricule_personnel,facture.Page,
 		client.Prenom`,client.lien_facebook,facture.Ville,
 		client.datedenregistrement,facture.contacts,facture.heure_livre_debut,
 		client.Compte_facebook,client.Contact,facture.Quartier,facture.heure_livre_fin,
@@ -238,7 +238,7 @@ class calendrier_model extends CI_Model
     if (!$data) {
       $this->db->flush_cache();
       $this->db->select("
-				clientpo.Code_client,clientpo.Nom,facture.Id,livraison.id, 
+				clientpo.Code_client,clientpo.Nom,facture.Id,livraison.id,facture.Matricule_personnel,facture.Page,
 				clientpo.Prenom`,clientpo.lien_facebook,facture.Ville,
 				clientpo.datedenregistrement,facture.contacts,facture.lieu_de_livraison,
 				clientpo.Compte_facebook,clientpo.Contact,facture.Quartier,facture.Id_facture,
@@ -256,7 +256,7 @@ class calendrier_model extends CI_Model
       } else {
         $this->db->flush_cache();
         $this->db->select("
-          client_curieux.Code_client,client_curieux.Nom,facture.Id,livraison.id, 
+          client_curieux.Code_client,client_curieux.Nom,facture.Id,livraison.id,facture.Matricule_personnel,facture.Page,
           client_curieux.Prenom`,client_curieux.lien_facebook,facture.Ville,
           client_curieux.datedenregistrement,facture.contacts,facture.lieu_de_livraison,
           client_curieux.Compte_facebook,client_curieux.Contact,facture.Quartier,facture.Id_facture,

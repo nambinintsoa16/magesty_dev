@@ -41,6 +41,21 @@ class Administrateur extends My_Controller
     echo $this->administrateur_model->update_facture(['id'=>$facture],['Code_client'=>$codeClient]);
   }
 
+  public function updatePageFacture(){
+    $this->load->model('administrateur_model');
+    $facture = $this->input->post('facture');
+    $page = $this->input->post('page');
+    echo $this->administrateur_model->update_facture(['id'=>$facture],['Page'=>$page]);
+
+  }
+
+  public function updateOplFacture(){
+    $this->load->model('administrateur_model');
+    $facture = $this->input->post('facture');
+    $opl = $this->input->post('opl');
+    echo $this->administrateur_model->update_facture(['id'=>$facture],['Matricule_personnel'=>$opl]);
+  }
+
   public function modifQuartier(){
 
      $this->load->model('calendrier_model');
@@ -805,7 +820,15 @@ class Administrateur extends My_Controller
     }
     echo json_encode($array);
   }
-
+public function autoCompletePageFacebook()
+  {
+    $term = $this->input->get('term');
+    $array = array();
+    foreach ($this->Administrateur_model->autoCompleteNouvellePage($term) as $reponse) {
+      array_push($array, $reponse->id . " | " .$reponse->Nom_page . " | " . $reponse->Lien_page);
+    }
+    echo json_encode($array);
+  }
   public function saveNewPage()
   {
     $Lien_page = $this->input->post('lienPage');

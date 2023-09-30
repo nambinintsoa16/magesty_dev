@@ -97,6 +97,77 @@ $(document).ready(function () {
             });
         });
 
+        $('.update-page').on('click',function(event){
+            event.preventDefault();
+            let facture = $(this).attr('id');
+            $.confirm({
+                title: '<p class="text-center">Entre nouvelle page.</p>',
+                content: '<input type="text" class="form-control page_facebook">',
+                    onContentReady: function() {
+                    $(".page_facebook").autocomplete({
+                        source: base_url+"Administrateur/autoCompletePageFacebook",
+                        appendTo: ".jconfirm-open",
+                    });
+                },
+                buttons: {
+                    formSubmit: {
+                        text: 'confirmer',
+                        btnClass: 'btn-success',
+                        action: function () {
+                            let pageTemp = this.$content.find('.page_facebook').val().split('|');
+                            let page = pageTemp[0].trim();
+                            $.post(base_url + 'Administrateur/updatePageFacture', { facture,page }, function (data, textStatus, xhr) {
+                                loaddata();
+                            });
+                        }
+                    },
+                    Annuler: {
+                        text: 'Annuler',
+                        btnClass: 'btn-danger',
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
+
+
+        });
+        $('.update-operatrice').on('click',function(event){
+            event.preventDefault();
+            let facture = $(this).attr('id');
+            $.confirm({
+                title: '<p class="text-center">Entre nouvelle opératrice.</p>',
+                content: '<input type="text" class="form-control Oplname">',
+                    onContentReady: function() {
+                    $(".Oplname").autocomplete({
+                        source: base_url+"Administrateur/autocomplete_operatrice",
+                        appendTo: ".jconfirm-open",
+                    });
+                },
+                buttons: {
+                    formSubmit: {
+                        text: 'confirmer',
+                        btnClass: 'btn-success',
+                        action: function () {
+                            let opelTemp = this.$content.find('.Oplname').val().split('|');
+                            let opl = opelTemp[0].trim();
+                            $.post(base_url + 'Administrateur/updateOplFacture', { facture,opl }, function (data, textStatus, xhr) {
+                                loaddata();
+                            });
+                        }
+                    },
+                    Annuler: {
+                        text: 'Annuler',
+                        btnClass: 'btn-danger',
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
+
+        });
 
         $('.change_client').on('click',function(event){
             event.preventDefault();

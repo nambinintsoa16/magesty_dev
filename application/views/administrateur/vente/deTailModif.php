@@ -72,6 +72,27 @@
         <table class="table table-striped table-advance table-hover bg-white" style="margin-top: 60px;">
             <thead class="bg-success">
 
+                 <tr class="border">
+                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff;width: 250px;" > 
+                        Opératrice
+                    </th>
+                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff; width: 200px" colspan="2">
+                        <?=$client->Matricule_personnel?><br/>
+                         <a href="#" class="btn btn-sm btn-warning p-1 update-operatrice" id="<?= $client->Id ?>"><i class="fa fa-edit"></i>&nbsp;Modifier opèratrice</a>
+                    </th>
+                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff;width: 267px;">
+                        Compte / Page facebook 
+                     </th>
+                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff;" colspan="2"> 
+                        <?php  
+                             $this->load->model('administrateur_model');
+                             $compte = $this->administrateur_model->getComptefb(['id'=>$client->Page]);
+                             echo $compte ? $compte->Nom_page : "";
+                             
+                        ?><br/>
+                        <a href="#" class="btn btn-sm btn-warning p-1 update-page" id="<?= $client->Id ?>"><i class="fa fa-edit"></i>&nbsp;Modifier page</a>
+                    </th>
+                </tr>
                 <tr>
                     <th style="text-align: center; color: #fff; border-left: 1px solid #fff;width: 250px;"> Nom du livreur
                     </th>
@@ -181,9 +202,7 @@
         </div>
         </div>
     </fieldset>
-  <fieldset class="w-100 border p-0 ">
-        <legend class="w-auto">Autre information</legend>
-  </fieldset>
+  
 <?php else : ?>
 
     <div class="panel-body m-2">
