@@ -7,7 +7,8 @@ $( document ).ready(function() {
                 text: "PREMIER CONTACT SY",
                 btnClass: 'btn-success',
                 action:function () {
-                    $.post(base_url+'operatrice/insertClientPo',{lienFb: localStorage.getItem("lienFb")},
+                    let page = localStorage.getItem('pageUsers');
+                    $.post(base_url+'operatrice/insertClientPo',{page:page,lienFb: localStorage.getItem("lienFb")},
                         function(data){
                             //alert(data.codeClient);
                             if(data.message=="insertion reussit"){

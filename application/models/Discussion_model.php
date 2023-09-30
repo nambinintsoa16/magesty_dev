@@ -1,32 +1,15 @@
 <?php
 class Discussion_model extends CI_Model 
 {
-   public function getIdDiscussionSiExiste($client=null,$idPage=null,$operatrice=null){
-      if(($client!=null)&&($idPage!=null)){
-         $requette = "SELECT * FROM discussion WHERE client like '".$client."' and page like '".$idPage."' ORDER BY Id DESC ";
-         $resultat = $this->db->query($requette);
-         if($resultat->num_rows()>0){
-            $row = $resultat->row();
-            $id_discussion = $row->id_discussion;
-            $req = "SELECT * FROM discussion_content where Id_discussion like '".$id_discussion."' and page like '".$idPage."' ORDER BY Id DESC ";
-            $res = $this->db->query($req);
-            if($res->num_rows()>0){
-               $r = $res->row();
-               if($r->Type == "termier"){
-                  return 'null';
-               }else{
-                  return $row->id_discussion;
-               }
-            }
-         }
-         else{
-            return 'null';
-         }
-      }
-      else {
-         return 'null';
-      }
+   public function getIdDiscussionSiExiste($param){
+      return $this->db->where($param)->order_by('Id DESC')->get('discussion')->row_object();
   }
+  public function getdiscussion_content($param){
+    return $this->db->where($param)->order_by('Id DESC')->get('discussion_content')->row_object();
+  }
+  public function insertDiscussion($data){
+   return $this->db->insert('discussion',$data);
+}
 
    public function getDiscussionByCodeClient($codeClient)
    {

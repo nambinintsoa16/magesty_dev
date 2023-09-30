@@ -4672,4 +4672,12 @@ WHERE carte_gratter.code_carte like '$codeproduit' AND carte_gratter_detail.leve
 
   }
 
+public function insertDetail_page_client($data){
+   return $this->db->insert('detail_page_client',$data);
+}
+public function insertNuveau_contact($data){
+  return $this->db->insert('nuveau_contact',$data);
+
+}
+
 }

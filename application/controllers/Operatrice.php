@@ -1082,8 +1082,14 @@ class operatrice extends My_Controller
   public function getIdDiscussionSiExiste($client, $idPage, $operatrice = null)
   {
     $this->load->model('Discussion_model');
-    $id = $this->Discussion_model->getIdDiscussionSiExiste($client, $idPage, $operatrice);
-    return $id;
+    if(($client!=null)&&($idPage!=null)){
+         $resultat = $this->Discussion_model->getIdDiscussionSiExiste(["client"=>$client,"page"=>$idPage]);
+      if($resultat){
+        return $resultat->id_discussion;
+      }else {
+         return false;
+      }
+    }  
   }
 
   public function insertNouveauDiscussion()
@@ -1101,8 +1107,15 @@ class operatrice extends My_Controller
  
     if ( strtoupper($id_discussion) == 'NULL' OR $id_discussion=='') {
       $id_discussion = $this->Discussion_model->generate_id_discussion();
-      $requette = "insert into discussion VALUES(DEFAULT,'" . $id_discussion . "','" . $operatrice . "','" . $client . "','" . $idPage . "','" . $statut . "')";
-      if ($this->db->simple_query($requette)) {
+
+       $reponse = $this->Discussion_model->insertDiscussion([
+        "id_discussion"=>$id_discussion,
+        "operatrice"=>$operatrice,
+        "client"=>$client,
+        "page"=>$idPage,
+        "statut"=>$statut
+       ]);
+      if ($reponse) {
         $parametre = [
           "Page" => $idPage,
           "Type" => 'message',
@@ -1154,8 +1167,14 @@ class operatrice extends My_Controller
   {
     $idPage = $this->input->post('idPage');
     $codeClient = $this->input->post('codeClient');
-    $requette = "insert into detail_page_client VALUES(DEFAULT,'" . $codeClient . "'," . $idPage . ")";
-    if ($this->db->simple_query($requette)) {
+    $data = [
+      "Code_client"=>$codeClient,
+      "date"=>date('Y-m-d'),
+      "matricule"=>$this->session->userdata('matricule'),
+      "Id_page"=>$idPage
+    ];
+    $reponse = $this->global_model->insertDetail_page_client($data);
+    if ($reponse) {
       echo json_encode(array('message' => 'insertion reussit', 'inserer' => true, 'idPage' => $idPage));
     } else {
       echo json_encode(array('message' => 'insertion echoué', 'inserer' => false, 'idPage' => -1));
@@ -1165,8 +1184,11 @@ class operatrice extends My_Controller
   public function insertClientPo()
   {
     $this->load->model('Client_model');
+    $this->load->model('Global_model');
     $json = array('message' => 'insertion echoué');
     $lienFb = $this->input->post('lienFb');
+    $user = $this->session->userdata('matricule');
+    $page = $this->input->post('page');
     $requette = "SELECT * FROM clientpo where lien_facebook like '" . $lienFb . "' ";
     $json = array('message' => 'client existe deja');
     if ($this->db->query($requette)->num_rows() == 0) {
@@ -1187,6 +1209,7 @@ class operatrice extends My_Controller
         if (file_exists($old)) {
           rename($old, $new);
         }
+        $this->global_model->insertNuveau_contact(["date"=>date('Y-m-d'),"code_client"=>$code_Client,"personnel"=>$user,"page_id"=>$page]);
       } else {
         $json = array('message' => $requette);
       }

@@ -1572,17 +1572,15 @@ $(document).ready(function () {
 
     }
 
-    let famille = $('.famille').val();
+    /*let famille = $('.famille').val();
     $.post(base_url + 'globale/famille', { famille: famille }, function (data) {
         if (data.message == true) {
             $('.groupe').empty().append(data.content);
             var groupe = $('.groupe').val();
             var zone = $('.zone').val();
             produitname(groupe, famille, zone);
-        } else {
-            alertMessage('Erreur', 'Erreur.', 'error', 'btn btn-danger');
         }
-    }, 'json');
+    }, 'json');*/
 
     function Init_produit() {
 
@@ -1652,8 +1650,6 @@ $(document).ready(function () {
                         $('.entetebadge').css('background-color', data.color);
                     } else {
                         $('.pageusers').empty().append(page_text);
-                        //$('.code_client_ban').empty().append(data.matricule);
-                        //$('.code_client_ban').empty().append(codeclient);
                         $('.entetebadge').css('background-color', data.color);
                     }
                 }, 'json');
