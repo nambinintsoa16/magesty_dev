@@ -213,7 +213,11 @@ class Administrateur_model extends CI_Model
       {
           return $this->db->where($requette)->get('produits_test')->result_object();
       }
-
+    public function getPrix($param)
+    {
+      return $this->db->where($param)->get('prix')->row_object();
+       
+    }
       
 
 }

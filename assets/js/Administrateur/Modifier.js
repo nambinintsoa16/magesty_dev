@@ -214,7 +214,9 @@ $(document).ready(function () {
             var idVente = con.parent().parent().find('.Id').text();
             $.confirm({
                 title: '<p class="text-center">Que voulez vous modifier?</p>',
-                content: '<select class="form-control action"><option>Ajouter</option><option>Produit</option><option>Quantite</option><option>Supprimer</option></select>',
+                content: '<select class="form-control action">'+
+                '<option>Ajouter</option><option>Produit</option>'+
+                '<option>Quantite</option><option>Supprimer</option></select>',
                 buttons: {
                     formSubmit: {
                         text: 'confirmer',
@@ -260,14 +262,23 @@ $(document).ready(function () {
     function produit(idVente) {
         $.confirm({
             title: '<p class="text-center">Entre nouveau code produit</p>',
-            content: '<input type="text" class="form-control prodact"  ><script>$(document).ready(function(){$(".prodact").autocomplete({source:base_url+"Administrateur/autocomplete_prodact"});});</script>',
+            content: '<p><input type="text" class="form-control prodact form-control-sm"></p>'+
+            '<p><select class="form-control custum-select form-control-sm" id="localite">'+
+                '<option value="1">MISSION</option>'+
+                '<option value="2">MISSION SAVA</option>'+
+                '<option value="3">MISSION NOSY BE</option>'+
+                '<option value="4">FACEBOOK</option>'+
+                '<option value="5">LOCAL</option>'+
+                '</select></p>' +
+            '<script>$(document).ready(function(){$(".prodact").autocomplete({source:base_url+"Administrateur/autocomplete_prodact"});});</script>',
             buttons: {
                 formSubmit: {
                     text: 'confirmer',
                     btnClass: 'btn-success',
                     action: function () {
                         let produit = this.$content.find('.prodact').val().split('|');
-                        $.post(base_url + 'Administrateur/modifVenteProduit', { produit: produit[0], idVente: idVente }, function (data, textStatus, xhr) {
+                        let localite = this.$content.find('#localite').val();
+                        $.post(base_url + 'Administrateur/modifVenteProduit',{ localite:localite,produit: produit[0], idVente: idVente }, function (data, textStatus, xhr) {
                             loaddata();
                         });
                     }
@@ -283,13 +294,17 @@ $(document).ready(function () {
         });
     }
     function add() {
-        var idfacture = $('.idfactureId').text();
+        var idfacture = $('.idfactureId').text().trim();
         $.confirm({
             title: '<p class="text-center">Entre nouveau code produit</p>',
             content: '<p><input type="text" class="form-control prodact" ></p>' +
                 '<p><input type="number" class="form-control quantite" ></p>' +
-                '<p><select>'+
+                '<p><select class="form-control custum-select" id="localite">'+
+                '<option value="1">MISSION</option>'+
+                '<option value="2">MISSION SAVA</option>'+
+                '<option value="3">MISSION NOSY BE</option>'+
                 '<option value="4">FACEBOOK</option>'+
+                '<option value="5">LOCAL</option>'+
                 '</select></p>' +
                 '<script>$(document).ready(function(){$(".prodact").autocomplete({source:base_url+"Administrateur/autocomplete_prodact"});});</script>',
             buttons: {
@@ -299,7 +314,8 @@ $(document).ready(function () {
                     action: function () {
                         let produit = this.$content.find('.prodact').val().split('|');
                         let quantite = this.$content.find('.quantite').val();
-                        $.post(base_url + 'Administrateur/modifVentePadd', { quantite: quantite, produit: produit[0], idfacture: idfacture }, function (data, textStatus, xhr) {
+                        let localite = this.$content.find('#localite').val();
+                        $.post(base_url + 'Administrateur/modifVentePadd', { localite:localite,quantite: quantite, produit: produit[0], idfacture: idfacture }, function (data, textStatus, xhr) {
                             loaddata();
                         });
                     }

@@ -78,6 +78,12 @@ class Administrateur extends My_Controller
   public function modifVenteProduit()
   {
     $this->load->model('calendrier_model');
+    $this->load->model('administrateur_model');
+    $produit = $this->input->post('produit');
+    $localite =$this->input->post('localite');
+
+
+     $datas = $this->administrateur_model->getPrix(['Statut'=>'on','Localite'=>$localite,"Code_produit"=>$produit]);
     $datas = $this->calendrier_model->retourIdPrix($this->input->post('produit'));
     if ($datas) {
       $data = [
@@ -91,12 +97,17 @@ class Administrateur extends My_Controller
   public function modifVentePadd()
   {
     $this->load->model('calendrier_model');
-    $datas = $this->calendrier_model->retourIdPrix($this->input->post('produit'));
+    $this->load->model('administrateur_model');
+     $prodit = $this->input->post('produit');
+     $localite = $this->input->post('localite');
+     $idfacture = $this->input->post('idfacture');
+     $quartier = $this->input->post('quantite');
+     $datas = $this->administrateur_model->getPrix(['Statut'=>'on','Localite'=>$localite,"Code_produit"=>$prodit]);
     if ($datas) {
       $data = [
-        'Facture' => $this->input->post('idfacture'),
+        'Facture' => $idfacture,
         'Id_prix' => $datas->Id,
-        'Quantite' => $this->input->post('quantite'),
+        'Quantite' => $quartier,
         'Type_de_prix' => 'detail',
         'Tip' => 0,
         'statut' => 'principale',
