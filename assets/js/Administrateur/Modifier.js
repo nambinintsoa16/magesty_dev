@@ -169,6 +169,40 @@ $(document).ready(function () {
 
 
         });
+
+        $('.update-contact').on('click',function(event){
+            event.preventDefault();
+            var facture = $('.Id_facture').val();
+            $.confirm({
+                title: '<p class="text-center">Entre nouvelle contact</p>',
+                content: '<input type="text" class="form-control contact">',
+                buttons: {
+                    formSubmit: {
+                        text: 'confirmer',
+                        btnClass: 'btn-success',
+                        action: function () {
+                            let contact = this.$content.find('.contact').val();
+                            $.post(base_url + 'Administrateur/update_contact', { contact, facture }, function (data, textStatus, xhr) {
+                                loaddata();
+                            });
+                        }
+                    },
+                    Annuler: {
+                        text: 'Annuler',
+                        btnClass: 'btn-danger',
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
+            
+        });
+        $('.btn-statut-add-prod').on('click',function(event){
+            event.preventDefault();
+            add();
+
+        });
           
         $('.edit_date_livraison').on('click',function(event){
             event.preventDefault();

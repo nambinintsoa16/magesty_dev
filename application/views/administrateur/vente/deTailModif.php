@@ -25,8 +25,8 @@
                     <div class="profile-user-info">
                         <div class="profile-info-row">
                             <div class="profile-info-name" style="text-align: left;">
-                                <i class="middle ace-icon fa fa-phone-square bigger-150 green"></i> Contact
-                                :<?= $client->contacts ?></b>
+                              <i class="middle ace-icon fa fa-phone-square bigger-150 green"></i> Contact 
+                                : <?= $client->contacts ?></b>&nbsp;<a href="#" class="btn btn-sm btn-warning p-1 update-contact" id="<?= $client->Code_client ?>"><i class="fa fa-edit"></i> Modifier contact</a>
                             </div>
                         </div>
                     </div>
@@ -60,6 +60,9 @@
                         </div>
                         <div class="form-groupe  col-md-4 mt-2 p-0">
                             <a href="#" class="btn btn-warning btn-statut-retrait btn-sm w-100 p-1" id="<?= $client->id ?>"><i class="fa fa-edit"></i>&nbsp; Frais de retrait</a>
+                        </div>
+                        <div class="form-groupe  col-md-12 mt-2 p-0 text-right">
+                            <a href="#" class="btn btn-warning btn-statut-add-prod btn-sm w-50 p-1" id="<?= $client->id ?>"><i class="fa fa-edit"></i>&nbsp; Nouveau produit</a>
                         </div>
                     </div>
                 </div>

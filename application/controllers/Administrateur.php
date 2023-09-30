@@ -75,6 +75,13 @@ class Administrateur extends My_Controller
     $this->load->model('calendrier_model');
     echo json_encode($this->calendrier_model->DeleleDetail($this->input->post('idVente')));
   }
+  public function update_contact(){
+    $this->load->model('calendrier_model');
+    $facture = $this->input->post('facture');
+    $contact =$this->input->post('contact');
+    echo $this->calendrier_model->updateFacture($facture,["contacts"=>$contact]);
+
+  }
   public function modifVenteProduit()
   {
     $this->load->model('calendrier_model');
