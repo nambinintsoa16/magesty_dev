@@ -844,14 +844,27 @@
             <div class="col-md-12 mt-1 w-100 p-0">
               <div class="row col-md-12 m-auto p-0 border">
                 <div class="col-md-4 form-group">
+                  <label class="control-label col-md-2" for="inputSuccess">Lieu<span class="required"> *</span></label>
+                  <select class="form-control form-control-sm custom-select lieu_livre_client">
+                       <option hidden="true"></option>
+                       <option>DOMICILE</option>
+                       <option>AUTRE</option>
+                       <option>BUREAU</option>
+                       <option>LIEUX PUBLIQUES</option>
+                       <option>LIEU DE TRAVAIL ( SHOP – BOUTIQUE)</option>
+                       <option>ENVOI EN PROVINCE</option>
+                       <option>RECUPERATION</option>
+                  </select>
+                </div>
+                <div class="col-md-4 form-group">
                   <label class="control-label col-md-2" for="inputSuccess">Date de livrason<span class="required"> *</span></label>
                   <input type="date" class="form-control datelivre form-control-sm" />
                 </div>
-                <div class="col-md-4 form-group">
+                <div class="col-md-2 form-group">
                   <label class="control-label" for="inputSuccess">Début<span class="required"> *</span></label>
                   <input type="time" class="form-control Debut form-control-sm" min="09:00" max="17:00" />
                 </div>
-                <div class="col-md-4 form-group">
+                <div class="col-md-2 form-group">
                   <label class="control-label" for="inputSuccess">Fin<span class="required"> *</span></label>
                   <input type="time" min="09:00" max="17:00" class="form-control Fin form-control-sm" />
                 </div>

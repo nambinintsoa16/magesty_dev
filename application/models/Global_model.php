@@ -1005,7 +1005,7 @@ class global_model extends CI_Model
     $this->db->update('facture', $data);
   }
 
-  public function enregistre_detail_facture($secondaire=null,$codePromo,$typeFacture,$Id_facture, $Code_client, $Id_zone, $idville, $data_de_livraison, $heure_livre_debut, $heure_livre_fin, $contacts, $Remarque, $Id_discussion, $District,$Localite, $lieu_de_livraison, $Quartier, $page, $contactlivre, $ress_sec_oplg, $source_vente,$valeurBon,$DesBon,$koty=null,$smile=null)
+  public function enregistre_detail_facture($secondaire=null,$codePromo,$typeFacture,$Id_facture, $Code_client, $Id_zone, $idville, $data_de_livraison, $heure_livre_debut, $heure_livre_fin, $contacts, $Remarque, $Id_discussion, $District,$Localite, $lieu_de_livraison, $Quartier, $page, $contactlivre, $ress_sec_oplg, $source_vente,$valeurBon,$DesBon,$liue_livre_clt,$koty=null,$smile=null)
   {
     date_default_timezone_set("Europe/Moscow");
     $dt = new dateTime();
@@ -1052,7 +1052,8 @@ class global_model extends CI_Model
       'typeFacture'=>$typeFacture,
       'facture_secondaire'=>$secondaire,
       'Val_bon_achat'=>$valeurBon,
-      'Des_bon_achat'=>$DesBon
+      'Des_bon_achat'=>$DesBon,
+      'lieu_livre_clt'=>$liue_livre_clt
 
     ];
     $this->db->insert('facture', $data);

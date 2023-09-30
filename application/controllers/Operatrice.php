@@ -2007,6 +2007,7 @@ class operatrice extends My_Controller
     $factureKoty = $this->input->post('factureKoty');
     $valeurBon = $this->input->post('bon_achat_input');
     $DesBon = $this->input->post('bon_achat');
+    $lieu_client_livre = $this->input->post('lieu_client_livre');
     $rcv = substr($ress_sec_oplg, 0, 2);
 
     if ($rcv == 'VP' or $rcv == 'VT' or $rcv == 'CO') {
@@ -2034,7 +2035,7 @@ class operatrice extends My_Controller
 
     $this->global_model->addRelance(date('Y-m-d'), $this->session->userdata('matricule'), $client, $page);
     $this->global_model->update_bon_achat(["CODE_CLIENT"=>$client,"DESIGNATION"=>$DesBon],["STATUT"=>"inactif"]);
-    $this->global_model->enregistre_detail_facture($factureKoty, $codePromo, $typeFacture, $fact, $client, $Id_zone, $idville, $date, $Debut, $Fin, $contact, $remarque, $Id_discussion, $District, $Localite, $lieu_de_livraison, $Quartier, $page, $contactlivre, $ress_sec_oplg, $source_vente, $valeurBon, $DesBon);
+    $this->global_model->enregistre_detail_facture($factureKoty, $codePromo, $typeFacture, $fact, $client, $Id_zone, $idville, $date, $Debut, $Fin, $contact, $remarque, $Id_discussion, $District, $Localite, $lieu_de_livraison, $Quartier, $page, $contactlivre, $ress_sec_oplg, $source_vente, $valeurBon, $DesBon,$lieu_client_livre);
     $this->enregistre_livraison_commande($fact, $date, $frailivre, $fraisderetrait);
     foreach ($produit as $produit) {
       $prodact = "";

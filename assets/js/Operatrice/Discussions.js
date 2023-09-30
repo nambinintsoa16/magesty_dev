@@ -1949,6 +1949,7 @@ $(document).ready(function () {
             let Localite = $('.Localite  option:selected').val();
             let bon_achat = $('.bon-achat  option:selected').val();
             let bon_achat_input = $('.bon-achat-input').val();
+            let lieu_client_livre = $('.lieu_livre_client option:selected').val();
             var detailcommande = [];
 
             $('.tbody tr').each(function () {
@@ -1975,7 +1976,7 @@ $(document).ready(function () {
                 $.post(base_url + 'operatrice/newfacture', function (data) {
                     var fact = data.codefact;
                     $.post(base_url + 'operatrice/sauvemessage', { message: fact, Id_zone: id_zone, id_con: id_con, Type: 'vente', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function () { });
-                    $.post(base_url + 'operatrice/enregistre_commande', { Localite: Localite, fraisderetrait: fraisderetrait, typeFacture: typeFacture, codePromo: codePromo, Id_discussion: Id_discussion, contact: contact, fact: fact, Id_zone: Id_zone, date: date, Debut: Debut, Fin: Fin, ville: ville, quartier: quartier, lieu_de_livraison: lieulivre, remarque: remarque, produits: detailcommande, client: client, frailivre: frailivre, District: District, page: page, cotactlivre: cotactlivre, result_mattr: result_mattr, bonus: bonus, bon_achat: bon_achat, bon_achat_input: bon_achat_input }, function (datas) {
+                    $.post(base_url + 'operatrice/enregistre_commande', { Localite: Localite, fraisderetrait: fraisderetrait, typeFacture: typeFacture, codePromo: codePromo, Id_discussion: Id_discussion, contact: contact, fact: fact, Id_zone: Id_zone, date: date, Debut: Debut, Fin: Fin, ville: ville, quartier: quartier, lieu_de_livraison: lieulivre, remarque: remarque, produits: detailcommande, client: client, frailivre: frailivre, District: District, page: page, cotactlivre: cotactlivre, result_mattr: result_mattr, bonus: bonus, bon_achat: bon_achat, bon_achat_input: bon_achat_input,lieu_client_livre:lieu_client_livre }, function (datas) {
 
                         if (datas.message === true) {
                             $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function (data) {
