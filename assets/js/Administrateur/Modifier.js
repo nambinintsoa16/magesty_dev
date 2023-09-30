@@ -288,6 +288,9 @@ $(document).ready(function () {
             title: '<p class="text-center">Entre nouveau code produit</p>',
             content: '<p><input type="text" class="form-control prodact" ></p>' +
                 '<p><input type="number" class="form-control quantite" ></p>' +
+                '<p><select>'+
+                '<option value="4">FACEBOOK</option>'+
+                '</select></p>' +
                 '<script>$(document).ready(function(){$(".prodact").autocomplete({source:base_url+"Administrateur/autocomplete_prodact"});});</script>',
             buttons: {
                 formSubmit: {

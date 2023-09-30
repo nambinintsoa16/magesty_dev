@@ -79,14 +79,6 @@ $route["($type_user)/calendrier/data_json_calendrier/"] = 'calendrier/data_json_
 
 //$route["($type_user)/Tache"] = 'clients/liste';
 
-
-
-
-
-
-
-
-
 $route["($type_user)/Produits/Recherche"] = 'produit/recherche';
 
 $route["($type_user)/Clients/Recherche"] ='Clients/recherche';
@@ -107,7 +99,9 @@ $route["($type_user)/cart"] = 'Operatrice/cart';
 /************************************Rapport********************************************/
 $route["($type_user)/Rapport/Journalier"] = 'User/rapport_du_jour';
 
-/******** ADMIN ********* */
+//_____________________________________________________________________________
+//_______________________________________________________________ Administrateur
+
 $route["($type_user)/Vente/Modifier"] = 'Administrateur/Modifier';
 $route["($type_user)/Vente/Annuler"] = 'Administrateur/AnnulerVente';
 $route["($type_user)/Vente/Bon_d_achat"] = 'Administrateur/Bon_d_achat';
@@ -142,7 +136,13 @@ $route["($type_user)/Vente/Bon_d_achat/Bon_achat_des_client"] = "Administrateur/
 $route["($type_user)/Vente/Bon_d_achat/Parametre_des_bon_d_achat"] = "Administrateur/Parametre_des_bon_d_achat";
 
 
-/************Appel************/
+
+$route["($type_user)/Enquette/Nouveau"]="Administrateur/nouveau_enquette";
+
+//________________________________________________________________________
+//___________________________________________________________________appel
+
+
 $route["($type_user)/Tache/Discussions"] = "Appel_telephonique/discussions";
 $route["($type_user)/Appel/Entrant"] = "Appel_telephonique/Entrant";
 $route["($type_user)/Appel/Sortant"] = "Appel_telephonique/Sortant";

@@ -53,6 +53,37 @@
                     "link": "Administrateur/Vente/Annuler"
                 }
             ]
+        },{
+            "text": "Enquette",
+            "icon": "flaticon-cart-1",
+            "link": "",
+            "sous_menu": [
+                {
+                    "text": "Nouveau",
+                    "icon": "",
+                    "link": "Administrateur/Enquette/Nouveau"
+                }, {
+                    "text": "Bon d achat",
+                    "icon": "",
+                    "link": "",
+                    "sous_sous_menu": [
+                        {
+                            "text": "Bon achat des client",
+                            "icon": "",
+                            "link": "Administrateur/Vente/Bon_d_achat/Bon_achat_des_client"
+                        },
+                        {
+                            "text": "Parametre des bon d achat",
+                            "icon": "",
+                            "link": "Administrateur/Vente/Bon_d_achat/Parametre_des_bon_d_achat"
+                        }
+                    ]
+                }, {
+                    "text": "Annuler",
+                    "icon": "",
+                    "link": "Administrateur/Vente/Annuler"
+                }
+            ]
         },
         {
             "text": "Parametre d appel",

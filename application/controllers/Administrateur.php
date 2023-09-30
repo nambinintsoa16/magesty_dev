@@ -962,7 +962,9 @@ class Administrateur extends My_Controller
       echo  $this->db->update('Tache_TSF', $data);
 
    }
-
+   public function nouveau_enquette(){
+          $this->render_view('administrateur/enquette/form_nouveau');
+   }
 
 
 }
