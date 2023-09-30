@@ -24,13 +24,21 @@ class Administrateur extends My_Controller
   {
     $idfacture = $this->input->post('idfacture');
     $this->load->model('calendrier_model');
+    $this->load->model('administrateur_model');
     $data = [
       'client' => $this->calendrier_model->detail_facture($idfacture),
       'commande' => $this->calendrier_model->detail_commande_facture($idfacture),
-      'facture' => $this->calendrier_model->detail_facture_discussion($idfacture)
+      'facture' => $this->administrateur_model->getInfoFacture(['id'=>$idfacture])
     ];
 
     return $this->load->view('administrateur/vente/deTailModif', $data);
+  }
+
+  public function updateClientFacture(){
+    $this->load->model('administrateur_model');
+    $facture = $this->input->post('facture');
+    $codeClient = $this->input->post('codeClient');
+    echo $this->administrateur_model->update_facture(['id'=>$facture],['Code_client'=>$codeClient]);
   }
 
   public function modifQuartier(){

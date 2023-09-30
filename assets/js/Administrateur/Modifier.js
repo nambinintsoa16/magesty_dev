@@ -98,7 +98,42 @@ $(document).ready(function () {
         });
 
 
+        $('.change_client').on('click',function(event){
+            event.preventDefault();
+            let facture = $(this).attr('id');
+            $.confirm({
+                title: '<p class="text-center">Entre nouveau client</p>',
+                content: '<input type="text" class="form-control clientname">',
+                    onContentReady: function() {
+                    $(".clientname").autocomplete({
+                        source: base_url+"Administrateur/autocomplete_client",
+                        appendTo: ".jconfirm-open",
+                    });
+                },
+                buttons: {
+                    formSubmit: {
+                        text: 'confirmer',
+                        btnClass: 'btn-success',
+                        action: function () {
+                            let codeClientTemp = this.$content.find('.clientname').val().split('|');
+                            let codeClient = codeClientTemp[0].trim();
+                            $.post(base_url + 'Administrateur/updateClientFacture', { facture,codeClient }, function (data, textStatus, xhr) {
+                                loaddata();
+                            });
+                        }
+                    },
+                    Annuler: {
+                        text: 'Annuler',
+                        btnClass: 'btn-danger',
+                        action: function () {
 
+                        }
+                    }
+                }
+            });
+
+
+        });
         $(".modifiDelete").on('click', function (event) {
             event.preventDefault();
             var con = $(this);
@@ -303,8 +338,13 @@ $(document).ready(function () {
                 '<option value="3">MISSION NOSY BE</option>'+
                 '<option value="4">FACEBOOK</option>'+
                 '<option value="5">LOCAL</option>'+
-                '</select></p>' +
-            '<script>$(document).ready(function(){$(".prodact").autocomplete({source:base_url+"Administrateur/autocomplete_prodact"});});</script>',
+                '</select></p>',
+           onContentReady: function() {
+                $(".prodact").autocomplete({
+                    source: base_url+"Administrateur/autocomplete_prodact",
+                    appendTo: ".jconfirm-open",
+                });
+            },
             buttons: {
                 formSubmit: {
                     text: 'confirmer',
@@ -339,8 +379,13 @@ $(document).ready(function () {
                 '<option value="3">MISSION NOSY BE</option>'+
                 '<option value="4">FACEBOOK</option>'+
                 '<option value="5">LOCAL</option>'+
-                '</select></p>' +
-                '<script>$(document).ready(function(){$(".prodact").autocomplete({source:base_url+"Administrateur/autocomplete_prodact"});});</script>',
+                '</select></p>',
+            onContentReady: function() {
+                $(".prodact").autocomplete({
+                    source: base_url+"Administrateur/autocomplete_prodact",
+                    appendTo: ".jconfirm-open",
+                });
+            },
             buttons: {
                 formSubmit: {
                     text: 'confirmer',

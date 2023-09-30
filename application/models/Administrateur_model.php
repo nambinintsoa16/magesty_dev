@@ -218,6 +218,17 @@ class Administrateur_model extends CI_Model
       return $this->db->where($param)->get('prix')->row_object();
        
     }
+
+    public function getInfoFacture($param)
+    {
+      return $this->db->where($param)->get('facture')->row_object();
+       
+    }
+
+    public function update_facture($requette, $data)
+    {
+        return $this->db->where($requette)->update('facture', $data);
+    }
       
 
 }

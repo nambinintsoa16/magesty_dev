@@ -19,7 +19,8 @@
                     </h4>
                     <div class="profile-user-info">
                         <h5 class="blue">
-                            <span class="middle"><?= $client->Code_client ?></span>
+                            <span class="middle"><?= $client->Code_client ?></span><br/>
+                            <a href="#" id="<?= $client->Id ?>" class="btn btn-warning btn-sm change_client p-1"> <i class="fa fa-edit"></i>&nbsp; Changer client</a>
                         </h5>
                     </div>
                     <div class="profile-user-info">
@@ -180,6 +181,9 @@
         </div>
         </div>
     </fieldset>
+  <fieldset class="w-100 border p-0 ">
+        <legend class="w-auto">Autre information</legend>
+  </fieldset>
 <?php else : ?>
 
     <div class="panel-body m-2">
