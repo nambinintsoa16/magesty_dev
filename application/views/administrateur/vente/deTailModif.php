@@ -143,12 +143,14 @@
         <table class="table" style="border-top:solid 1px #dbdbdb;border-bottom:solid 1px #dbdbdb; margin-top: 10px;">
             <thead class="bg-success">
                 <tr>
-                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff;width: 250px;">Produit</th>
-                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff;">Prix en Ariary</th>
-                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff;">Quantite</th>
-                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff;">Total en Ariary</th>
-                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff;">Statut</th>
-                    <th style="text-align: center; color: #fff; border-left: 1px solid #fff;"></th>
+                    <th class="p-1" style="text-align: center; color: #fff; border-left: 1px solid #fff;width: 250px;">Produit</th>
+                    <th class="p-1" style="text-align: center; color: #fff; border-left: 1px solid #fff;">Prix en Ariary</th>
+                    <th class="p-1" style="text-align: center; color: #fff; border-left: 1px solid #fff;">Quantite</th>
+                    <th class="p-1" style="text-align: center; color: #fff; border-left: 1px solid #fff;">Total en Ariary</th>
+                    <th class="p-1" style="text-align: center; color: #fff; border-left: 1px solid #fff;">Statut</th>
+                    <th class="p-1" style="text-align: center; color: #fff; border-left: 1px solid #fff;">
+                        <a href="#" class="btn btn-sm btn-warning p-1 update-observation" id="<?= $client->Id ?>">&nbsp;Observation</a>
+                    </th>
                 </tr>
             </thead>
             <tbody class="tbody tbody-data">
@@ -175,7 +177,7 @@
                         <td style="text-align: center;">
                             <a href="#" class="btn btn-warning modifiDetail btn-sm"><i class="fa fa-edit"></i></a>
                             <?php if ($nbtab > 1) : ?>
-                                <a href="#" class="btn btn-danger modifiDelete btn-sm"><i class="fa fa-times"></i></a>
+                                <a href="#" class="btn btn-danger modifiDelete btn-sm"><i class="fa fa-trash"></i></a>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -244,6 +246,34 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
         <button type="button" class="btn btn-success enregistre_quartier">Enregistre</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modaleObservation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modifier observation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="row col-md-12 m-auto p-0 border">
+     
+                <div class="form-group col-md-12">
+                  <textarea class="form-control text_remarque text-left">
+                      <?= $client->Remarque ?>
+                  </textarea>
+                </div>
+           
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-success enregistre_observation"  id="<?=$client->Id?>">Enregistre</button>
       </div>
     </div>
   </div>

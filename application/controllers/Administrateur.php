@@ -41,6 +41,13 @@ class Administrateur extends My_Controller
     echo $this->administrateur_model->update_facture(['id'=>$facture],['Code_client'=>$codeClient]);
   }
 
+  public function updateRemarqueFacture(){
+    $this->load->model('administrateur_model');
+    $facture = $this->input->post('facture');
+    $remarque = $this->input->post('remarque');
+    echo $this->administrateur_model->update_facture(['id'=>$facture],['remarque'=>$remarque]);
+  }
+
   public function updatePageFacture(){
     $this->load->model('administrateur_model');
     $facture = $this->input->post('facture');

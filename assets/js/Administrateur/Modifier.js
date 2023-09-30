@@ -133,6 +133,25 @@ $(document).ready(function () {
 
 
         });
+
+
+       $('.update-observation').on('click',function(event){
+            event.preventDefault();
+            $('#modaleObservation').modal('show');
+
+       });
+       $('.enregistre_observation').on('click',function(event){
+            event.preventDefault();
+            let remarque = $('.text_remarque').val();
+            let facture = $(this).attr('id');
+            $.post(base_url + 'Administrateur/updateRemarqueFacture', { facture,remarque }, function (data, textStatus, xhr) {
+                $('#modaleObservation').modal('hide');
+                loaddata();
+            });
+
+       });
+
+
         $('.update-operatrice').on('click',function(event){
             event.preventDefault();
             let facture = $(this).attr('id');
