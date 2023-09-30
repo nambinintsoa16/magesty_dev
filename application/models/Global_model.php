@@ -408,7 +408,11 @@ class global_model extends CI_Model
   public function autocomplete_personnel($mot)
   { 
 
-    return $this->db->like(['Nom'=>$mot,'Prenom'=>$mot])->get('personnel')->result_object();
+    $this->db->group_start();
+    $this->db->like('Nom',$mot);
+    $this->db->or_like('Prenom',$mot);
+    $this->db->group_end();
+    return $this->db->get('personnel')->result_object();
   }
   
   public function autocomplete_all_codeproduit($mot)

@@ -113,8 +113,8 @@
                         <?= $client->idlivreur ?>
                     </td>
                     <td style="text-align: center;">
-                        <?= $client->date_de_livraison ?>
-                        &nbsp;<a href="#" id="<?= $client->id ?>" class="btn btn-warning btn-sm edit_date_livraison"> <i class="fa fa-edit"></i> </a>
+                        <?= $client->date_de_livraison ?><br/>
+                        &nbsp;<a href="#" id="<?= $client->id ?>" class="btn btn-warning btn-sm edit_date_livraison p-1"> <i class="fa fa-edit"></i>&nbsp; Modifier date</a>
 
                     </td>
                     <td style="text-align: center;">
@@ -127,12 +127,12 @@
                         ?>
                     </td>
                     <td style="text-align: center;">
-                        <?= $client->Quartier ?>
-                        &nbsp;<a href="#" id="<?= $client->id ?>" class="btn btn-warning btn-sm edit_lieu_livraison"> <i class="fa fa-edit"></i> </a>
+                        <?= $client->Quartier ?><br/>
+                        &nbsp;<a href="#" id="<?= $client->id ?>" class="btn btn-warning btn-sm edit_lieu_livraison p-1"> <i class="fa fa-edit"></i> Modifier quartier</a>
                     </td>
                     <td style="text-align: center;">
-                        <?= $client->frais ?> &nbsp; Ariary &nbsp;
-                        &nbsp;<a href="#" id="<?= $client->id ?>" class="btn btn-warning btn-sm modifrais"> <i class="fa fa-edit"></i> </a>
+                        <?= $client->frais ?> &nbsp; Ariary &nbsp;<br/>
+                        &nbsp;<a href="#" id="<?= $client->id ?>" class="btn btn-warning btn-sm modifrais p-1"> <i class="fa fa-edit"></i>Modifier frais de livraison </a>
                     </td>
                     <td style="text-align: center;">
                         <?= $client->Status ?>
