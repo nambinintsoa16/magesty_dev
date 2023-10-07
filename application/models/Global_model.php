@@ -20,6 +20,10 @@ class global_model extends CI_Model
     $this->db->where('Code_client', $code_client);
     return $this->db->get('clientpo')->row_object();
   }
+  public function get_result_compagn_de_jeux($param=array()){
+    return $this->db->where($param)->get('compagn_de_jeux')->result_object();
+  }
+
   public function bon_achat($requette=array()){
     return $this->db->where($requette)->get('bonDAchat')->result_object();
   }

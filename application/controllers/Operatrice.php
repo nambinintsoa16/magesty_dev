@@ -63,7 +63,10 @@ class operatrice extends My_Controller
   }
 
   public function enregistre_commentaire(){
-    $this->render_view('operatrice/commentaire/nouveau');
+   $this->load->model("global_model");
+   $compaigne = $this->global_model->get_result_compagn_de_jeux();
+    $data = ["compaigne"=>$compaigne];
+    $this->render_view('operatrice/commentaire/nouveau',$data);
   }
 
   public function pensebete()

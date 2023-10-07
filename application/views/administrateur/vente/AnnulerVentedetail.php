@@ -161,7 +161,6 @@
                              <option value="<?= $annulation->code_annul?>"><?= $annulation->contenu?></option>
                              <?php endforeach;?>
                          </select>
-
                      </div>
                      <div class="form-group">
                          <label for="textarea">Remarque</label>

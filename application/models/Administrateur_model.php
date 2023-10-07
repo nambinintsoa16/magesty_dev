@@ -164,6 +164,15 @@ class Administrateur_model extends CI_Model
         ->limit(10)
         ->get('comptefb')->result_object();
     }
+
+     public function get_result_publication($requette=array())
+    {
+        return $this->db->where($requette)
+        ->limit(10)
+        ->get('publication')->result_object();
+    }
+
+    
     public function saveNewPage($data)
     {
         return $this->db->insert('page_fb',$data);

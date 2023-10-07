@@ -352,6 +352,18 @@ class Administrateur extends My_Controller
     echo json_encode($array);
   }
 
+    public function autocomplete_publication()
+  {
+    $this->load->model('administrateur_model');
+    $term = $this->input->get('term');
+    $array = array();
+    $reponse = $this->administrateur_model->get_result_publication("nom_produit like '%$term%'");
+    foreach ($reponse as $reponse) {
+      array_push($array, $reponse->id." | ".$reponse->codeproduit . " | " . $reponse->nom_produit);
+    }
+    echo json_encode($array);
+  }
+
   public function autoCompletePersonnel()
   {
     $this->load->model('personnel_model');
