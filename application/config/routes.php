@@ -26,7 +26,7 @@ $route["($type_user)/Produits/Liste_des_produits"] = 'Operatrice/Liste_des_produ
 $route["($type_user)/Produits/mise_a_jour"] = 'Operatrice/mise_a_jour';
 $route["($type_user)/Jeux/Tombola"] = 'Operatrice/Listetombolat';
 $route["($type_user)/operatrice/livraison"] = 'operatrice/livraison';
-
+$route["($type_user)/Commentaire/Enregistre"]= 'operatrice/enregistre_commentaire';
 
 /*Listes relances */
 $route["($type_user)/Liste_des_relances/Tombola"] = 'Operatrice/Listetombolat';

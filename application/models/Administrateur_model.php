@@ -225,6 +225,18 @@ class Administrateur_model extends CI_Model
        
     }
 
+     public function get_result_Facture($param)
+    {
+      return $this->db->where($param)->limit(3)->get('facture')->result_object();
+       
+    }
+    public function insert_livreur($data){
+      return $this->db->insert("livreur",$data);
+    }
+    public function get_result_livreur($param=array() ){
+        return $this->db->where($param)->get('livreur')->result_object();
+    }
+
     public function update_facture($requette, $data)
     {
         return $this->db->where($requette)->update('facture', $data);

@@ -143,16 +143,16 @@
                  <form action="" method="post">
                      <div class="form-group">
                          <label>Nom livreur</label>
-                         <select name="Nomlivreur" class="form-control nomlivre">
-                             <option value="Vonjy">Vonjy</option>
-                             <option value="Donné">Donné</option>
-                             <option value="Lucienne">Lucienne</option>
-                             <option value="Patrick">Patrick</option>
-                             <option value="Autre">Autre</option>
-                             <option value="Sans livreur">Sans livreur</option>
-                             <option value="Le client">Le client</option>
-                             <option value="Le client">Nantenaina </option>
-                         </select>
+                         <input list="liste_livreur"  class="form-control nomlivre" name="nomlivre" />
+                         <datalist id="liste_livreur">
+                             <option value="NOUVEAU">
+                             <?php foreach($liste_livreur as $key=>$liste_livreur):?>
+                                <option value="<?=$liste_livreur->nom?>">
+                             <?php endforeach;?>
+                             <?php foreach($liste_personel as $key=>$liste_personel):?>
+                                <option value="<?=$liste_personel->Matricule?>">
+                             <?php endforeach;?>
+                         </datalist>
                      </div>
                      <div class="form-group">
                          <label for="textarea">Code d'annulation</label>
@@ -243,21 +243,12 @@
                          <label>Nom livreur</label>
                          <input list="ice-cream-flavors" id="ice-cream-choice" class="form-control livreur"
                              name="Nomlivreur" />
-
+                            
                          <datalist id="ice-cream-flavors">
-                             <option value="DONNE">
-                             <option value="PIERROT">
-                             <option value="LUCIENNE">
-                             <option value="PRINCY">
-                             <option value="PATRICK">
-                             <option value="ONY">
-                             <option value="ROJO">
-                             <option value="STEPHANIE">
-                             <option value="RIJA ANTONIO">
-                             <option value="LE CLIENT">
-                                 <?php foreach($liste_personel as $key=>$liste_personel):?>
-                             <option value="<?=$liste_personel->Matricule?>">
-                                 <?php endforeach;?>
+                             <option value="NOUVEAU">
+                             <?php foreach($liste_personel as $key=>$liste_personel):?>
+                                <option value="<?=$liste_personel->Matricule?>">
+                             <?php endforeach;?>
                          </datalist>
 
                      </div>

@@ -204,6 +204,20 @@
 
             ]
 
+        },{
+            "text": "Commentaire",
+            "icon": "icon-speech",
+            "link": "",
+            "sous_menu": [
+
+                {
+                    "text": "Enregistre",
+                    "icon": "",
+                    "link": "operatrice/Commentaire/Enregistre"
+                }
+
+            ]
+
         },
         {
             "text": "Jeux",

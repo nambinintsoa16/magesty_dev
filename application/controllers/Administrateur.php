@@ -298,7 +298,16 @@ class Administrateur extends My_Controller
     $data = ["data" => $this->Administrateur_model->Modif_transaction(["Id" => $id])];
     $this->render_view('administrateur/Tsena_Koty/Modif_transactionView', $data);
   }
-
+  public function autocomplete_id_facture(){
+     $this->load->model('administrateur_model');
+       $id = $this->input->get('term');
+       $reponse =$this->administrateur_model->get_result_Facture("Id like '%$id%'");
+       $array = array();
+      foreach ($reponse as $reponse) {
+        array_push($array, $reponse->Id );
+      }
+    echo json_encode($array);
+  }
   public function RecupTransaction()
   {
     return $this->Administrateur_model->Transaction_Koty();
@@ -937,12 +946,14 @@ public function autoCompletePageFacebook()
     $this->render_view("administrateur/vente/AnnulerVente" );
    }
    public function detail_Modifier_Vente_annule(){
+    $this->load->model('administrateur_model');
     $idfacture = $this->input->post('idfacture');
     $data = [
       'client' => $this->calendrier_model->detail_facture($idfacture),
       'commande' => $this->calendrier_model->detail_commande_facture($idfacture),
       'annulation' => $this->calendrier_model->code_annulation(),
-      'liste_personel' => $this->calendrier_model->liste_personel()
+      'liste_personel' => $this->calendrier_model->liste_personel(),
+      'liste_livreur'=>$this->administrateur_model->get_result_livreur()
     ];
     $this->load->view("administrateur/vente/AnnulerVentedetail",$data );
    }
@@ -1021,6 +1032,13 @@ public function autoCompletePageFacebook()
    public function nouveau_enquette(){
           $this->render_view('administrateur/enquette/form_nouveau');
    }
+   public function add_livreure(){
+    $this->load->model('administrateur_model');
+    echo $this->administrateur_model->insert_livreur([
+       "nom"=>$this->input->post('new_livre')
+    ]);
+
+   } 
 
 
 }

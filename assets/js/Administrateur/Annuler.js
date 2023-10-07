@@ -1,7 +1,6 @@
 $(document).ready(function(){
     $('.recherche').on('click', function (e) {
         e.preventDefault();
-
         var Id_facture = $('.Id_facture').val();
         if (Id_facture == "") {
             swal("erreur", "Id facture obligatoire", {
@@ -21,7 +20,51 @@ $(document).ready(function(){
             });
         }
     });
+
+   $('.Id_facture').autocomplete({
+         source:base_url+'Administrateur/autocomplete_id_facture'
+   });
+
   function modif(){
+
+
+   $('.nomlivre').on('input',function(event){
+    event.preventDefault();
+        let facture=$('.facture').text();
+        if( $(this).val().trim()=="NOUVEAU" ){
+            $('#myModal').modal('hide');
+             $.confirm({
+                title: '<p class="text-center">Entre nouveau livreur</p>',
+                content: '<input type="text" class="form-control new_livre">',
+                buttons: {
+                    formSubmit: {
+                        text: 'confirmer',
+                        btnClass: 'btn-success',
+                        action: function () {
+                            let new_livre = this.$content.find('.new_livre').val();
+                            $.post(base_url+"Administrateur/add_livreure",{new_livre},function(){
+                                loding();
+                                    $.post(base_url + 'Administrateur/detail_Modifier_Vente_annule', { idfacture: facture }, function (data) {
+                                        $('.data-cont').empty().append(data);
+                                        stopload();
+                                        modif();
+                                    });
+                            });
+                           
+                        }
+                    },
+                    Annuler: {
+                        text: 'Annuler',
+                        btnClass: 'btn-danger',
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
+        }    
+   });
+
     $('.Annule').on('click',function(event){
         event.preventDefault();
         let facture=$('.facture').text();

@@ -62,7 +62,9 @@ class operatrice extends My_Controller
     $this->render_view('operatrice/service_de_livraison/livraisonSemainePassee',$data);
   }
 
-
+  public function enregistre_commentaire(){
+    $this->render_view('operatrice/commentaire/nouveau');
+  }
 
   public function pensebete()
   {
