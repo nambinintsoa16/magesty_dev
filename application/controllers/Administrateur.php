@@ -1051,6 +1051,9 @@ public function autoCompletePageFacebook()
     ]);
 
    } 
+   public function Produit_operatrice(){
+   $this->render_view('administrateur/gestion_facebook/add_user_produit');  
+   }
 
 
 }

@@ -125,6 +125,9 @@ public function testlistes($date,$operatrice,$client,$type)
      ->get("relanceDiscussion")
      ->result_object();
   }
+  public function get_relance_aa7($param){
+    return $this->db->where($param)->get('relance_aa7')->row_object();
+  }
 
 
 }

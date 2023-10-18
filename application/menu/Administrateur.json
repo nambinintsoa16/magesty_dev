@@ -108,8 +108,13 @@
             "text": "Gestion facebook",
             "icon": "flaticon-facebook",
             "link": "",
-            "sous_menu": [
-                {
+            "sous_menu": [{
+                "text": "Produit operatrice",
+                    "icon": "",
+                    "link": "",
+                    "link": "Administrateur/Gestion_facebook/Produit_operatrice"
+
+            },{
                     "text": "Page",
                     "icon": "",
                     "link": "",

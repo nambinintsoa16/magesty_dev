@@ -49,7 +49,7 @@ $route["($type_user)/Liste_des_relances/relance_produit"] = 'Relance/relance_pro
 $route["($type_user)/Liste_des_relances/produit_relance"] = 'Relance/produit_relance';
 $route["($type_user)/Liste_des_relances/Discussion_relance"] = 'Relance/Discussion_relance';
 $route["($type_user)/Liste_des_relances/nonTraite"] = 'Relance/Relance_non_traitee';
-
+$route["($type_user)/Liste_des_relances/Enquete"] = 'Relance/Enquete';
 
 $route["($type_user)/Etat_de_ventes"] = 'Operatrice/Etat_de_ventes';
 $route["($type_user)/Etat_de_ventes/Produit"] = 'produit/produitVendu';
@@ -136,7 +136,7 @@ $route["($type_user)/Vente/Bon_d_achat/Bon_achat_des_client"] = "Administrateur/
 $route["($type_user)/Vente/Bon_d_achat/Parametre_des_bon_d_achat"] = "Administrateur/Parametre_des_bon_d_achat";
 
 
-
+$route["($type_user)/Gestion_facebook/Produit_operatrice"]="Administrateur/Produit_operatrice";
 $route["($type_user)/Enquette/Nouveau"]="Administrateur/nouveau_enquette";
 
 //________________________________________________________________________

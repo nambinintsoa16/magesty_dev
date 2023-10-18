@@ -768,6 +768,9 @@ public function Prod063(){
     echo json_encode($output);
 
   }
+  public function Enquete(){
+    $this->render_view('operatrice/Relances/Enquete');
+  }
 }
 
 

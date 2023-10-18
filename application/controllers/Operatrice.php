@@ -4261,6 +4261,22 @@ class operatrice extends My_Controller
     $LivraisonDuJourExprot = $this->global_model->getlivraison($this->session->userdata('matricule'));
     $this->render_view('operatrice/etat_de_livraison/exportelisteliv', ['data' => $LivraisonDuJourExprot]);
   }
+  public function enquette_form(){
+    $this->load->model('global_model');
+    $this->load->model('relance_model');
+    $refnum_relance = $this->input->get('id');
+    $question = $this->global_model->get_questionnaire();
+    $detail_relance = $this->relance_model->get_relance_aa7(['id'=>$refnum_relance]);
+    $detail_facture = array();
+    if($detail_relance){
+      $detail_facture = $this->global_model->get_all_facture_end_detail_vente_client(['facture.Id'=>$detail_relance->id_facture]);
+    }
 
+    $data = [
+      "question"=>$question,
+      'detail_facture'=>$detail_facture
+    ];
+    $this->render_view('operatrice/Relances/enquette_form',$data); 
+  }
 
 }

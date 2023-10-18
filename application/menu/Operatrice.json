@@ -108,6 +108,11 @@
                     "link": "operatrice/Liste_des_relances/relance_produit"
                 },
                 {
+                    "text": "Enquete",
+                    "icon": "",
+                    "link": "operatrice/Liste_des_relances/Enquete"
+                },
+                {
                     "text": "Liste AAC007",
                     "icon": "",
                     "link": "operatrice/Liste_des_relances/liste_clientaac007"

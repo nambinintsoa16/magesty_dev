@@ -22,6 +22,7 @@ class global_model extends CI_Model
   }
   public function get_result_compagn_de_jeux($param=array()){
     return $this->db->where($param)->get('compagn_de_jeux')->result_object();
+    
   }
 
   public function bon_achat($requette=array()){
@@ -4682,6 +4683,20 @@ public function insertDetail_page_client($data){
 public function insertNuveau_contact($data){
   return $this->db->insert('nuveau_contact',$data);
 
+}
+public function get_all_facture_end_detail_vente_client($param)
+{
+  $this->db->select('comptefb.Nom_page,comptefb.id,produit.Code_produit,detailvente.statut,produit.Designation,detailvente.Quantite,detailvente.Id_prix,detailvente.Type_de_prix,prix.Prix_detail,facture.Matricule_personnel');
+  $this->db->where($param);
+  $this->db->where('facture.Id_de_la_mission', "FACEBOOK");
+  $this->db->join('facture', 'detailvente.Facture=facture.Id');
+  $this->db->join('prix', 'detailvente.Id_prix=prix.Id');
+  $this->db->join('comptefb', 'comptefb.id=facture.Page');
+  $this->db->join('produit', 'produit.Code_produit=prix.Code_produit');
+  return $this->db->get('detailvente')->result_object();
+}
+public function get_questionnaire($pram=array()){
+  return $this->db->where($pram)->get('questionnaire')->result_object();
 }
 
 }

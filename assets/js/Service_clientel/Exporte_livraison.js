@@ -2,8 +2,8 @@ $(document).ready( function () {
 
     $('.valider_exporter').on('click',function(event){
        event.preventDefault();
-       var date_livre  = $('#date_livre').val();
-       var statut = $("#statut option:selected" ).val();
+       let date_livre  = $('#date_livre').val();
+       let statut = $("#statut option:selected" ).val();
       
         if (date_livre == '' || statut == ''){
             $.alert({
@@ -13,7 +13,7 @@ $(document).ready( function () {
            
         }else{
              loding();
-            $.post('https://magesty-prod.combo.fun/service_clientel/livraison_data_export',{date_livre:date_livre,statut:statut}, function(data){   
+            $.post(base_url+'/service_clientel/livraison_data_export',{date_livre:date_livre,statut:statut}, function(data){   
                   stopload();
                    $(".livraison_exporte_provisoire").empty().append(data);
                  
