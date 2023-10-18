@@ -24,8 +24,8 @@
       <a href="#" class="btn btn-primary btn-sm" id="add_produit">Ajouter produit</a>
     </div>
 		<div class="col-md-12">
-       <table class="table table-sm" id="table-history">
-         <thead>
+       <table class="w-100 table-bordered" id="table-history">
+         <thead class="bg-success text-white ">
             <tr>
               <th>Date</th>
               <th>Produit code</th>

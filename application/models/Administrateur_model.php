@@ -257,5 +257,8 @@ class Administrateur_model extends CI_Model
     public function insert_produit_user($data){
         return $this->db->insert('produit_user',$data);
     }
+    public function get_fetch_produit_user($data=array()){
+        return $this->db->where($data)->get('produit_user')->result_object();
+    }
 
 }

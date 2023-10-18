@@ -1059,11 +1059,25 @@ public function autoCompletePageFacebook()
      $matricule = $this->input->post('refnum');
      $codeProduit = $this->input->post('codeProduit');
      $date = date('Y-m-d');
-     $statut = "on";
+     $statut = "On";
      $timer=date('H:i:s');
      $data = ["User"=>$matricule, "CodePoduit"=>$codeProduit, "Date"=>$date, "Statut"=>$statut, "Timer"=>$timer];
      echo $this->global_model->insert_produit_user($data);
    }
-
-
+   public function dataListProduitUsers(){
+        $refnum = $this->input->get('refnum');
+        $datas = $this->Administrateur_model->get_fetch_produit_user(['User'=>$refnum]);
+        $data = array();
+        foreach ($datas as $row) {
+          $sub_array = [];
+          $sub_array[] = $row->Date;
+          $sub_array[] = $row->CodePoduit;
+          $sub_array[] = $row->Statut;
+          $data[] = $sub_array;
+        }
+        $output = array(
+          "data" => $data
+        );
+        echo json_encode($output);
+    }
 }

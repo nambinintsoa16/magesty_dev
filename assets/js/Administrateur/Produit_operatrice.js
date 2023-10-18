@@ -36,7 +36,8 @@ $(document).ready(function(){
                             let pageTemp = this.$content.find('.code_produit').val().split('|');
                             let codeProduit = pageTemp[0].trim();
                             $.post(base_url + 'Administrateur/addProduitUser', { codeProduit,refnum }, function (data, textStatus, xhr) {
-                                loaddata();
+                                table.api().ajax.url(base_url+'Administrateur/dataListProduitUsers?refnum='+refnum);
+                                table.api().ajax.reload();
                             });
                         }
                     },
