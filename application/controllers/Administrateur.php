@@ -1052,7 +1052,17 @@ public function autoCompletePageFacebook()
 
    } 
    public function Produit_operatrice(){
-   $this->render_view('administrateur/gestion_facebook/add_user_produit');  
+       $this->render_view('administrateur/gestion_facebook/add_user_produit');  
+   }
+   public function addProduitUser(){
+     $this->load->model('global_model');
+     $matricule = $this->input->post('refnum');
+     $codeProduit = $this->input->post('codeProduit');
+     $date = date('Y-m-d');
+     $statut = "on";
+     $timer=date('H:i:s');
+     $data = ["User"=>$matricule, "CodePoduit"=>$codeProduit, "Date"=>$date, "Statut"=>$statut, "Timer"=>$timer];
+     echo $this->global_model->insert_produit_user($data);
    }
 
 

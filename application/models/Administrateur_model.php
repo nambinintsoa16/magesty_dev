@@ -254,5 +254,8 @@ class Administrateur_model extends CI_Model
     public function getComptefb($param){
        return $this->db->where($param)->get('comptefb')->row_object();
     }
+    public function insert_produit_user($data){
+        return $this->db->insert('produit_user',$data);
+    }
 
 }

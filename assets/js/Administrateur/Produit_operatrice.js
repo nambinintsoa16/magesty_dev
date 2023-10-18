@@ -17,12 +17,14 @@ $(document).ready(function(){
      });
 	$('#add_produit').on('click',function(event){
 		event.preventDefault();
+        let full_name_refnum = $("#operatrice").val().split(' | ');
+        let refnum =full_name_refnum[0].trim();
 		 $.confirm({
                 title: '<p class="text-center">Entre nouvelle page.</p>',
                 content: '<input type="text" class="form-control form-control-sm code_produit">',
                     onContentReady: function() {
                     $(".code_produit").autocomplete({
-                        source: base_url+"Administrateur/autoCompletePageFacebook",
+                        source: base_url+"Administrateur/autocomplete_prodact",
                         appendTo: ".jconfirm-open",
                     });
                 },
@@ -31,9 +33,9 @@ $(document).ready(function(){
                         text: 'confirmer',
                         btnClass: 'btn-success',
                         action: function () {
-                            let pageTemp = this.$content.find('.page_facebook').val().split('|');
-                            let page = pageTemp[0].trim();
-                            $.post(base_url + 'Administrateur/updatePageFacture', { facture,page }, function (data, textStatus, xhr) {
+                            let pageTemp = this.$content.find('.code_produit').val().split('|');
+                            let codeProduit = pageTemp[0].trim();
+                            $.post(base_url + 'Administrateur/addProduitUser', { codeProduit,refnum }, function (data, textStatus, xhr) {
                                 loaddata();
                             });
                         }

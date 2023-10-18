@@ -4705,5 +4705,8 @@ public function update_relance_aa7($param,$data){
   return $this->db->where($param)->update('relance_aa7',$data);
 
 }
+public function insert_produit_user($data){
+  return $this->db->insert('produit_user',$data);
+}
 
 }
