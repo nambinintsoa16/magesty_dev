@@ -4686,7 +4686,7 @@ public function insertNuveau_contact($data){
 }
 public function get_all_facture_end_detail_vente_client($param)
 {
-  $this->db->select('comptefb.Nom_page,comptefb.id,produit.Code_produit,detailvente.statut,produit.Designation,detailvente.Quantite,detailvente.Id_prix,detailvente.Type_de_prix,prix.Prix_detail,facture.Matricule_personnel');
+  $this->db->select('facture.Id as "refnum_facture",comptefb.Nom_page,comptefb.id,produit.Code_produit,detailvente.statut,produit.Designation,detailvente.Quantite,detailvente.Id_prix,detailvente.Type_de_prix,prix.Prix_detail,facture.Matricule_personnel,facture.page');
   $this->db->where($param);
   $this->db->where('facture.Id_de_la_mission', "FACEBOOK");
   $this->db->join('facture', 'detailvente.Facture=facture.Id');
@@ -4697,6 +4697,13 @@ public function get_all_facture_end_detail_vente_client($param)
 }
 public function get_questionnaire($pram=array()){
   return $this->db->where($pram)->get('questionnaire')->result_object();
+}
+public function insert_reponse_question($data){
+  return $this->db->insert('reponse_question',$data);
+}
+public function update_relance_aa7($param,$data){
+  return $this->db->where($param)->update('relance_aa7',$data);
+
 }
 
 }

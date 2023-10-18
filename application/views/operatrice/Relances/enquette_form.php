@@ -3,11 +3,15 @@
         <fieldset class="border p-2 bg-white col-md-12 ml-1">
             <legend class="w-auto"><small>Détail client</small></legend>
             <div class="row">
-                <div class="form-group col-md-4">
-                <img src="file:///C:/Users/Admin/Pictures/flexy.jpg" class="rounded float-left " alt="..." width="120">
+                <div class="form-group col-md-2">
+                    <img src="<?= base_url('images/default_user.png') ?>" class="rounded float-left " alt="..." width="120">
                 </div>
                 <div class="form-group col-md-8">
-
+                    <?php if ($infoclient != null) : ?>
+                        <small><span id="code_client"><?= $infoclient->Code_client ?></span></small><br />
+                        <a href="<?= $infoclient->lien_facebook ?>" target="_blank"><?= $infoclient->Compte_facebook ?></a><br />
+                        <small>Enregistre le : <?= $infoclient->datedenregistrement ?></small>
+                    <?php endif; ?>
                 </div>
             </div>
         </fieldset>
@@ -25,46 +29,59 @@
                     <td>Quantité</td>
                     <td>check</td>
                 </thead>
-                <tbody>
-                    <?php $p=1; foreach($detail_facture as $detail_facture):?>
-                    <tr>
-                        <td><?=$detail_facture->Matricule_personnel?></td>
-                        <td><?=$detail_facture->Nom_page?></td>
-                        <td><?=$detail_facture->Designation?></td>
-                        <td><?=$detail_facture->Prix_detail?></td>
-                        <td><?=$detail_facture->Quantite?></td>
-                        <td><input type="radio" name="produit_".<?=$p?>></td>
-                    </tr>
-                    <?php $p++; endforeach;?>
+                <tbody class="tbody" id="table-produit">
+                    <?php $p = 1;
+                    foreach ($detail_facture as $detail_facture) : ?>
+                        <tr>
+                            <td><?= $detail_facture->Matricule_personnel ?></td>
+                            <td><?= $detail_facture->Nom_page ?></td>
+                            <td><?= $detail_facture->Designation ?></td>
+                            <td><?= $detail_facture->Prix_detail ?></td>
+                            <td><?= $detail_facture->Quantite ?></td>
+                            <td><input type="radio" class="input_chose_produit" refnum_facture ="<?= $detail_facture->refnum_facture ?>" page="<?= $detail_facture->page ?>" id="<?= $detail_facture->Code_produit ?>" name="produit_" .<?= $p ?>></td>
+                        </tr>
+                    <?php $p++;
+                    endforeach; ?>
                 </tbody>
             </table>
-            
+
         </div>
     </fieldset>
 
     <fieldset class="border p-2 bg-white">
         <legend class="w-auto"><small>Formulaire</small></legend>
         <div class="row">
-            <?php $i=1; foreach($question as $question):?>
-                <div class="form-group col-md-12 text-white bg-info ml-2">
-                      <b><?=$question->question?></b>
+            <?php $i = 1;
+            foreach ($question as $question) : ?>
+                <div class="col-md-12 question_reponse_containt mt-2" >
+                    <div class="row">
+                        <div class="form-group col-md-12 text-white bg-info ml-2 ">
+                            <b class="question"><?= $question->question ?></b>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for=""><u>Choix</u></label>
+                            <div class="row col-md-12 m-auto">
+                                <?php
+                                $array_option = explode(";", $question->option_containt);
+                                foreach ($array_option as  $array_option) : ?>
+                                    <div class="col-md-3 ml-2">
+                                        <input type="radio" class="reponse_input" reponse="<?=$array_option?>" name="reponse_<?= $i ?>">&nbsp;<small><?= $array_option ?></small><br />
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <label for="" class="col-md-12"><small><b><u>Note :</u></b> </small></label>
+                        <div class="col-md-12">
+                            <textarea name="" id="" cols="30" rows="2" class="note form-control"></textarea>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group col-md-12">
-                   <div class="row">
-                      <?php 
-                       $array_option = explode(";",$question->option_containt);
-                        foreach($array_option as  $array_option): ?>
-                           <div class="col-md-3 ml-2">
-                                 <input type="radio" name="reponse_<?=$i?>">&nbsp;<small><?=$array_option?></small><br/>
-                          </div>  
-                       <?php endforeach;?>     
-                   </div>
-                </div>
-            <?php $i++; endforeach;?>
+            <?php $i++;
+            endforeach; ?>
         </div>
     </fieldset>
     <div class="form-group w-100 text-right">
-            <a href="#" class="btn btn-success btn-sm w-25" id="save_data">Enregsitre</a>
+        <a href="#" class="btn btn-success btn-sm w-25" id="save_data">Enregsitre</a>
     </div>
 </div>
 

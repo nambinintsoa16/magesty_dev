@@ -4267,16 +4267,49 @@ class operatrice extends My_Controller
     $refnum_relance = $this->input->get('id');
     $question = $this->global_model->get_questionnaire();
     $detail_relance = $this->relance_model->get_relance_aa7(['id'=>$refnum_relance]);
+    $info_client = null;
     $detail_facture = array();
     if($detail_relance){
       $detail_facture = $this->global_model->get_all_facture_end_detail_vente_client(['facture.Id'=>$detail_relance->id_facture]);
+      $info_client =  $this->global_model->getClientInfo($detail_relance->code_client);
     }
+   
 
     $data = [
+      "infoclient"=>$info_client,
       "question"=>$question,
       'detail_facture'=>$detail_facture
     ];
     $this->render_view('operatrice/Relances/enquette_form',$data); 
+  }
+  
+  public function save_reponse_enquette(){
+    $this->load->model('global_model');
+    $reponse = $this->input->post('reponse');
+    $question = $this->input->post('question');
+    $user= $this->session->userdata('matricule');
+    $code_client = $this->input->post('code_client');
+    $produit = $this->input->post('produit');
+    $page = $this->input->post('page');
+    $note = $this->input->post('note'); 
+    $data = [
+      "Question"=> $question,
+      "reponse"=>$reponse,
+      "user"=>$user,
+      "client"=>$code_client,
+      "Produit"=>$produit,
+      "page"=>$page,
+      "note"=>$note
+    ];
+    echo $this->global_model->insert_reponse_question($data);
+  }
+  public function update_relance_aa7(){
+    $this->load->model('global_model');
+    $refnum_facture = $this->input->post('refnum_facture');
+    $param = array('id_facture'=>$refnum_facture);
+    $user = $this->session->userdata('matricule');
+    $data = array('statut'=>'traite',"opl_traite"=>$user,"lastupdate"=>date('Y-m-d H:i:s',now()));
+    echo $this->global_model->update_relance_aa7($param,$data);
   }
 
 }
