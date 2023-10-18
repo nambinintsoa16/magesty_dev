@@ -440,6 +440,61 @@ class relance extends My_Controller
     );
     echo json_encode($output);
   }
+
+
+  public function ListeRElasnceenquette()
+  {
+    $this->load->model('discussion_model');
+    $this->load->model('client_model');
+
+    $type = $this->input->get('type');
+    $data = array();
+    $date = date('Y-m-d');
+     
+    if($type=="duJour"){
+      $datas = $this->relance_model->get_fetch_relance_aa7(["matricule_oplg"=>$this->session->userdata('matricule'),"create_date"=>$date,"statut"=>'',"id_page"=>$this->session->userdata("page")]);
+    }else{
+    
+      $datas = $this->relance_model->get_fetch_relance_aa7("(`matricule_oplg` = '".$this->session->userdata('matricule')."') AND  (`create_date` < '$date' AND `id_page`=".$this->session->userdata('page').") AND statut =''");
+
+    }
+    foreach ($datas as $row) {
+      $client = $this->client_model->infoclientPo($row->code_client);
+			$methodOk = $client != null ;
+      if($methodOk){
+      $page = $this->discussion_model->selectPageFb($this->session->userdata("page"));
+      $sub_array = array();
+      //$sub_array[] = $row->DateRD;
+      $sub_array[] =$row->code_client;
+      $sub_array[] ="<a href='".$client->lien_facebook."' target='_blank'>".$client->Nom ." ".$client->Prenom."</a>";
+      $sub_array[] =$page->Nom_page;
+      $sub_array[] ="<a href='#' class='toto'>".$row->statut."</a>";
+      $sub_array[] =$row->create_date;
+    
+      if($row->statut==""){
+        $sub_array[] = '<i class="fa fa-times-circle text-danger"></i>';
+        $sub_array[] = '<a href="'.$row->id_page.'" id="'.$row->id.'" class="btn btn-info btn-sm valopy"><i class="fa fa-envelope"></i></a>';
+				$sub_array[] = '<a href="'.$row->id_page.'" id="'.$row->id.'" class="btn btn-success btn-sm check"><i class="fa fa-check"></i></a>';
+			
+			}else{
+        $sub_array[] = '<i class="fa fa-times-circle text-success"></i>';
+        $sub_array[] = '<a href="#" class="btn btn-warning btn-sm "><i class="fa fa-envelope-open"></i></a>';
+				$sub_array[] = '';
+			}
+    }  
+
+			if($methodOk) {
+				$data[] = $sub_array;
+			}
+    
+    }
+    $output = array(
+      "data" => $data
+    );
+    echo json_encode($output);
+  }
+  
+
    public function relance_produit()
   {
 
@@ -770,6 +825,9 @@ public function Prod063(){
   }
   public function Enquete(){
     $this->render_view('operatrice/Relances/Enquete');
+  }
+  public function checkRelanceRequette(){
+    
   }
 }
 

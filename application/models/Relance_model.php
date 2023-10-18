@@ -128,6 +128,10 @@ public function testlistes($date,$operatrice,$client,$type)
   public function get_relance_aa7($param){
     return $this->db->where($param)->get('relance_aa7')->row_object();
   }
+  public function get_fetch_relance_aa7($param=array()){
+    return $this->db->where($param)->get('relance_aa7')->result_object();
+    
+ } 
 
 
 }

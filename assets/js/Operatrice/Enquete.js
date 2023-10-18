@@ -7,16 +7,15 @@ $(document).ready(function() {
             $('.valopy').on('click', function(e) {
                 e.preventDefault();
                 let This = $(this);
-                let parent = This.parent().parent();
-                let code_client = parent.children().eq(0).text();
-                window.open(base_url + 'operatrice/enquette_form?id='+code_client);
+                let id = This.attr('id');
+                window.open(base_url + 'operatrice/enquette_form?id='+id);
 
 
             });
             $('.check').on('click', function(e) {
                 e.preventDefault();
                 let refnum = $(this).attr('id');
-                $.post(base_url + 'relance/checkRelanceDiscussion', { refnum }, function() {
+                $.post(base_url + 'relance/checkRelanceRequette', { refnum }, function() {
                     Table.ajax.reload();
                 });
 
@@ -27,16 +26,15 @@ $(document).ready(function() {
             $('.valopy').on('click', function(e) {
                 e.preventDefault();
                 let This = $(this);
-                let parent = This.parent().parent();
-                let code_client = parent.children().eq(0).text();
-                window.open(base_url + 'operatrice/enquette_form?id='+code_client);
+                let id = This.attr('id');
+                window.open(base_url + 'operatrice/enquette_form?id='+id);
 
 
             });
             $('.check').on('click', function(e) {
                 e.preventDefault();
                 let refnum = $(this).attr('id');
-                $.post(base_url + 'relance/checkRelanceDiscussion', { refnum }, function() {
+                $.post(base_url + 'relance/checkRelanceRequette', { refnum }, function() {
                     Table.ajax.reload();
                 });
 
@@ -46,14 +44,13 @@ $(document).ready(function() {
             $('.valopy').on('click', function(e) {
                 e.preventDefault();
                 let This = $(this);
-                let parent = This.parent().parent();
-                let code_client = parent.children().eq(0).text();
-                window.open(base_url + 'operatrice/enquette_form?id='+code_client);
+                let id = This.attr('id');
+                window.open(base_url + 'operatrice/enquette_form?id='+id);
             });
             $('.check').on('click', function(e) {
                 e.preventDefault();
                 let refnum = $(this).attr('id');
-                $.post(base_url + 'relance/checkRelanceDiscussion', { refnum }, function() {
+                $.post(base_url + 'relance/checkRelanceRequette', { refnum }, function() {
                     Table.ajax.reload();
                 });
 
@@ -65,7 +62,7 @@ $(document).ready(function() {
         autoFill: {
             alwaysAsk: true
         },
-        ajax: base_url + "relance/ListeRElasnceDiscussion?type=duJour",
+        ajax: base_url + "relance/ListeRElasnceenquette?type=duJour",
         language: {
             url: base_url + "assets/dataTableFr/french.json"
         },
@@ -79,14 +76,14 @@ $(document).ready(function() {
         var page = $(this).children().find('b').text();
 
         if (page == "RELANCE DU JOUR") {
-            let links = base_url + 'relance/ListeRElasnceDiscussion?type=duJour';
+            let links = base_url + 'relance/ListeRElasnceenquette?type=duJour';
             //$('.headerTable').replaceClass('bg-danger','bg-primary');
             Table.ajax.url(links);
             Table.ajax.reload();
 
         }
         if (page == "LISTE DES RELANCE DISCUSSION A FAIRE (URGENT)") {
-            let links = base_url + 'relance/ListeRElasnceDiscussion?type=nonfait';
+            let links = base_url + 'relance/ListeRElasnceenquette?type=nonfait';
             //$('.headerTable').replaceClass('bg-primary','bg-danger');
             Table.ajax.url(links);
             Table.ajax.reload();
