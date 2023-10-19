@@ -133,5 +133,14 @@ public function testlistes($date,$operatrice,$client,$type)
     
  } 
 
+  public function insert_relance_aa7($data){
+    return $this->db->insert('relance_aa7',$data);
+    
+ } 
+ public function get_livre_7_jour(){
+     $requette_liste_relance = "SELECT clientpo.Code_client,facture.Id,facture.Page,facture.Matricule_personnel,facture.contacts, clientpo.lien_facebook, clientpo.Compte_facebook ,comptefb.Nom_page FROM facture INNER JOIN clientpo ON facture.Code_client=clientpo.Code_client INNER JOIN comptefb ON facture.Page=comptefb.id JOIN session ON session.page = comptefb.id WHERE facture.Status ='livre' AND facture.data_de_livraison  =CURRENT_DATE() - INTERVAL 7 DAY GROUP BY clientpo.Code_client";
+       return $this->db->query($requette_liste_relance)->result_object();
+ }
+
 
 }

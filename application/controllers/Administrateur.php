@@ -1096,4 +1096,23 @@ public function autoCompletePageFacebook()
     public function Resultat_des_enquette(){
        $this->render_view('administrateur/enquette/resultat');
     }
+    public function update_liste_enquette(){
+      $this->load->model('Relance_model');
+   $data = $this->Relance_model->get_livre_7_jour();
+   if($data){
+     foreach ($data as $key => $row) {
+        $relance_exist = $this->Relance_model->get_relance_aa7(["id_facture"=>$row->Id]);
+        if(!$relance_exist){
+        $datas = [
+            "code_client"=>$row->Code_client,
+            "id_facture"=>$row->Id,
+            "id_page"=>$row->Page,
+            "matricule_oplg"=>$row->Matricule_personnel
+        ];
+         $this->Relance_model->insert_relance_aa7($datas); 
+      }
+     }
+   }
+
+    }
 }

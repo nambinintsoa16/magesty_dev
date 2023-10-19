@@ -138,6 +138,7 @@ class Accueil extends My_Controller
 				'annule' => $annule,
 				'confirmer' => $confirmer
 			];
+			
 		} else if ($this->session->userdata('designation') == "Tsena_koty") {
 			if ($this->global_model->pourcentage_transaction_livre() != 0) {
 				$livre = ($this->global_model->pourcentage_transaction_livre('livre') * 100) / $this->global_model->pourcentage_transaction_livre();
