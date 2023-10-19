@@ -62,26 +62,10 @@
                     "text": "Creation question",
                     "icon": "",
                     "link": "Administrateur/Enquette/Creation_question"
-                }, {
-                    "text": "Bon d achat",
+                },{
+                    "text": "Resultat des enquette",
                     "icon": "",
-                    "link": "",
-                    "sous_sous_menu": [
-                        {
-                            "text": "Bon achat des client",
-                            "icon": "",
-                            "link": "Administrateur/Vente/Bon_d_achat/Bon_achat_des_client"
-                        },
-                        {
-                            "text": "Parametre des bon d achat",
-                            "icon": "",
-                            "link": "Administrateur/Vente/Bon_d_achat/Parametre_des_bon_d_achat"
-                        }
-                    ]
-                }, {
-                    "text": "Annuler",
-                    "icon": "",
-                    "link": "Administrateur/Vente/Annuler"
+                    "link": "Administrateur/Enquette/Resultat_des_enquette"
                 }
             ]
         },

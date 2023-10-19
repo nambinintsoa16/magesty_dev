@@ -1091,9 +1091,9 @@ public function autoCompletePageFacebook()
         "option_containt"=>$reponse
 
       ];
-
-
       echo $this->administrateur_model->insert_questionnaire($data);
-
+    }
+    public function Resultat_des_enquette(){
+       $this->render_view('administrateur/enquette/resultat');
     }
 }
