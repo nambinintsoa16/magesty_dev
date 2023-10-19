@@ -11,7 +11,7 @@
         
 		<div class="form-group col-md-8">
 			<label>Question : </label>
-			<input type="text" class="form-control form-control-sm" id="question">
+			<input type="text" class="form-control form-control-sm obligatoire" id="question">
 		</div>
 		<div class="form-group col-md-4">
 			<label>Type de question : </label>
@@ -22,7 +22,7 @@
 		</div>
 		<div class="form-group col-md-12">
 			<label>Réponse</label>
-			<textarea class="form-control" id="reponse"></textarea>
+			<textarea class="form-control obligatoire" id="reponse"></textarea>
 		</div>
 		<div class="form-group col-md-12 text-right">
 			<a href="#" class="btn btn-primary btn-sm" id="save"><i class="fa fa-save"></i>&nbsp;Validé formulaire</a>
