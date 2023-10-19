@@ -1080,4 +1080,20 @@ public function autoCompletePageFacebook()
         );
         echo json_encode($output);
     }
+    public function save_question(){
+      $this->load->model('administrateur_model');
+      $reponse = $this->input->post('reponse');
+      $question = $this->input->post('question');
+      $type = $this->input->post('type');
+      $data = [
+        "question"=>$question,
+        "option"=>$type,
+        "option_containt"=>$reponse
+
+      ];
+
+
+      echo $this->administrateur_model->insert_questionnaire($data);
+
+    }
 }
