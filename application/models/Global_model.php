@@ -4708,5 +4708,8 @@ public function update_relance_aa7($param,$data){
 public function insert_produit_user($data){
   return $this->db->insert('produit_user',$data);
 }
+public function insert_commentaire($data){
+  return $this->db->insert('commentaire',$data);
+}
 
 }

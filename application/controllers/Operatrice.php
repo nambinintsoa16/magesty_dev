@@ -4311,5 +4311,27 @@ class operatrice extends My_Controller
     $data = array('statut'=>'traite',"opl_traite"=>$user,"lastupdate"=>date('Y-m-d H:i:s',now()));
     echo $this->global_model->update_relance_aa7($param,$data);
   }
+  public function save_action_publication(){
+     $this->load->model('global_model');
+    $campaigne = $this->input->post('Campagne');
+    $publication = $this->input->post('publication');
+    $produit = $this->input->post('produit');
+    $codeClient = $this->input->post('codeClient');
+    $type_action = $this->input->post('type_action');
+    $remarque = $this->input->post('remarque');
+    $date_action = $this->input->post('date_action');
+    $operatrice = $this->session->userdata('matricule');
+    $data = [
+      "date_action"=>$date_action,
+      "operatrice"=>$operatrice, 
+      "client"=>$codeClient, 
+      "type_action"=>$type_action, 
+      "publication"=>$publication, 
+      "produit"=>$produit, 
+      "campaigne"=>$campaigne, 
+      "remarque"=>$remarque
+    ];
+    echo $this->global_model->insert_commentaire($data);
+  }
 
 }
