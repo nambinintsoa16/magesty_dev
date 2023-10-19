@@ -137,7 +137,7 @@ $route["($type_user)/Vente/Bon_d_achat/Parametre_des_bon_d_achat"] = "Administra
 
 
 $route["($type_user)/Gestion_facebook/Produit_operatrice"]="Administrateur/Produit_operatrice";
-$route["($type_user)/Enquette/Nouveau"]="Administrateur/nouveau_enquette";
+$route["($type_user)/Enquette/Creation_question"]="Administrateur/nouveau_enquette";
 
 //________________________________________________________________________
 //___________________________________________________________________appel

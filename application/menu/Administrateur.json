@@ -55,13 +55,13 @@
             ]
         },{
             "text": "Enquette",
-            "icon": "flaticon-cart-1",
+            "icon": "flaticon-pen",
             "link": "",
             "sous_menu": [
                 {
-                    "text": "Nouveau",
+                    "text": "Creation question",
                     "icon": "",
-                    "link": "Administrateur/Enquette/Nouveau"
+                    "link": "Administrateur/Enquette/Creation_question"
                 }, {
                     "text": "Bon d achat",
                     "icon": "",
