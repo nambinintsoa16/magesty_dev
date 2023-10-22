@@ -1242,16 +1242,16 @@ class operatrice extends My_Controller
     $json = array('message' => false, 'content' => '');
     $client = $this->input->post('idclient');
     $page = $this->input->post('page');
-    $data = $this->global_model->testDiscution($client, $page);
+    $data = $this->global_model->get_view_discussion_table(["client"=>$client, "page"=>$page]);
     $text = array('livre' => 'LIVREE', 'annule' => 'ANNULLEE', 'en_attente' => 'EN ATTENTE', 'confirmer' => 'CONFIRMEE', 'repporter' => 'REPPORTEE');
     if ($data) {
       $json['message'] = true;
-      $json['id_discussion'] = $data->id_discussion;
+      $json['id_discussion'] = $data->Id_discussion;
       $date = 'int';
-      foreach ($this->global_model->all_detail_discussion($client, $page) as $key => $reponse) {
+      foreach ($this->global_model->get_all_view_discussion_table(["client"=>$client, "page"=>$page]) as $key => $reponse) {
         $heure = explode(" ", $reponse->heure);
         $heure[1] = date("H:i:s");
-        if ($reponse->Page == $page) {
+        if ($reponse->page == $page) {
           if ($reponse->sender == 'OPL') {
             if ($reponse->Type == 'image') {
               $json['content'] .= '<div style="background:#e6ee9c;padding:5px 5px;border-radius:10px;margin-bottom:5px;color:#000; word-break: break-all!important;margin-left:90px "><img class="img-thumbnail" src="' . base_url("/images/pieceJoint/$reponse->Message.jpg") . '" alt="' . $reponse->Message . '" style="width:120px;height:120px;object-fit:cover;"></div>';
@@ -1396,10 +1396,10 @@ class operatrice extends My_Controller
             if ($reponse->Type == 'image') {
               $json['content'] .= '<div class="form-control pt-1 pl-1 pb-1" style="background:#b2ebf2;min-height:135px;padding:5px 5px;border-radius:10px;margin-bottom:5px;max-width:85%;color:#000; word-break: break-word; "><img class="img-thumbnail" src="' . base_url("/images/pieceJoint/$reponse->Message.jpg") . '"  style="height:120px;width:120px;object-fit:cover"></div>';
             } else {
-              $vardata = $this->global_model->retour_page($reponse->Page);
+              $vardata = $this->global_model->retour_page($reponse->page);
               $page = "";
               if ($vardata) {
-                $page = $reponse->Page;
+                $page = $reponse->page;
               }
               $json['content'] .= '<div style="background:#b2ebf2  ;padding:5px 5px;border-radius:10px;margin-bottom:5px;max-width:85%;color:#000; word-break: break-all!important;min-height:50px;text-align:left"><p class="a">' . $reponse->Message . '<br><span class="pull-right" style=";color:black; padding:2px 2px;border-radius:10px;font-size:12px;margin-top:5px;">Page : ' . $page . '&nbsp;&nbsp; <i class="fa fa-clock"></i>&nbsp;&nbsp;' . $heure[1] . '</span></p></div>';
             }
@@ -1843,6 +1843,92 @@ class operatrice extends My_Controller
 
     $this->Observation_model->saveObservation($observationData, $selectedProducts);
 }
+
+
+  public function new_methode_sauve(){
+
+     //_________________________________________________________________
+    //____________________________________________ instaciation des model 
+    $this->load->model('global_model');
+
+    //_________________________________________________________________
+    //__________________________________________ declaration de variable 
+
+    $page = $this->input->post('page');
+    $id_discussion = $this->input->post('id_con');
+    $client = $this->input->post('client');
+    $operatrice = $this->session->userdata('matricule');
+    $tache = $this->session->userdata('tache');
+    $statut = 'a_suivre';
+    $heure = date('H:i:s');
+    $date = date('Y-m-d');
+    $page = $this->input->post('page');
+    $action = $this->input->post('Type');
+    $sender = $this->input->post('sender');
+    $types =  $this->input->post('types');
+    $tache = $this->input->post('tache');
+    $message = $this->input->post('message');
+    $idReponse = $this->input->post('idRep');
+     //_________________________________________________________________
+    //__________________________________  test si discussion existe déjat
+
+    $id_discussion = $this->getIdDiscussionSiExiste($client, $page, $operatrice);
+
+    if ($id_discussion == 'null') {
+      $id_discussion = $this->Discussion_model->generate_id_discussion();
+      $requette = "insert into discussion VALUES(DEFAULT,'" . $id_discussion . "','" . $operatrice . "','" . $client . "','" . $page . "','" . $statut . "')";
+      $methodok = $this->db->simple_query($requette);
+    }
+
+    //_________________________________________________________________
+    //_______________________________________  création historique users 
+    $insertSession = [
+      'operatrice' => $operatrice,
+      'client' => $client,
+      'idaction' => $id_discussion,
+      'date' => $date,
+      'heure' => $heure,
+      'page' => $page,
+      'action' => $action,
+      'sender' => $sender,
+      'types' =>$types,
+      'tache' => $tache
+    ];
+    $methodOk = $this->global_model->inserthistorique_discussion_session($insertSession);
+    //_________________________________________________________________
+    //______________________________________________  insertion message
+    $this->global_model->insertMessageSimples($message,  $action, $sender, $id_discussion, $idReponse, $page, $date, $heure,$types);
+    $json = array('message' => true, 'content' => '');
+    $json['message'] = true;
+    $json['reponse'] = $this->templete_reponse_message($action,$sender,$message,$heure, $page);
+    echo json_encode($json);
+
+  }
+
+  public function templete_reponse_message($type,$sender,$message,$heure,$page){
+     switch ($sender) {
+         case 'CLT':
+         $data = [
+                  "message"=>$message,
+                  "page"=>$page,
+                  "heure"=>$heure
+            ];
+            $html = $this->load->view('operatrice/discussion/templete/templete_reponse_message_client',$data,true);
+           break;
+         
+         default:
+         $data = [
+                  "message"=>$message,
+                  "page"=>$page,
+                  "heure"=>$heure
+            ];
+          $html = $this->load->view('operatrice/discussion/templete/templete_reponse_message_oplg',$data,true);
+          break;
+        }
+     
+  return $html;
+  }
+
 
 
   public function sauvemessages()

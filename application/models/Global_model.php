@@ -1215,7 +1215,12 @@ class global_model extends CI_Model
     $this->db->where('discussion.client', $client);
     return $this->db->get('discussion')->row_object();
   }
-
+  public function get_view_discussion_table($param){
+    return $this->db->where($param)->get("view_discussion_table")->row_object();
+  }
+  public function get_all_view_discussion_table($param){
+    return $this->db->where($param)->get("view_discussion_table")->result_object();
+  }
   public function detail_discussion($id_conversation)
   {
     $this->db->where('Id_discussion', $id_conversation);
