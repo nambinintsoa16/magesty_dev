@@ -1238,7 +1238,7 @@ class operatrice extends My_Controller
   public function get_discution_containt(){
     $client = $this->input->post('idclient');
     $page = $this->input->post('page');
-    $reponse =  $this->global_model->get_all_view_discussion_table(["client"=>$client, "page"=>$page]);
+    $reponse =  $this->global_model->get_all_view_discussion_table("(client='$client' and page = '$page') AND heure > '2023-10-23'");
     $html = "";
     $json=["content"=>"","message"=>false];
     if($reponse){

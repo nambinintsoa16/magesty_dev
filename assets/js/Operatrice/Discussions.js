@@ -383,7 +383,7 @@ $(document).ready(function () {
     function reloadContentMessage(idclient, page) {
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/testDiscution', { idclient: idclient, page: page }, function (data) {
+            $.post(base_url + 'operatrice/get_discution_containt', { idclient: idclient, page: page }, function (data) {
                 if (data.message === true) {
                     $('.conten-message').empty().append(data.content);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
