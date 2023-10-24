@@ -72,12 +72,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
-
+//_1ytsgm
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
+	'hostname' => '185.98.131.149',
+	'username' => 'combo1588192',
+	'password' => 'gtDT45trlk1758',
 	'database' => 'combo1588192',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
