@@ -1860,7 +1860,6 @@ class global_model extends CI_Model
 
   public function retour_detail_discussion($page, $client)
   {
-
     $this->db->join('discussion', 'discussion_content.Id_discussion=discussion.id_discussion');
     $this->db->where('discussion.client', $client);
     $this->db->where('discussion_content.Page', $page);
@@ -4716,5 +4715,15 @@ public function insert_produit_user($data){
 public function insert_commentaire($data){
   return $this->db->insert('commentaire',$data);
 }
+public function get_all_vue_detail_facture($param){
+   return $this->db->where($param)->get('vue_detail_facture')->result_object();
+}
+public function get_all_vue_livraison_detail_table($param){
+   return $this->db->where($param)->get('vue_livraison_detail_table')->result_object();
+}
+public function get_vue_livraison_detail_table($param){
+   return $this->db->where($param)->get('vue_livraison_detail_table')->row_object();
+}
+
 
 }

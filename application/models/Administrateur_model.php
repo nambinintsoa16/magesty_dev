@@ -255,10 +255,10 @@ class Administrateur_model extends CI_Model
        return $this->db->where($param)->get('comptefb')->row_object();
     }
     public function insert_produit_user($data){
-        return $this->db->insert('produit_user',$data);
+        return $this->db->insert('Produit_user',$data);
     }
     public function get_fetch_produit_user($data=array()){
-        return $this->db->where($data)->get('produit_user')->result_object();
+        return $this->db->where($data)->get('Produit_user')->result_object();
     }
     public function insert_questionnaire($data){
         return $this->db->insert('questionnaire',$data);

@@ -165,7 +165,17 @@ $(document).ready(function () {
                 if (data.type == 'termier') {
                     mettreBouttonTermnier();
                 } else if (data.type == 'a suivre') {
-                    mettreBouttonASuivre();
+                   // mettreBouttonASuivre();
+                   $(".termier").removeAttr('disabled');
+                    $(".termier").removeClass("collapse");
+                    $(".asuivre").attr('disabled', 'disabled');
+                    $(".asuivre").addClass("collapse");
+                    $(".nouveauDiscussion").addClass("collapse");
+                    $(".type_discussion").removeAttr('disabled');
+                    $(".clientMessage").removeAttr('disabled');
+                    $(".typeahead").removeAttr('disabled');
+                    $(".codeProduit").removeAttr('disabled');
+                    $(".valide_content").removeAttr('disabled');
                 } else {
                     $('.conten-message').append('<div class="col-md-12 text-center" style="float: none;"><span style="background:#fff;padding:2px 5px">En&nbsp;Attente&nbsp;</span></div><hr style="border: 1px solid;color: #39C0ED;margin-top: -10px" width:100%>');
                     mettreBouttonAttente();
@@ -291,9 +301,9 @@ $(document).ready(function () {
 
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: 'termier', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+            $.post(base_url + 'operatrice/new_methode_sauve', { message: message, Id_zone: Id_zone, id_con: id_con, Type: 'termier', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
-                    $('.conten-message').empty().append(data.content);
+                    $('.conten-message').append(data.reponse);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
                     afficherStatut = true;
                     afficherStatutDiscussion(afficherStatut, data);
@@ -303,9 +313,6 @@ $(document).ready(function () {
                     stopload();
                     alertMessage('Succé', 'Discussion terminé', 'success', 'btn btn-success');
                 });
-
-
-
             }, 'json');
 
         } else {
@@ -324,9 +331,9 @@ $(document).ready(function () {
         let type = 'a suivre';
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+            $.post(base_url + 'operatrice/new_methode_sauve', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
-                    $('.conten-message').empty().append(data.content);
+                    $('.conten-message').append(data.reponse);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
                     afficherStatut = true;
                     afficherStatutDiscussion(afficherStatut, data);
@@ -353,10 +360,10 @@ $(document).ready(function () {
         let type = 'NouvelleDiscussion';
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+            $.post(base_url + 'operatrice/new_methode_sauve', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
                     //localstorage.setItem('DISC',data.idDisc);
-                    $('.conten-message').empty().append(data.content);
+                    $('.conten-message').append(data.reponse);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
                     afficherStatut = true;
                     afficherStatutDiscussion(afficherStatut, data);
@@ -1516,13 +1523,14 @@ $(document).ready(function () {
                 loding();
                 $.post(base_url + 'operatrice/newfacture', function (data) {
                     var fact = data.codefact;
-                    $.post(base_url + 'operatrice/sauvemessage', { message: fact, Id_zone: id_zone, id_con: id_con, Type: 'vente', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function () { });
+                    
                     $.post(base_url + 'operatrice/enregistre_commande', { Localite: Localite, fraisderetrait: fraisderetrait, typeFacture: typeFacture, codePromo: codePromo, Id_discussion: Id_discussion, contact: contact, fact: fact, Id_zone: Id_zone, date: date, Debut: Debut, Fin: Fin, ville: ville, quartier: quartier, lieu_de_livraison: lieulivre, remarque: remarque, produits: detailcommande, client: client, frailivre: frailivre, District: District, page: page, cotactlivre: cotactlivre, result_mattr: result_mattr, bonus: bonus, bon_achat: bon_achat, bon_achat_input: bon_achat_input,lieu_client_livre:lieu_client_livre }, function (datas) {
 
                         if (datas.message === true) {
-                            $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function (data) {
-                                if (data.message === true) {
-                                    $('.conten-message').empty().append(data.content);
+                            $.post(base_url + 'operatrice/new_methode_sauve', { message: fact, Id_zone: id_zone, id_con: id_con, Type: 'vente', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+                           /// $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function (data) {
+                                if (data.message == true) {
+                                    $('.conten-message').append(data.reponse);
                                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
                                     afficherStatut = true;
                                     edit_facture();
@@ -1720,12 +1728,12 @@ $(document).ready(function () {
         var obs = $('.produiRV').val();
         var TypeMessage = localStorage.getItem('TypeMessage');
         var codeclient = localStorage.getItem('codeclient');
-        $.post(base_url + 'operatrice/rendezvous', { obs: obs, TypeMessage: TypeMessage, idDiscussion: idDiscussion, taches: taches, tache: tache, codeclient: codeclient, daterdv: daterdv, heurervd: heurervd, contactRvd: contactRvd, produitUsers: produitUsers, pageUsers: pageUsers }, function (data) {
+        $.post(base_url + 'operatrice/new_method_save_rendez_vous', { obs: obs, TypeMessage: TypeMessage, idDiscussion: idDiscussion, taches: taches, tache: tache, codeclient: codeclient, daterdv: daterdv, heurervd: heurervd, contactRvd: contactRvd, produitUsers: produitUsers, pageUsers: pageUsers }, function (data) {
             $('.daterdv').val("");
             $('.heurervd').val("");
             $('.contactRvd').val("");
             $('.RDV').modal('hide');
-            $('.conten-message').empty().append(data.content);
+            $('.conten-message').append(data.reponse);
             $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 20);
         }, 'json').done(function () {
             alertMessage("Succè!", "Rendez-vous", "success", "btn btn-success");
@@ -1915,7 +1923,7 @@ $(document).ready(function () {
 
         }, 'json');
 
-        $.post(base_url + 'operatrice/testDiscution', {
+        $.post(base_url + 'operatrice/get_discution_containt', {
             idclient: localStorage.getItem('codeclient'),
             page: page
         }, function (data) {
@@ -2271,7 +2279,7 @@ $(document).ready(function () {
     function edit_facture() {
 
 
-        $('div .modify').on('click', function (e) {
+        $('.modify').on('click', function (e) {
             e.preventDefault();
             var id = $(this).children().first().attr('id');
 

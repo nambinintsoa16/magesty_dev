@@ -1,0 +1,1 @@
+<div class="col-md-12 text-center" style="float: none;"><span style="background:#fff;padding:2px 5px">Terminée&nbsp;le&nbsp; <?=$date?> &nbsp;à&nbsp; <?=$heure?> &nbsp;</span></div><hr style="border: 1px solid red;margin-top:-10px">
