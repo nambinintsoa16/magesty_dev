@@ -263,5 +263,14 @@ class Administrateur_model extends CI_Model
     public function insert_questionnaire($data){
         return $this->db->insert('questionnaire',$data);
     }
+    public function get_personnel($param){
+        return $this->db->where($param)->get("personnel")->row_object();
+    }
+    public function get_fetch_personnel($param){
+        return $this->db->where($param)->get("personnel")->result_object();
+    }
+     public function insert_personnel($param){
+        return $this->db->insert("personnel",$param);
+    }
 
 }

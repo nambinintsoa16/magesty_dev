@@ -1115,4 +1115,28 @@ public function autoCompletePageFacebook()
    }
 
     }
+    public function duplique_operatrice(){
+      $this->render_view('administrateur/gestion_facebook/duplicate_operatrice');
+    }
+    public function duplicate_operatrice_method(){
+      $this->load->model('Administrateur_model');
+      $matricule = $this->input->post('matricule');
+      $type = $this->input->post('type');
+      $methodok = false;
+      $data_personnel = $this->Administrateur_model->get_personnel(["Matricule"=>$matricule]);
+      $numero=filter_var($matricule,FILTER_SANITIZE_NUMBER_INT);
+      //_____________________________________________________________________________________
+      //_____________________________________________________________ Test si personnel exist
+      $new_matricule = $type.$numero;
+      $personnel_exist = $this->Administrateur_model->get_personnel(["Matricule"=>$new_matricule]);
+      if(!$personnel_exist){
+        $data_personnel->Fonction_actuelle = 8;
+        $data_personnel->Matricule = $new_matricule;
+       $methodok = $this->Administrateur_model->insert_personnel($data_personnel);
+
+      }
+
+      echo $methodok;
+
+    }
 }
