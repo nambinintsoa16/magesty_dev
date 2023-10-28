@@ -51,20 +51,20 @@ public function dataFiabiliter(){
     $config["full_tag_open"] = '<nav aria-label="..."><ul class="pagination mb-0">';
     $config["full_tag_close"] = '</ul></nav>';    
     
-    $config["first_link"] = "Première";
+    $config["first_link"] = "<<";
     $config["first_tag_open"] = '<li class="page-item "><span class="page-link" tabindex="-1">';
     $config["first_tag_close"] = "</span></li>";
     
     
-    $config["last_link"] = "Dernière";
+    $config["last_link"] = ">>";
     $config["last_tag_open"] = '<li class="page-item "><span class="page-link"  tabindex="-1">';
     $config["last_tag_close"] = "</span></li>";
     
-    $config['next_link'] = 'Suivante';
+    $config['next_link'] = '>';
     $config['next_tag_open'] = '<li class="page-item "><span class="page-link"  tabindex="-1">';
     $config['next_tag_close'] = '</span></li>';
     
-    $config['prev_link'] = 'Précedante';
+    $config['prev_link'] = '<';
     $config['prev_tag_open'] = '<li class="page-item "><span class="page-link"  tabindex="-1">';
     $config['prev_tag_close'] = '</span></li>';
     
@@ -105,20 +105,20 @@ public function dataFiabiliter(){
     $config["full_tag_open"] = '<nav aria-label="..."><ul class="pagination mb-0">';
     $config["full_tag_close"] = '</ul></nav>';    
     
-    $config["first_link"] = "Première";
+    $config["first_link"] = "<<";
     $config["first_tag_open"] = '<li class="page-item "><span class="page-link" tabindex="-1">';
     $config["first_tag_close"] = "</span></li>";
     
     
-    $config["last_link"] = "Dernière";
+    $config["last_link"] = ">>";
     $config["last_tag_open"] = '<li class="page-item "><span class="page-link"  tabindex="-1">';
     $config["last_tag_close"] = "</span></li>";
     
-    $config['next_link'] = 'Suivante';
+    $config['next_link'] = '>';
     $config['next_tag_open'] = '<li class="page-item "><span class="page-link"  tabindex="-1">';
     $config['next_tag_close'] = '</span></li>';
     
-    $config['prev_link'] = 'Précedante';
+    $config['prev_link'] = '<';
     $config['prev_tag_open'] = '<li class="page-item "><span class="page-link"  tabindex="-1">';
     $config['prev_tag_close'] = '</span></li>';
     
