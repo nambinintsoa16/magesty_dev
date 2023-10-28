@@ -4724,6 +4724,19 @@ public function get_all_vue_livraison_detail_table($param){
 public function get_vue_livraison_detail_table($param){
    return $this->db->where($param)->get('vue_livraison_detail_table')->row_object();
 }
+public function get_fect_questionnaire($param=array()){
+  return $this->db->where($param)->get('questionnaire')->result_object();
+}
+public function get_reponse_question($param=array()){
+  return $this->db->where($param)->get('reponse_question')->row_object();
+}
+public function get_distinct_reponse_question($param=array(),$param2){
+  return $this->db->where($param)->group_by($param2)->get('reponse_question')->result_object();
+}
+
+public function get_client_po($param=array()){
+  return $this->db->where($param)->get('clientpo')->row_object();
+}
 
 
 }

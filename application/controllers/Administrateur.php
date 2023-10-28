@@ -1094,7 +1094,10 @@ public function autoCompletePageFacebook()
       echo $this->administrateur_model->insert_questionnaire($data);
     }
     public function Resultat_des_enquette(){
-       $this->render_view('administrateur/enquette/resultat');
+      $question = $this->global_model->get_fect_questionnaire();
+      $client = $this->global_model->get_distinct_reponse_question(array(),"client");
+      $data = ['question'=>$question,"client"=>$client];
+       $this->render_view('administrateur/enquette/resultat',$data);
     }
     public function update_liste_enquette(){
       $this->load->model('Relance_model');
@@ -1138,5 +1141,8 @@ public function autoCompletePageFacebook()
 
       echo $methodok;
 
+    }
+    public function Courbe_des_resultats(){
+      $this->render_view('administrateur/Enquette/Courbe_des_resultats');
     }
 }

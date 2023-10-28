@@ -66,6 +66,10 @@
                     "text": "Resultat des enquette",
                     "icon": "",
                     "link": "Administrateur/Enquette/Resultat_des_enquette"
+                },{
+                    "text": "Courbe des resultats",
+                    "icon": "",
+                    "link": "Administrateur/Enquette/Courbe_des_resultats"
                 }
             ]
         },
