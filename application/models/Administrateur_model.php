@@ -263,6 +263,12 @@ class Administrateur_model extends CI_Model
     public function insert_questionnaire($data){
         return $this->db->insert('questionnaire',$data);
     }
+    public function get_fetch_questionnaire($param=array()){
+        return $this->db->where($param)->get('questionnaire')->result_object();
+    }
+    public function get_questionnaire($param=array()){
+        return $this->db->where($param)->get('questionnaire')->row_object();
+    }
     public function get_personnel($param){
         return $this->db->where($param)->get("personnel")->row_object();
     }
@@ -271,6 +277,13 @@ class Administrateur_model extends CI_Model
     }
      public function insert_personnel($param){
         return $this->db->insert("personnel",$param);
+    }
+    public function get_reponse_question_distinct($param=array()){
+     return $this->db->where($param)->group_by('Produit')->get('reponse_question')->result_object();
+    }
+
+      public function get_fetch_reponse_question($param=array()){
+     return $this->db->where($param)->get('reponse_question')->result_object();
     }
 
 }

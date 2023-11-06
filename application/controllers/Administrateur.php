@@ -1143,6 +1143,57 @@ public function autoCompletePageFacebook()
 
     }
     public function Courbe_des_resultats(){
-      $this->render_view('administrateur/Enquette/Courbe_des_resultats');
+      $this->load->model('Administrateur_model');
+      $produit =   $this->Administrateur_model->get_reponse_question_distinct("Produit<>''");
+      $question =  $this->Administrateur_model->get_fetch_questionnaire();
+      $data = ["produit"=>$produit,'question'=>$question];
+      $this->render_view('administrateur/Enquette/Courbe_des_resultats',$data);
+    }
+    public function get_data_chart(){
+      $this->load->model('Administrateur_model');
+      $item_select = $this->input->post('item_select');
+      $question_select_text = $this->input->post('question_select_text');
+      $question_select_id = $this->input->post('question_select_id');
+
+      $reponse = $this->Administrateur_model->get_fetch_reponse_question(['Produit'=>$item_select,'Question'=>$question_select_text]);
+      $reponse_question =  $this->Administrateur_model->get_questionnaire(['id'=>$question_select_id]);
+      $question = explode(";", $reponse_question->option_containt);
+      $data_return = [];
+      for ($i=0; $i < count($question) ; $i++) { 
+        $data_return[$i] =0;
+      }
+      
+      $total = 0;
+      foreach ($reponse as $reponse) {
+           $key = array_search($reponse->reponse,$question);
+           if(array_key_exists($key, $data_return)){
+              $data_return[$key] += 1;
+           }else{
+              $data_return[$key] = 1;
+           }
+           $total +=1; 
+      } 
+      $p=0;
+    for ($p=0; $p < count($data_return); $p++) { 
+        $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total,2 );
+    }
+
+
+      $data = ['erreur'=>'false','question'=>$question,'stat'=>$data_return,'number'=>max($data_return)];
+      echo json_encode($data);
+    }
+    public function return_apreciation($param){
+       switch ($param) {
+         case 'value':
+           $reponse = "false";
+           break;
+         
+         default:
+           $reponse = "false";
+           break;
+           
+       }
+
+       return $reponse;
     }
 }
