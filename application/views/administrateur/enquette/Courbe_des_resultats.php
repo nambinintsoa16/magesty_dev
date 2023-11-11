@@ -26,7 +26,6 @@
 						<?php endforeach;?>
 					</select>
 				</div>
-
 				<div class="col-md-6">
 					<label>Famille : </label>
 					<select class="custom-select custom-select-sm" id="select-produit-famille">
