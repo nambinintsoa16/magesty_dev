@@ -285,5 +285,11 @@ class Administrateur_model extends CI_Model
       public function get_fetch_reponse_question($param=array()){
      return $this->db->where($param)->get('reponse_question')->result_object();
     }
+    public function get_famille_produit($param=array()){
+        return $this->db->where($param)->group_by("famille")->get('categorie')->result_object();
+    } 
+    public function get_produit($param){
+         return $this->db->where($param)->get('produit')->row_object();
+    }
 
 }

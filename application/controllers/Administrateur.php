@@ -1146,7 +1146,8 @@ public function autoCompletePageFacebook()
       $this->load->model('Administrateur_model');
       $produit =   $this->Administrateur_model->get_reponse_question_distinct("Produit<>''");
       $question =  $this->Administrateur_model->get_fetch_questionnaire();
-      $data = ["produit"=>$produit,'question'=>$question];
+      $famille = $this->Administrateur_model->get_famille_produit();
+      $data = ["produit"=>$produit,'question'=>$question,'famille'=>$famille];
       $this->render_view('administrateur/Enquette/Courbe_des_resultats',$data);
     }
     public function get_data_chart(){
@@ -1154,6 +1155,9 @@ public function autoCompletePageFacebook()
       $item_select = $this->input->post('item_select');
       $question_select_text = $this->input->post('question_select_text');
       $question_select_id = $this->input->post('question_select_id');
+
+
+      $color = array('#64DD17','#33691E','#00B0FF','#ffc000','#01579B','#64DD17','#33691E','#00B0FF','#ffc000','#01579B');
 
       $reponse = $this->Administrateur_model->get_fetch_reponse_question(['Produit'=>$item_select,'Question'=>$question_select_text]);
       $reponse_question =  $this->Administrateur_model->get_questionnaire(['id'=>$question_select_id]);
@@ -1175,7 +1179,8 @@ public function autoCompletePageFacebook()
       } 
       $p=0;
     for ($p=0; $p < count($data_return); $p++) { 
-        $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total,2 );
+        $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total);
+        $question[$p] = $question[$p]." ( ".$data_return[$p]." % ) ";
     }
 
 
