@@ -1179,8 +1179,10 @@ public function autoCompletePageFacebook()
       } 
       $p=0;
     for ($p=0; $p < count($data_return); $p++) { 
-        $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total);
-        $question[$p] = $question[$p]." ( ".$data_return[$p]." % ) ";
+        if($total != 0 ){
+          $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total);
+          $question[$p] = $question[$p]." ( ".$data_return[$p]." % ) ";
+        }
     }
 
 

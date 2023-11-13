@@ -446,18 +446,20 @@ class relance extends My_Controller
   {
     $this->load->model('discussion_model');
     $this->load->model('client_model');
-
+    $user = $this->session->userdata('matricule');
     $type = $this->input->get('type');
+    $idpage = $this->session->userdata("page");
     $data = array();
     $date = date('Y-m-d');
      
     if($type=="duJour"){
-      $datas = $this->relance_model->get_fetch_relance_aa7(["matricule_oplg"=>$this->session->userdata('matricule'),"create_date"=>$date,"statut"=>'',"id_page"=>$this->session->userdata("page")]);
+      $datas = $this->relance_model->get_fetch_relance_aa7("matricule_oplg like '$user' AND create_date like '$date%' AND statut= '' AND id_page = '$idpage'");
     }else{
     
       $datas = $this->relance_model->get_fetch_relance_aa7("(`matricule_oplg` = '".$this->session->userdata('matricule')."') AND  (`create_date` < '$date' AND `id_page`=".$this->session->userdata('page').") AND statut =''");
 
     }
+ 
     foreach ($datas as $row) {
       $client = $this->client_model->infoclientPo($row->code_client);
 			$methodOk = $client != null ;
