@@ -1059,7 +1059,7 @@ class operatrice extends My_Controller
   }
   public function addProduit()
   {
-    $this->load->model('global_model');
+    $this->load->model('global_model');https://git.heroku.com/recovery-day-prediction-app.git
     $facture = $this->input->post('facture');
     $idPrix = $this->input->post('idPrix');
     $quantite = $this->input->post('quantite');
@@ -1778,6 +1778,29 @@ class operatrice extends My_Controller
     echo json_encode($observations);
   }
 
+  public function getPurchaseInfo() {
+    $this->load->model('Observation_model');
+    
+    $codeClient = $this->input->get('codeClient');
+    $appreciation = $this->input->get('appreciation');
+
+    if ($appreciation == 'curiousWithPurchase') {
+        $purchaseNumber = (int)$this->Observation_model->getPurchaseNumberByCodeClient($codeClient) + 1;
+        $numberOfRefusals = (int)$this->Observation_model->getNumberOfRefusalsByCodeClient($codeClient);
+    } else {
+        $purchaseNumber = (int)$this->Observation_model->getPurchaseNumberByCodeClient($codeClient);
+        $numberOfRefusals = (int)$this->Observation_model->getNumberOfRefusalsByCodeClient($codeClient) + 1;
+    }
+
+    $response = array(
+        'purchaseNumber' => $purchaseNumber,
+        'numberOfRefusals' => $numberOfRefusals
+    );
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+  }
+
   public function saveObservation() {
     $postData = $this->input->post();
 
@@ -1810,7 +1833,8 @@ class operatrice extends My_Controller
         'purchase_number' => $purchaseNumber,
         'number_of_refusals' => $numberOfRefusals,
         'date' => date('Y-m-d H:i:s', (int)$postData['date'] / 1000),
-        'code_client' => $codeClient
+        'code_client' => $codeClient,
+        'date_relance' => date('Y-m-d H:i:s', (int)$postData['date_relance'] / 1000),
     );
 
     $this->Observation_model->saveObservation($observationData, $selectedProducts);
