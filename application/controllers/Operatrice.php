@@ -4250,6 +4250,7 @@ class operatrice extends My_Controller
       }
       
    }
+
   public function Livraion_du_jour_export()
   {
     $this->load->model('global_model');
@@ -4257,5 +4258,8 @@ class operatrice extends My_Controller
     $this->render_view('operatrice/etat_de_livraison/exportelisteliv', ['data' => $LivraisonDuJourExprot]);
   }
 
+  public function Relance_ML() {
+    $this->render_view('operatrice/relance_ML/relance_ML');
+  }
 
 }

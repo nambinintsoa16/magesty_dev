@@ -66,6 +66,11 @@
             "icon": "icon-action-undo",
             "link": "",
             "sous_menu": [
+                {
+                    "text": "Liste clients (ML)",
+                    "icon": "",
+                    "link": "operatrice/relance_ml"
+                },
 
                 {
                     "text": "Liste clients à traiter",

@@ -192,5 +192,3 @@ $route["($type_user)/Liste_Temoignage_et_sondage_et_Faharetana"] = "Administrate
 $route["($type_user)/Liste_Temoignage_et_sondage_et_Faharetana_pour_nos_publication"] = "Administrateur/Liste_TSF_Publication";
 
 
-
-
