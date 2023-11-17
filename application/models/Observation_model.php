@@ -46,13 +46,14 @@ class Observation_model extends CI_Model {
         $this->db->join('constraint_customer', 'observation.constraint_customer = constraint_customer.id_constraint', 'left');
         $this->db->join('appreciation_oplg', 'observation.appreciation = appreciation_oplg.id_appreciation_oplg', 'left');
         $this->db->join('clientpo', 'observation.code_client = clientpo.Code_client');
+        $this->db->where('observation.date_relance IS NOT NULL');
         $this->db->group_by('observation.id_observation');
         $this->db->order_by('observation.date', 'desc'); 
         $query = $this->db->get();
         return $query->result();
     }
 
-    public function getAllObservations($searchDate) {
+    public function getAllObservationsByDateRelance($searchDate) {
         $this->db->select('observation.*,appreciation_oplg.description_appreciation,constraint_customer.description_customer,clientpo.Compte_facebook,GROUP_CONCAT(produit.Designation SEPARATOR " / ") AS products');
         $this->db->from('observation');
         $this->db->join('observation_produit', 'observation.id_observation = observation_produit.id_observation', 'left');
@@ -60,6 +61,7 @@ class Observation_model extends CI_Model {
         $this->db->join('constraint_customer', 'observation.constraint_customer = constraint_customer.id_constraint', 'left');
         $this->db->join('appreciation_oplg', 'observation.appreciation = appreciation_oplg.id_appreciation_oplg', 'left');
         $this->db->join('clientpo', 'observation.code_client = clientpo.Code_client');
+        $this->db->where('observation.date_relance IS NOT NULL');
         $this->db->where('DATE(observation.date_relance)', $searchDate);
         $this->db->group_by('observation.id_observation');
         $this->db->order_by('observation.date', 'desc'); 

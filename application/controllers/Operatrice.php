@@ -1838,7 +1838,22 @@ class operatrice extends My_Controller
     );
 
     $this->Observation_model->saveObservation($observationData, $selectedProducts);
-}
+  }
+
+  public function getAllObservations() {
+    $this->load->model('Observation_model');
+    $result = $this->Observation_model->getAllObservations();
+    header('Content-Type: application/json');
+    echo json_encode($result);
+  }
+
+  public function getAllObservationsByDateRelance() {
+    $date = $this->input->get('searchDate');
+    $this->load->model('Observation_model');
+    $result = $this->Observation_model->getAllObservationsByDateRelance($date);
+    header('Content-Type: application/json');
+    echo json_encode($result);
+  }
 
 
   public function sauvemessages()
