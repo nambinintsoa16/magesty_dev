@@ -1,3 +1,17 @@
+// Déclarer la variable socket en dehors de la fonction onload
+var socket;
+
+// Charger Socket.IO de manière traditionnelle
+var script = document.createElement('script');
+script.src = 'https://cdn.socket.io/4.6.0/socket.io.min.js';
+
+// Attendre que le script soit chargé avant d'initialiser la connexion Socket.IO
+script.onload = function () {
+    socket = io('http://localhost:3000');
+};
+
+document.head.appendChild(script);
+
 $(document).ready(function () {
 	Init_produit();
 	choixPages();
@@ -2339,7 +2353,6 @@ $(document).ready(function () {
 	});
 
 	$(".save_observation").on("click", function (event) {
-		console.log('click');
 		event.preventDefault();
 		let page = localStorage.getItem("pageUsers");
 		let codeClient = localStorage.getItem("codeclient");
@@ -2625,6 +2638,7 @@ $(document).ready(function () {
 								bon_achat_input: bon_achat_input,
 							},
 							function (datas) {
+								socket.emit('enregistrer', {save: true});
 								if (datas.message === true) {
 									$.post(
 										base_url + "operatrice/testDiscution",
@@ -3214,3 +3228,4 @@ $(document).ready(function () {
 		return retour;
 	}
 });
+

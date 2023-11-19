@@ -1,5 +1,3 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-
 $(document).ready(function () {
 	Init_produit();
 
@@ -138,9 +136,6 @@ $(document).ready(function () {
 							District: District,
 						},
 						function (datas) {
-                            console.log(data);
-							const socket = io('http://localhost:3000');
-							socket.emit('enregistrer', {save: true});
 							if (datas.message === true) {
 								stopload();
 							} else {
