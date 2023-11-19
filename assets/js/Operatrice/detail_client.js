@@ -59,7 +59,7 @@ $(document).ready(function () {
 				},
 			];
 			var ctx = document.getElementById("lineChart");
-			ctx.height = 60;
+			
 			var myChart = new Chart(ctx, {
 				type: "line",
 				data: {

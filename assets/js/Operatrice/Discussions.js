@@ -2339,6 +2339,7 @@ $(document).ready(function () {
 	});
 
 	$(".save_observation").on("click", function (event) {
+		console.log('click');
 		event.preventDefault();
 		let page = localStorage.getItem("pageUsers");
 		let codeClient = localStorage.getItem("codeclient");
@@ -2409,7 +2410,6 @@ $(document).ready(function () {
 							nbr_products: selectedProducts.length,
 						}),
 						success: function (res) {
-							console.log(res.nbr_de_jours);
 							const addToDays = res.nbr_de_jours;
 							function addBusinessDays(startDate, daysToAdd) {
 								const weekends = [0, 6]; // 0 représente le dimanche, 6 représente le samedi
