@@ -992,13 +992,13 @@ $(document).ready(function () {
                 $('.total').empty().append(sum + ' MGA');
                 valeur_achat = sum;
             }
-             $.post(base_url+'operatrice/checked_cadeau',{valeur_achat},function(data){
-                $('#select_cadeau').empty().append(data);
-                   
-            });
+           
         }
 
-
+        $.post(base_url+'operatrice/checked_cadeau',{valeur_achat},function(data){
+            $('#select_cadeau').empty().append(data);
+               
+        });
         fonctiondel();
 
 
@@ -1976,22 +1976,22 @@ $(document).ready(function () {
         $(".type-facture").prop("selectedIndex", 0);
         $(".codePromo").prop("selectedIndex", 0);
 
-        function totaltab() {
+        
             let sum = 0;
             if (typeof ($('.tot').html()) !== 'undefined') {
                 $('.tot').each(function () {
                     sum += parseInt($(this).html());
                 });
-                let aff = $('.total').empty().append(sum + ' MGA');
-                return (aff);
+               $('.total').empty().append(sum + ' MGA');
+               
             } else {
                 $('.total').empty().append('00 MGA');
             }
-             $.post(base_url+'operatrice/checked_cadeau',{valeur_achat:sum},function(data){
-               $('#select_cadeau').empty().append(data);
-                   
-            });
-        }
+        
+
+        $.post(base_url+'operatrice/checked_cadeau',{valeur_achat:sum},function(data){
+            $('#select_cadeau').empty().append(data);
+         });
 
         $('.Qua').on('change', function () {
             if ($(this).val() < 1) {
@@ -2006,7 +2006,23 @@ $(document).ready(function () {
             let Qt = prix.split(",");
             let number = Qt[0].replace(".", "");
             total.empty().append(parseInt(number) * quantite);
-            totaltab();
+            //totaltab();
+
+            let sum = 0;
+            if (typeof ($('.tot').html()) !== 'undefined') {
+                $('.tot').each(function () {
+                    sum += parseInt($(this).html());
+                });
+                 $('.total').empty().append(sum + ' MGA');
+                ///return (aff);
+            } else {
+                $('.total').empty().append('00 MGA');
+            }
+
+          //  let total_somme =$('.total').text().split("M");
+            $.post(base_url+'operatrice/checked_cadeau',{valeur_achat:sum},function(data){
+                $('#select_cadeau').empty().append(data);
+             });
         });
 
 
