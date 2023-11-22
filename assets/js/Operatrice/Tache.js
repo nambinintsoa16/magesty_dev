@@ -99,9 +99,10 @@ $(document).ready(function() {
         $('#liensurfb').val("");
         $.post(base_url + 'operatrice/testIfClientPo', { lienFb: $('#liensurfb').val() },
             function(data) {
+                 stopload();
                 if (data.existe == true) {
                     localStorage.setItem("DISC", "");
-                    stopload();
+                   
                     localStorage.setItem('pageUsers', $('.pageUsers option:selected').val());
                     localStorage.setItem('pagetext', $('.pageUsers option:selected').text());
                     localStorage.setItem('produitUsers', $('.codeproduit').val());
@@ -161,8 +162,6 @@ $(document).ready(function() {
             var nomgroupe = $('.nomgroupe').val();
             var Lien_support = $('.Lien_support').val();
             var pageUsers = $('.pageUsers option:selected').val();
-
-            console.log(option + " " + options);
 
             if ($('.select2 option:selected').val() == "" || $('.select1 option:selected').val() == "" || $('.codeproduit').val() == "" || $('.nomproduit').val() == "" || $('.pageUsers option:selected').val() == "") {
                 initable();
@@ -313,7 +312,6 @@ $(document).ready(function() {
             processData: false,
             success: function(data) {
                 localStorage.setItem('lienFb', $('#liensurfb').val());
-
                 saveDetail(codeClient);
             },
 

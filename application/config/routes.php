@@ -128,6 +128,8 @@ $route["($type_user)/Parametre_d_appel/Importer_fichier"] = "Administrateur/Impo
 $route["($type_user)/Gestion_facebook/Page/Rattacher_page"] = "Administrateur/Rattacher_page";
 $route["($type_user)/Gestion_facebook/Page/Gerer_page"] = "Administrateur/Gerer_page";
 $route["($type_user)/Gestion_facebook/Compte/Nouveau_compte"] = "Administrateur/Nouveau_compte";
+$route["($type_user)/Gestion_facebook/Duplique_operatrice"] = "Administrateur/duplique_operatrice";
+
 
 $route["($type_user)/Parametre_d_appel/Entrant"] = "Administrateur/ParametreAppelEntrant";
 $route["($type_user)/Parametre_d_appel/Sortant"] = "Administrateur/ParametreAppelSortant";
@@ -137,7 +139,9 @@ $route["($type_user)/Vente/Bon_d_achat/Parametre_des_bon_d_achat"] = "Administra
 
 
 $route["($type_user)/Gestion_facebook/Produit_operatrice"]="Administrateur/Produit_operatrice";
-$route["($type_user)/Enquette/Nouveau"]="Administrateur/nouveau_enquette";
+$route["($type_user)/Enquette/Creation_question"]="Administrateur/nouveau_enquette";
+$route["($type_user)/Enquette/Resultat_des_enquette"]="Administrateur/Resultat_des_enquette";
+$route["($type_user)/Enquette/Courbe_des_resultats"] = "Administrateur/Courbe_des_resultats";
 
 //________________________________________________________________________
 //___________________________________________________________________appel

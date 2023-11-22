@@ -600,7 +600,7 @@
                   </div>
                 </div>   
                 <div class="col-3">
-                  <label for="other" class="form-label">Autre</label>
+                  <label for="other" class="form-label">Social</label>
                   <div class="input-group">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[10]">
@@ -614,11 +614,113 @@
                         </button>
                     </span>
                   </div>
-                </div>         
+                </div>    
+
+                 <div class="col-3">
+                  <label for="other" class="form-label">Religion et voyance</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[12]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="other" disabled name="quant[12]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[12]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div> 
+                 <div class="col-3">
+                  <label for="other" class="form-label">EXtrait de film</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[13]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="other" disabled name="quant[13]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[13]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div> 
+
+                 <div class="col-3">
+                  <label for="other" class="form-label">Education</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[14]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="other" disabled name="quant[14]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[14]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div> 
+
+                 <div class="col-3">
+                  <label for="other" class="form-label">Bébé</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[15]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="other" disabled name="quant[15]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[15]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div> 
+
+                 <div class="col-3">
+                  <label for="other" class="form-label">Technologie</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[16]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="other" disabled name="quant[16]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[16]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div> 
+
+
+
+                <div class="col-3">
+                  <label for="other" class="form-label">Autre</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="minus" data-field="quant[1]">
+                            -
+                        </button>
+                    </span>
+                    <input type="number" id="other" disabled name="quant[17]" class="form-control form-control-sm text-center other" value="0" min="1" max="20">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-info btn-number" data-type="plus" data-field="quant[17]">
+                            +
+                        </button>
+                    </span>
+                  </div>
+                </div> 
               </div>
             </div>
           </fieldset>
-
           <fieldset class="border p-1" style="padding:2px; border: solid #424242 1px!important;" id="monitoring-fieldset">
             <legend class="w-auto">Monitoring</legend>
             <table class="table">
@@ -782,6 +884,16 @@
             </div>
           </fieldset>
 
+          <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
+            <legend class="w-auto">Cadeau</legend>
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <select class="custom-select" id="select_cadeau">
+                  </select>
+                </div>
+              </div>
+          
+          </fieldset>
           <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
             <legend class="w-auto">Bon d'achat</legend>
             <div class="row">

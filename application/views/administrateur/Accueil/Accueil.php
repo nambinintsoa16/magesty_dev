@@ -235,7 +235,6 @@
    </form>
 </div>
 
-
 <div class="container">
    <span class="date_collapse collapse"> <?php if ($date == "") {
                                              $date = date('Y-m-d');
@@ -258,10 +257,10 @@
          Produits vendus<br><a href="#" class='linka liste_produit'><?= number_format($entete['NBProduit']) ?></a>
       </div>
       <div class="form-group col-md-2 card">
-         <a href="<?php echo site_url('controlleur/etat_vente/' . $date) ?>">Etat de vente du: </br><?php echo $date ?></a>
+         <a href="<?= site_url('controlleur/etat_vente/' . $date) ?>">Etat de vente du: </br><?= $date ?></a>
       </div>
 
-      <div class="form-group col-md-4  previ">PREVISION DU: <?php echo $date ?>
+      <div class="form-group col-md-4  previ"><?= $date ?>
       </div>
    </div>
 
@@ -285,4 +284,4 @@
       </div>
    </div>
 </div>
-<button type="button" class="btn btn-primary btn-lg active center-block response"><a href="<?php echo site_url('controlleur/acceuil') ?>">Entrer sur controleur</a></button>
+<button type="button" class="btn btn-primary btn-lg active center-block response"><a href="<?= site_url('controlleur/acceuil') ?>">Entrer sur controleur</a></button>

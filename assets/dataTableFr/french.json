@@ -13,10 +13,10 @@
     "zeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
     "emptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
     "paginate": {
-        "first":      "Premier",
-        "previous":   "Pr&eacute;c&eacute;dent",
-        "next":       "Suivant",
-        "last":       "Dernier"
+        "first":      "<<",
+        "previous":   "<",
+        "next":       ">",
+        "last":       ">>"
     },
     "aria": {
         "sortAscending":  ": activer pour trier la colonne par ordre croissant",

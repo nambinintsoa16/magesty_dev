@@ -55,33 +55,21 @@
             ]
         },{
             "text": "Enquette",
-            "icon": "flaticon-cart-1",
+            "icon": "flaticon-pen",
             "link": "",
             "sous_menu": [
                 {
-                    "text": "Nouveau",
+                    "text": "Creation question",
                     "icon": "",
-                    "link": "Administrateur/Enquette/Nouveau"
-                }, {
-                    "text": "Bon d achat",
+                    "link": "Administrateur/Enquette/Creation_question"
+                },{
+                    "text": "Resultat des enquette",
                     "icon": "",
-                    "link": "",
-                    "sous_sous_menu": [
-                        {
-                            "text": "Bon achat des client",
-                            "icon": "",
-                            "link": "Administrateur/Vente/Bon_d_achat/Bon_achat_des_client"
-                        },
-                        {
-                            "text": "Parametre des bon d achat",
-                            "icon": "",
-                            "link": "Administrateur/Vente/Bon_d_achat/Parametre_des_bon_d_achat"
-                        }
-                    ]
-                }, {
-                    "text": "Annuler",
+                    "link": "Administrateur/Enquette/Resultat_des_enquette"
+                },{
+                    "text": "Courbe des resultats",
                     "icon": "",
-                    "link": "Administrateur/Vente/Annuler"
+                    "link": "Administrateur/Enquette/Courbe_des_resultats"
                 }
             ]
         },
@@ -113,6 +101,12 @@
                     "icon": "",
                     "link": "",
                     "link": "Administrateur/Gestion_facebook/Produit_operatrice"
+
+            },{
+                    "text": "Duplique operatrice",
+                    "icon": "",
+                    "link": "",
+                    "link": "Administrateur/Gestion_facebook/Duplique_operatrice"
 
             },{
                     "text": "Page",

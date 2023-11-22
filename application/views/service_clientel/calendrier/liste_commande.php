@@ -6,6 +6,7 @@
                     <th style="color:white">Photos</th>
                     <th style="color:white">Produit</th>
                     <th style="color:white">Somme</th>
+                    <th style="color:white">Cadeau</th>
                     <th style="color:white">Lieu de livraisons</th>
                     <th style="color:white"> </th>
                     <th> </th>
@@ -20,6 +21,7 @@
             
               <td><?=$data['produit']?></td>
               <td><?= number_format($data['ca'], 2, ',', ' ')?> Ar</td>
+              <th style="color:white"><?=$data['cadeau']?></th>
               <td><?=$data['Ville']." ".$data['Quartier']?></td>   
              
               

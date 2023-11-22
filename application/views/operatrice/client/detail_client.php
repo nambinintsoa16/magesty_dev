@@ -101,7 +101,7 @@
                             </ol>
                         </div>
                         <div class="col-md-12 w-100">
-                            <table class="table table-hover table-striped dataTables w-100">
+                            <table class="table table-hover dataTables border-0  w-100">
                                 <thead class="bg-<?=$nav_color?> text-white text-center">
                                     <tr>
                                         <th>Aperçu</th>

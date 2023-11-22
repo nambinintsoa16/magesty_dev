@@ -255,10 +255,41 @@ class Administrateur_model extends CI_Model
        return $this->db->where($param)->get('comptefb')->row_object();
     }
     public function insert_produit_user($data){
-        return $this->db->insert('produit_user',$data);
+        return $this->db->insert('Produit_user',$data);
     }
     public function get_fetch_produit_user($data=array()){
-        return $this->db->where($data)->get('produit_user')->result_object();
+        return $this->db->where($data)->get('Produit_user')->result_object();
+    }
+    public function insert_questionnaire($data){
+        return $this->db->insert('questionnaire',$data);
+    }
+    public function get_fetch_questionnaire($param=array()){
+        return $this->db->where($param)->get('questionnaire')->result_object();
+    }
+    public function get_questionnaire($param=array()){
+        return $this->db->where($param)->get('questionnaire')->row_object();
+    }
+    public function get_personnel($param){
+        return $this->db->where($param)->get("personnel")->row_object();
+    }
+    public function get_fetch_personnel($param){
+        return $this->db->where($param)->get("personnel")->result_object();
+    }
+     public function insert_personnel($param){
+        return $this->db->insert("personnel",$param);
+    }
+    public function get_reponse_question_distinct($param=array()){
+     return $this->db->where($param)->group_by('Produit')->get('reponse_question')->result_object();
+    }
+
+      public function get_fetch_reponse_question($param=array()){
+     return $this->db->where($param)->get('reponse_question')->result_object();
+    }
+    public function get_famille_produit($param=array()){
+        return $this->db->where($param)->group_by("famille")->get('categorie')->result_object();
+    } 
+    public function get_produit($param){
+         return $this->db->where($param)->get('produit')->row_object();
     }
 
 }

@@ -1,7 +1,19 @@
 $(document).ready(function () {
+    //______________________________________________________________________
+    //_____________________________________________ Déclaration des variable
+
+    var selectedRadio; // Stocker l'élément radio sélectionné
+    //_____________________________________________________________________
+    //_____________________________________________________ afficher cadeau
+        
+
+    //______________________________________________________________________
+    //___________________________________________fonction lance au chargement
     Init_produit();
     choixPages();
-    alert('');
+    //______________________________________________________________________
+    //_____________________________________________ Déclaration des variable
+
     $('.code_client_ban').empty().append(localStorage.getItem('codeclient'));
     initialiseNomByCodeClient();
     //initCOmplte();   
@@ -21,7 +33,7 @@ $(document).ready(function () {
         }
     });
 
-    var selectedRadio; // Stocker l'élément radio sélectionné
+    
     
     $('input[name="displayOptions"]').change(function() {
       selectedRadio = this; // Stocker l'élément actuellement sélectionné
@@ -155,7 +167,17 @@ $(document).ready(function () {
                 if (data.type == 'termier') {
                     mettreBouttonTermnier();
                 } else if (data.type == 'a suivre') {
-                    mettreBouttonASuivre();
+                   // mettreBouttonASuivre();
+                   $(".termier").removeAttr('disabled');
+                    $(".termier").removeClass("collapse");
+                    $(".asuivre").attr('disabled', 'disabled');
+                    $(".asuivre").addClass("collapse");
+                    $(".nouveauDiscussion").addClass("collapse");
+                    $(".type_discussion").removeAttr('disabled');
+                    $(".clientMessage").removeAttr('disabled');
+                    $(".typeahead").removeAttr('disabled');
+                    $(".codeProduit").removeAttr('disabled');
+                    $(".valide_content").removeAttr('disabled');
                 } else {
                     $('.conten-message').append('<div class="col-md-12 text-center" style="float: none;"><span style="background:#fff;padding:2px 5px">En&nbsp;Attente&nbsp;</span></div><hr style="border: 1px solid;color: #39C0ED;margin-top: -10px" width:100%>');
                     mettreBouttonAttente();
@@ -281,9 +303,9 @@ $(document).ready(function () {
 
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: 'termier', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+            $.post(base_url + 'operatrice/new_methode_sauve', { message: message, Id_zone: Id_zone, id_con: id_con, Type: 'termier', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
-                    $('.conten-message').empty().append(data.content);
+                    $('.conten-message').append(data.reponse);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
                     afficherStatut = true;
                     afficherStatutDiscussion(afficherStatut, data);
@@ -293,9 +315,6 @@ $(document).ready(function () {
                     stopload();
                     alertMessage('Succé', 'Discussion terminé', 'success', 'btn btn-success');
                 });
-
-
-
             }, 'json');
 
         } else {
@@ -314,9 +333,9 @@ $(document).ready(function () {
         let type = 'a suivre';
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+            $.post(base_url + 'operatrice/new_methode_sauve', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
-                    $('.conten-message').empty().append(data.content);
+                    $('.conten-message').append(data.reponse);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
                     afficherStatut = true;
                     afficherStatutDiscussion(afficherStatut, data);
@@ -343,10 +362,10 @@ $(document).ready(function () {
         let type = 'NouvelleDiscussion';
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/sauvemessage', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+            $.post(base_url + 'operatrice/new_methode_sauve', { message: message, Id_zone: Id_zone, id_con: id_con, Type: type, sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                 if (data.message == true) {
                     //localstorage.setItem('DISC',data.idDisc);
-                    $('.conten-message').empty().append(data.content);
+                    $('.conten-message').append(data.reponse);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
                     afficherStatut = true;
                     afficherStatutDiscussion(afficherStatut, data);
@@ -366,7 +385,7 @@ $(document).ready(function () {
     function reloadContentMessage(idclient, page) {
         if (page != "vide") {
             loding();
-            $.post(base_url + 'operatrice/testDiscution', { idclient: idclient, page: page }, function (data) {
+            $.post(base_url + 'operatrice/get_discution_containt', { idclient: idclient, page: page }, function (data) {
                 if (data.message === true) {
                     $('.conten-message').empty().append(data.content);
                     $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
@@ -465,188 +484,7 @@ $(document).ready(function () {
         }, 'json');
     }
 
-    function changerpage() {
-        $.post(base_url + 'operatrice/get_liste_page', {}, function (data) {
-            var listePage = '<form action="" class="formName"><div class="form-group"><select class="selectPage form-control">';
-            listePage += '<option value="null"></option>';
-            data.forEach(element => {
-                listePage += '<option value="' + element.id + '">' + element.Nom_page + '</option>';
-            });
-            listePage += '</select></div></form> ';
-            stopload();
-            $.confirm({
-                title: '<p style="color: #2a5591">Bienvenue<p>',
-                content: 'Quelle page voulez vous activer?' + listePage,
-                buttons: {
-                    button: {
-                        action: function () {
-                            let id = this.$content.find('.selectPage').val();
-                            if (id != "null") {
-                                codeclient = localStorage.getItem('codeclient');
-                                reloadContentMessage(codeclient, id);
-                                $('.page').val(id);
-                                $('.page').removeAttr('disabled');
-                                var page_text = localStorage.getItem('pagetext');
-                                //var page_text = $('.page').find('option:selected').text();
-                                $('.pageusers').empty().append(page_text);
-                            } else {
-                                id = '1';
-                                codeclient = localStorage.getItem('codeclient');
-                                reloadContentMessage(codeclient, id);
-                                $('.page').val(id);
-                                $('.page').removeAttr('disabled');
-                                var page_text = localStorage.getItem('pagetext');
-                                //var page_text = $('.page').find('option:selected').text();
-                                $('.pageusers').empty().append(page_text);
-                            }
-
-                        },
-                        text: 'Fermer',
-                        btnClass: 'btn-red',
-                    },
-                    formSubmit: {
-                        text: 'confirmer',
-                        btnClass: 'btn-blue',
-                        action: function () {
-                            let id = this.$content.find('.selectPage').val();
-                            if (id != "null") {
-                                codeclient = localStorage.getItem('codeclient');
-                                reloadContentMessage(codeclient, id);
-                                $('.page').val(id);
-                                $('.page').removeAttr('disabled');
-                                var page_text = localStorage.getItem('pagetext');
-                                //var page_text = $('.page').find('option:selected').text();
-                                $('.pageusers').empty().append(page_text);
-                            } else {
-                                //$.alert(" veuillez choisir une page! ");
-                                $.confirm({
-                                    title: '<p style="color: red">Attention!</p>',
-                                    content: '<p>vous devez choisir une page</p>',
-                                    buttons: {
-                                        ok: function () {
-                                            changerpage();
-                                        }
-                                    }
-                                });
-
-                            }
-                        }
-                    },
-
-                }
-            });
-        }, 'json');
-    }
-
-    function selectPage(page) {
-        page = localStorage.getItem('pageUsers');
-        if (page != "vide") {
-            //nomPage = $('.page').find('option:selected').text();
-            nomPage = localStorage.getItem('pagetext');
-            $.confirm({
-                title: '<p style="color: #2a5591">Bonjour<p>',
-                content: 'Voulez vous lancer la discussion avec ce client dans la page ' + nomPage,
-                buttons: {
-                    formSubmit: {
-                        text: '<span style="font-size:12px" >lancer la discussion</span>',
-                        btnClass: 'btn-blue',
-                        action: function () {
-                            $.post(base_url + 'operatrice/insertDetailPage', { idPage: page, codeClient: localStorage.getItem('codeclient') }, function (datas) {
-                                messageDeBienvenue(datas.idPage)
-                                insertNouveauDiscussion(datas.idPage);
-                                //var page_text = $('.page').find('option:selected').text();
-                                var page_text = localStorage.getItem('pagetext');
-                                $('.pageusers').empty().append(page_text);
-                                //var codeclient=localStorage.getItem('codeclient');
-                                //var page= $('.page').find('option:selected').val();
-                                //reloadContentMessage(codeclient,page);
-                            }, 'json');
-                        }
-                    },
-                    annuler: {
-                        text: '<span style="font-size:12px" >annuler</span>',
-                        btnClass: 'btn-red',
-                        action: function () {
-                            $('.firstcontaact').removeAttr('disabled');
-                            $('.firstcontaact').removeClass('collapse');
-                        }
-
-                    }
-                }
-            });
-        }
-    }
-
-    function choixPages() {
-        if ((localStorage.hasOwnProperty('isNouveau')) && (localStorage.getItem('isNouveau'))) {
-            $.post(base_url + 'operatrice/insertDetailPage', { idPage: localStorage.getItem('pageUsers'), codeClient: localStorage.getItem('codeclient') }, function (datas) {
-                messageDeBienvenue(localStorage.getItem('pageUsers'));
-                insertNouveauDiscussion(localStorage.getItem('pageUsers'));
-                var page_text = localStorage.getItem('pagetext');
-            }, 'json');
-        }
-    }
-
-    function choixPage() {
-        if ((localStorage.hasOwnProperty('isNouveau')) && (localStorage.getItem('isNouveau'))) {
-            verouiller();
-            $.post(base_url + 'operatrice/get_liste_page', {}, function (data) {
-
-                var listePage = '<form action="" class="formName"><div class="form-group"><select class="selectPage form-control">';
-                listePage += '<option value="null"></option>';
-                data.forEach(element => {
-                    listePage += '<option value="' + element.id + '">' + element.Nom_page + '</option>';
-                });
-                listePage += '</select></div></form>';
-                $.confirm({
-                    title: '<p style="color: #2a5591">Bienvenue<p>',
-                    content: 'Quelle page voulez vous accctiver?' + listePage,
-                    buttons: {
-                        formSubmit: {
-                            text: 'confirmer',
-                            btnClass: 'btn-blue',
-                            action: function () {
-                                let pageChoisit = this.$content.find('.selectPage').find('option:selected').text();
-                                let id = this.$content.find('.selectPage').val();
-                                if (id != "null") {
-                                    $.post(base_url + 'operatrice/insertDetailPage', { idPage: localStorage.getItem('pageUsers'), codeClient: localStorage.getItem('codeclient') }, function (datas) {
-                                        messageDeBienvenue(id);
-                                        insertNouveauDiscussion(id);
-                                        //codeclient=localStorage.getItem('codeclient');
-                                        //reloadContentMessage(codeclient,id);
-                                        $('.page').val(id);
-                                        $('.page').removeAttr('disabled');
-                                        var page_text = localStorage.getItem('pagetext');
-                                        //var page_text = $('.page').find('option:selected').text();
-                                        $('.pageusers').empty().append(page_text);
-                                        choixPage();
-                                    }, 'json');
-                                } else {
-                                    $.confirm({
-                                        title: '<p style="color: red">Attention!</p>',
-                                        content: '<p>vous devez choisir une page</p>',
-                                        buttons: {
-                                            ok: function () {
-                                                choixPage();
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        },
-                        Annuler: function () {
-                            stopload();
-                        }
-                    }
-                });
-            }, 'json');
-        } else {
-            stopload();
-            verouiller();
-            // changerpage();
-        }
-    }
-
+    
     // choixPage();
 
 
@@ -892,16 +730,16 @@ $(document).ready(function () {
                         let type = 'message';
                         let tache = localStorage.getItem('taches');
                         let idRep = $('#reponse_client').val();
-                        $.post(base_url + 'operatrice/sauvemessage', { tache: tache, message: name, date: date, heure: heure, Id_zone: Id_zone, id_con: id_con, Type: type, sender: $('.PJ').attr('id'), page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+                        $.post(base_url + 'operatrice/new_methode_sauve', { tache: tache, message: name, date: date, heure: heure, Id_zone: Id_zone, id_con: id_con, Type: type, sender: $('.PJ').attr('id'), page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
                             if (data.message == true) {
-                                $('.conten-message').empty().append(data.content);
+                                $('.conten-message').append(data.reponse);
                                 $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
-
+                                 stopload();
                                 afficherStatut = true;
-                                afficherStatutDiscussion(afficherStatut, data);
+                                //afficherStatutDiscussion(afficherStatut, data);
 
                                 $('#message').val("");
-                                $.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function (data) {
+                                /*$.post(base_url + 'operatrice/test_statut_client', { page: page, DISC: DISC, codeclient: codeclient }, function (data) {
                                     if (data.message == false) {
                                         $('.pageusers').empty().append(page_text);
                                         $('.entetebadge').css('background-color', data.color);
@@ -911,7 +749,7 @@ $(document).ready(function () {
                                         $('.entetebadge').css('background-color', data.color);
                                         stopload();
                                     }
-                                }, 'json');
+                                }, 'json');*/
 
                             } else if (data.message == "refresh") {
                                 // localStorage.setItem("codeclient",data.new_id);
@@ -1110,20 +948,18 @@ $(document).ready(function () {
         let tempProduit = $('.produitname option:selected').text().split('|');
         let test = true;
         let table = [];
+        let valeur_achat =  0;
 
         let linkImage = ""
         if (test_Link_Image($.trim(tempProduit[0])) == true) {
-            linkImage = "http://magesty-prod.combo.fun/images/produit/'" + $.trim(tempProduit[0]) + "'.jpg";
+            linkImage = base_url+"/images/produit/'" + $.trim(tempProduit[0]) + "'.jpg";
         }
         if (test_Link_Image($.trim(tempProduit[0])) == false) {
-            linkImage = "http://magesty-prod.combo.fun/images/operatrice/default_image.jpg";
+            linkImage = base_url+"/images/operatrice/default_image.jpg";
         }
         //console.log($('.id_facture_collapse').text());
         if (typeof ($('.prod').html()) == 'undefined') {
             if ($('.id_facture_collapse').text() == '') {
-
-
-
                 $('.table_commande>tbody:last').append('<tr><th class="prod">' + tempProduit[0] + '</th><th class="codeProduit">' + tempProduit[1] + '</th><th class="prix">' + tempPrix[1] + '</th><th class="quant"><input style="width:50px;text-align:center;" type="number" class="Qua" value="1"></th><th class="tot">' + tempPrix[1] + '</th><th><img class="img img-thumbnail w-5" style="width:50px;" src="' + linkImage + '"></th><th><button class="btn btn-danger btn-sm suppr"><i class="flaticon-interface-5"></i></button></th><th class="idPrix collapse">' + $.trim(tempPrix[0]) + '</th></tr>');
 
             } else {
@@ -1131,6 +967,7 @@ $(document).ready(function () {
                 addPRoduit();
             }
             $('.total').empty().append(tempPrix[1] + ' MGA');
+            valeur_achat = tempPrix[1];
         } else {
             $('.prod').each(function () {
                 table.push($(this).text());
@@ -1153,9 +990,12 @@ $(document).ready(function () {
                     sum += parseInt($(this).html());
                 });
                 $('.total').empty().append(sum + ' MGA');
-
+                valeur_achat = sum;
             }
-
+             $.post(base_url+'operatrice/checked_cadeau',{valeur_achat},function(data){
+                $('#select_cadeau').empty().append(data);
+                   
+            });
         }
 
 
@@ -1169,6 +1009,11 @@ $(document).ready(function () {
         let total = quantite * priproduit;
         $('.total .conttotal').empty().append(total + " Ar");
         let table = $(this).parent().parent();
+        valeur_achat = total;
+          $.post(base_url+'operatrice/checked_cadeau',{valeur_achat},function(data){
+                $('#select_cadeau').empty().append(data);
+                   
+            });
     });
     $(".new_client").on('click', function (event) {
         event.preventDefault();
@@ -1438,8 +1283,13 @@ $(document).ready(function () {
         }, 'json');
         $('.plus_client').modal('hide');
     });
+
+    //__________________________________________________________________________
+    //_________________________________________________valider message du client 
+
     $('.valide_content').on('click', function (event) {
         event.preventDefault();
+
         let reponse_clien = $('#reponse_client').val();
         //let idproduit = $('.codeProduit option:selected').val();
         let idproduit = localStorage.getItem('produitUsers');
@@ -1474,13 +1324,13 @@ $(document).ready(function () {
                                 //alert();
                                 loding();
                                 //ici
-                                $.post(base_url + 'operatrice/sauvemessages', { tache: tache, types: types, message: name, Id_zone: Id_zone, id_con: id_con, Type: type, sender: $('.PJ').attr('id'), idRep: idRep, page: page, client: localStorage.getItem("codeclient") }, function (data) {
+                                $.post(base_url + 'operatrice/new_methode_sauve', { tache: tache, types: types, message: name, Id_zone: Id_zone, id_con: id_con, Type: type, sender: $('.PJ').attr('id'), idRep: idRep, page: page, client: localStorage.getItem("codeclient") }, function (data) {
                                     if (data.message == true) {
                                         //localstorage.setItem('DISC',data.idDisc);
-                                        $('.conten-message').empty().append(data.content);
+                                        $('.conten-message').append(data.reponse);
                                         $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
                                         afficherStatut = true;
-                                        afficherStatutDiscussion(afficherStatut, data);
+                                        ///afficherStatutDiscussion(afficherStatut, data);
                                         $('#message').val("");
                                     }
                                     stopload();
@@ -1508,70 +1358,7 @@ $(document).ready(function () {
         }, 'json');
     });
 
-    function saveDetail(codeClient) {
-        let liensurfb = $('#liensurfb').val();
-        let identifient = $('#identifient').val();
-        let coach_temp = $('.coach').val();
-        let commerciale_temp = $('.commerciale ').val();
-        if ($('.commerciale').val() != "") {
-            if ($('.coach').val() == "") {
-                alertMessage('Erreur', 'Coach obligatoire.', 'error', 'btn btn-danger');
-            } else {
-
-                let coach = coach_temp.split('|');
-                let commerciale = commerciale_temp.split('|');
-                $.post(base_url + 'operatrice/save_detail', { liensurfb: liensurfb, identifient: identifient, codeclient: codeClient, coach: coach[0], commerciale: commerciale[0] }, function (data) {
-                    if (data) {
-                        localStorage.setItem("codeclient", codeClient);
-                        $.post(base_url + 'operatrice/new_discussion', { client: codeClient }, function (data) {
-                            localStorage.setItem("DISC", data);
-                            window.location.replace(base_url + 'operatrice/Discussions');
-                        }, 'json');
-                    }
-                }, 'json');
-            }
-
-        } else {
-
-            $.post(base_url + 'operatrice/save_detail', { liensurfb: liensurfb, identifient: identifient, codeclient: codeClient }, function (data) {
-                if (data) {
-                    localStorage.setItem("codeclient", codeClient);
-                    $.post(base_url + 'operatrice/new_discussion', { client: codeClient }, function (data) {
-                        localStorage.setItem("DISC", data);
-                        window.location.replace(base_url + 'operatrice/Discussions');
-                    }, 'json');
-                }
-
-            }, 'json');
-        }
-    }
-
-    function uploadImage(codeClient) {
-        let fd = new FormData();
-        let files = $('#image')[0].files[0];
-        let data = 'string';
-        fd.append('file', files);
-        $.ajax({
-            url: base_url + 'operatrice/sauveImageClient/' + codeClient,
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                saveDetail(codeClient);
-                stopload();
-            },
-
-            error: function (resultat, statut, erreur) {
-
-                saveDetail(codeClient);
-                stopload();
-            }
-
-
-        }, 'json');
-
-    }
+    
 
     /*let famille = $('.famille').val();
     $.post(base_url + 'globale/famille', { famille: famille }, function (data) {
@@ -1583,6 +1370,432 @@ $(document).ready(function () {
         }
     }, 'json');*/
 
+    
+    $('.scrolldown').on('click', function () {
+        $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
+    });
+
+
+     //__________________________________________________________________________
+     //__________________________________________________ Enregistrement commande
+    
+    $('.ress_sec_oplg').on('focusout', function () {
+        var choix = $('.nature_sc').find('option:selected').text();
+        if (choix == '') {
+            alertMessage('Erreur', 'Erreur.', 'error', 'btn btn-danger');
+        } else {
+            $('.result_mattr').empty().append(choix + $(this).val());
+        }
+    });
+
+
+    $('.nature_sc').on('change', function () {
+        /* var choix = $('.ress_sec_oplg').text();
+         if(choix==''){
+             $.alert('');
+         }else{
+            $('.result_mattr').empty().append($(this).text()+choix);  
+         }  */
+        $('.result_mattr').empty().append('*');
+        $('.ress_sec_oplg').val('');
+        var choix = $(this).find('option:selected').text();
+        if (choix == 'NONE') {
+            $('div .ress_sec_oplg').attr('disabled', 'disabled');
+            $('.result_mattr').empty().append('NONE');
+        } else {
+            $('div .ress_sec_oplg').removeAttr('disabled');
+        }
+    });
+    $('.bon-achat').on('change', function (e) {
+        e.preventDefault();
+        let valeur = $('.bon-achat option:selected').attr('id');
+        $('.bon-achat-input').val(valeur);
+
+    });
+
+    $('.save_observation').on('click', function (event) {
+        event.preventDefault();
+        let page = localStorage.getItem('pageUsers');
+        let codeClient = localStorage.getItem('codeclient');
+        if (page != "vide") {
+            const selectedProducts = [];
+            $('.productName').each(function() {
+                const selectedOption = $(this).find('option:selected');
+                if (selectedOption.val()) {
+                    selectedProducts.push(selectedOption.val());
+                }
+            });
+            let accountType = $('.account').val();
+            let sexe = $('.sexe').val();
+            let approximateAge = $('.approximateAge option:selected').val();
+            let fbAge = $('.fbAge option:selected').val();
+            let clientLocalisation = $('.clientLocalisation option:selected').val();
+            let deliveryArea = $('.deliveryArea option:selected').val();
+            let priceWishes = $('.priceWishes').val();
+            let appreciation = $('.appreciation option:selected').val();
+            let customerSentiment = $('.constraint option:selected').val();
+            let date = new Date();
+            let news = [];
+            news.push({ "name": "other", "val": +($('.other').val()) });
+            news.push({ "name": "restaurant", "val": +($('.restaurant').val()) });
+            news.push({ "name": "shopping", "val": +($('.shopping').val()) });
+            news.push({ "name": "travel", "val": +($('.travel').val()) });
+            news.push({ "name": "newsPeople", "val": +($('.newsPeople').val()) });
+            news.push({ "name": "politic", "val": +($('.politic').val()) });
+            news.push({ "name": "sport", "val": +($('.sport').val()) });
+            news.push({ "name": "wellHealth", "val": +($('.wellHealth').val()) });
+            news.push({ "name": "social", "val": +($('.social').val()) });
+            const maxValItem = news.reduce((maxItem, currentItem) => {
+                return currentItem.val > maxItem.val ? currentItem : maxItem;
+            }, { "val": -Infinity });
+            $.post(base_url + 'operatrice/saveObservation', { 
+                codeClient: codeClient,
+                accountType: accountType,
+                sexe: sexe,
+                approximateAge: parseInt(approximateAge),
+                fbAge: parseInt(fbAge),
+                clientLocalisation: clientLocalisation,
+                deliveryArea: deliveryArea,
+                selectedProducts: selectedProducts,
+                priceWishes: parseInt(priceWishes),
+                appreciation: appreciation,
+                constraint: customerSentiment,
+                news: maxValItem.val == 0 ? "" : maxValItem.name,
+                date: date.getTime()
+            }, () => {
+                $('.fade').modal('hide');
+                stopload();
+                alertMessage('Succes', "L'observation a été effectué avec succès.", 'success', 'btn btn-success');
+            });
+        }
+    });
+
+    //__________________________________________________________________________________
+    //__________________________________________________________ enregistrement commande
+
+    $('.enregistre_commande').on('click', function (event) {
+        event.preventDefault();
+        let page = localStorage.getItem('pageUsers');
+        // var page = $('.page').find('option:selected').val();
+        if (page != "vide") {
+
+            var start = new Date();
+            var produit = new Array();
+            var client = localStorage.getItem('codeclient');
+            var date = $('.datelivre').val();
+            var Debut = $('.Debut').val();
+            var Fin = $('.Fin').val();
+            var ville = $('.ville').val();
+            var quartier = $('.quartier').val();
+            var lieulivre = $('.lieulivre').val();
+            var District = $('#District').val();
+            var remarque = $('.comment').val();
+            var frailivre = $('.frailivre').val();
+            var Id_zone = $('.zone').val();
+            var contact = $('.contact').val();
+            var Id_discussion = $('.image_choise').attr('id');
+            let id_con = $('.image_choise').attr("id");
+            let id_zone = $('.zone').val();
+            let idRep = $('#reponse_client').val();
+            let cotactlivre = $('.cotactlivre').val();
+            let result_mattr = $('.result_mattr').text();
+            let bonus = $('.bonus').is(":checked");
+            let typeFacture = $('.type-facture option:selected').val();
+            let codePromo = $('.codePromo option:selected').val();
+            let fraisderetrait = $('.fraisderetrait ').val();
+            let Localite = $('.Localite  option:selected').val();
+            let bon_achat = $('.bon-achat  option:selected').val();
+            let bon_achat_input = $('.bon-achat-input').val();
+            let lieu_client_livre = $('.lieu_livre_client option:selected').val();
+            let select_cadeau =$('#select_cadeau option:selected').val();
+            var detailcommande = [];
+
+            $('.tbody tr').each(function () {
+                detailcommande.push($(this).find('.idPrix').text() + "|" + $(this).find('.quant input').val());
+            });
+
+            if (typeof ($('.prod').text()) == undefined) {
+                alertMessage('Erreur', 'Veuillez entre au moins une produit.', 'error', 'btn btn-danger');
+            } else if (Debut > Fin || Debut == Fin) {
+                alertMessage('Erreur', "Tranche d'heure de livraison incorrect,veuiilez entrer tranche d'heure valide.", 'error', 'btn btn-danger');
+            } else if (Debut == "") {
+                alertMessage('Erreur', "Tranche d'heure de livraison incorrect,veuiilez entrer tranche d'heure valide.", 'error', 'btn btn-danger');
+            } else if (Fin == "") {
+                alertMessage('Erreur', "Tranche d'heure de livraison incorrect,veuiilez entrer tranche d'heure valide.", 'error', 'btn btn-danger');
+            } else if (ville == "") {
+                alertMessage('Erreur', "Veuillez remplir tous le champs 'Ville' avant de valider votre transaction.", 'error', 'btn btn-danger');
+            } else if (quartier == "") {
+                alertMessage('Erreur', "Veuillez remplir tous les champs 'Quartier' avant de valider votre transaction.", 'error', 'btn btn-danger');
+            } else if (lieulivre == "") {
+                alertMessage('Erreur', "Veuillez remplir tous les champs 'Lieu de livraison'> avant de valider votre transaction.", 'error', 'btn btn-danger');
+            } else {
+                let idRep = $('#reponse_client').val();
+                loding();
+                $.post(base_url + 'operatrice/newfacture', function (data) {
+                    var fact = data.codefact;
+                    
+                    $.post(base_url + 'operatrice/enregistre_commande', { Localite: Localite, fraisderetrait: fraisderetrait, typeFacture: typeFacture, codePromo: codePromo, Id_discussion: Id_discussion, contact: contact, fact: fact, Id_zone: Id_zone, date: date, Debut: Debut, Fin: Fin, ville: ville, quartier: quartier, lieu_de_livraison: lieulivre, remarque: remarque, produits: detailcommande, client: client, frailivre: frailivre, District: District, page: page, cotactlivre: cotactlivre, result_mattr: result_mattr, bonus: bonus, bon_achat: bon_achat, bon_achat_input: bon_achat_input,lieu_client_livre:lieu_client_livre,select_cadeau:select_cadeau }, function (datas) {
+
+                        if (datas.message === true) {
+                            $.post(base_url + 'operatrice/new_methode_sauve', { message: fact, Id_zone: id_zone, id_con: id_con, Type: 'vente', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+                           /// $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function (data) {
+                                if (data.message == true) {
+                                    $('.conten-message').append(data.reponse);
+                                    $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
+                                    afficherStatut = true;
+                                    edit_facture();
+                                    afficherStatutDiscussion(afficherStatut, data);
+                                    $('.fade').modal('hide');
+                                    initBon();
+                                    stopload();
+                                    alertMessage('Succes', 'Commande enregistrée avec succes.', 'success', 'btn btn-success');
+
+                                } else {
+                                    $('.conten-message').empty();
+                                    $('.fade').modal('hide');
+                                    stopload();
+                                    alertMessage('Succes', 'Commande enregistrée avec succes.', 'success', 'btn btn-success');
+                                }
+                            }, 'json');
+                        } else {
+                            $('.fade').modal('hide');
+                            stopload();
+                            alertMessage('Succes', 'Une erreure ces produis Veuillez recommencer.', 'error', 'btn btn-danger');
+
+                        }
+                    }, 'json');
+
+                }, 'json');
+            }
+        } else {
+            alertMessage('Erreur', 'Une erreure ces produis Veuillez recommencer.', 'error', 'btn btn-danger');
+        }
+    });
+
+
+    $('.ville').autocomplete({
+        source: base_url + "operatrice/autocomplete_ville/"
+    });
+    $('.ville').on('change', function () {
+        $.alert();
+    });
+
+    $('.quartier').autocomplete({
+        source: base_url + "operatrice/autocomplete_quartier",
+        appendTo: '.form_vente',
+        select: function (e, ui) {
+            $('.fade ').modal('hide');
+            $.post(base_url + 'operatrice/autocomplete_ville', { quartier: ui.item.value }, function (data) {
+                $.confirm({
+                    title: 'Choisir ville',
+                    content: data,
+                    buttons: {
+                        formSubmit: {
+                            text: 'choisir',
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                var name;
+                                this.$content.find('.chose').each(function () {
+
+                                    if ($(this).prop('checked')) {
+                                        name = $(this).val();
+                                    }
+
+                                });
+                                if (!name) {
+                                    $.alert('provide a valid name' + name);
+                                    return false;
+                                }
+                                $('#ville').val(name);
+                                discrict_chose(name, ui.item.value);
+                            }
+                        },
+                        cancel: {
+                            btnClass: 'btn-danger',
+                            text: 'Fermer',
+                            action: function () {
+                                //close
+                            }
+                        },
+                    },
+                    onContentReady: function () {
+                        var jc = this;
+                        this.$content.find('.chose').on('click', function (e) {
+                            e.preventDefault();
+                            jc.$$formSubmit.trigger('click'); // reference the button and click it
+                        });
+                    }
+                });
+
+
+            }, 'json');
+        }
+
+    });
+
+    $('.codeProduit').on('change', function () {
+        //initCOmplte();
+    });
+    $('#quartier').on('focus', function () {
+        // $(this).val('');
+        //  $('#District').val("");
+        // $('#ville').val("");
+    });
+
+    //localStorage.getItem("codeclient");
+
+
+    $('#reponse_client').autocomplete({
+        source: function (request, response) {
+            let idproduit = localStorage.getItem('produitUsers');
+            //var idproduit = $('.codeProduit option:selected').val();
+            $.ajax({
+                url: base_url + 'operatrice/dataProduitUser/',
+                dataType: "json",
+                data: {
+                    term: request.term,
+                    produit: idproduit
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+
+
+        }
+    });
+
+    $('.PJ').on('change', function (event) {
+        event.preventDefault();
+        loding();
+        let fd = new FormData();
+        let files = $('.PJ')[0].files[0];
+        let sender = $(this).attr('id');
+        let data = 'string';
+        fd.append('file', files);
+        //let page= $(this).find('option:selected').val();
+        let page = localStorage.getItem('pageUsers');
+        //let page = $('.page').find('option:selected').val();
+        let reponse_clien = $('#reponse_client').val();
+        let idproduit = $('.codeProduit').val();
+        let id_con = $('.image_choise').attr("id");
+        let Id_zone = $('.zone').val();
+        let message = id_con + new Date().getTime();
+        let type = $('.type_discussion').val();
+        let idRep = $('#reponse_client').val();
+        let tache = localStorage.getItem('taches');
+        if (page != "vide") {
+            $.post(base_url + 'operatrice/sauvemessage', { tache: tache, message: message, Id_zone: Id_zone, id_con: id_con, Type: 'image', sender: sender, page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
+                if (data.message == true) {
+                    $.ajax({
+                        url: base_url + 'operatrice/uploadFils/' + message,
+                        type: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success: function (datas) {
+                            $('.conten-message').empty().append(data.content);
+                            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
+                            afficherStatut = true;
+                            afficherStatutDiscussion(afficherStatut, data);
+                            $('#message').val("");
+                            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 20);
+                            stopload();
+                        },
+
+                        error: function (resultat, statut, erreur) {
+                            afficherStatutDiscussion(afficherStatut, data);
+                            $('.conten-message').empty().append(data.content);
+                            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
+                            afficherStatut = true;
+                            $('#message').val("");
+                            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 20);
+                            stopload();
+
+                        }
+
+                    }, 'json');
+                }
+            }, 'json');
+        } else {
+            alertMessage('Erreur', 'veuillez choisir une page.', 'error', 'btn btn-danger');
+
+        }
+
+
+    });
+
+    $('.saveContact').on('click', function (event) {
+        event.preventDefault();
+        var daterdv = $('.daterdv').val();
+        var heurervd = $('.heurervd').val();
+        var contactRvd = $('.contactRvd').val();
+        var produitUsers = localStorage.getItem('produitUsers');
+        var pageUsers = localStorage.getItem('pageUsers');
+        var idDiscussion = localStorage.getItem('DISC');
+        var taches = localStorage.getItem('taches');
+        var tache = localStorage.getItem('tache');
+        var obs = $('.produiRV').val();
+        var TypeMessage = localStorage.getItem('TypeMessage');
+        var codeclient = localStorage.getItem('codeclient');
+        $.post(base_url + 'operatrice/new_method_save_rendez_vous', { obs: obs, TypeMessage: TypeMessage, idDiscussion: idDiscussion, taches: taches, tache: tache, codeclient: codeclient, daterdv: daterdv, heurervd: heurervd, contactRvd: contactRvd, produitUsers: produitUsers, pageUsers: pageUsers }, function (data) {
+            $('.daterdv').val("");
+            $('.heurervd').val("");
+            $('.contactRvd').val("");
+            $('.RDV').modal('hide');
+            $('.conten-message').append(data.reponse);
+            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 20);
+        }, 'json').done(function () {
+            alertMessage("Succè!", "Rendez-vous", "success", "btn btn-success");
+        }).fail(function () {
+            alertMessage("Erreur!", "Ooops!", "error", "btn btn-danger");
+        });
+
+    });
+
+    $('.contact,.cotactlivre,.contactRvd').on('keyup', function () {
+        var valeur = $(this).val();
+        if (valeur.length == 9) {
+            $(this).mask("+261 99 99 999 99");
+
+        }
+    });
+
+    $('.check').on('click', function (event) {
+        event.preventDefault();
+        var page = localStorage.getItem("pageUsers");
+        var code_client = localStorage.getItem("codeclient");
+        var matricule = '<%= Session["matricule"] %>';
+        var typeRelance = localStorage.getItem("typeRelance");
+
+        if (typeRelance == null) {
+            $.post(base_url + 'operatrice/check', { code_client: code_client, matricule: matricule, page: page }, function (data) {
+                alertMessage('Succé', 'Check terminé', 'success', 'btn btn-success');
+            });
+
+        } else {
+            if (typeRelance == "Relance sans achat") {
+                $.post(base_url + 'operatrice/sauveRelanceDiscussion', { client: localStorage.getItem("codeclient"), page: localStorage.getItem('pageUsers') }, function () {
+                    stopload();
+                    alertMessage('Succé', 'Check terminé', 'success', 'btn btn-success');
+                });
+            }
+            if (typeRelance == "Relance avec achat") {
+                var idRelance = localStorage.getItem("idRelance");
+                $.post(base_url + 'operatrice/checkDiscussionRelance', { idRelance }, function (data) {
+                    localStorage.removeItem("typeRelance");
+                    localStorage.removeItem("idRelance");
+                    alertMessage('Succé', 'Check terminé', 'success', 'btn btn-success');
+
+                });
+            }
+        }
+
+
+    });
+
+    //______________________________________________________________________
+    //_____________________________________________ Déclaration des fonction
     function Init_produit() {
 
         loding();
@@ -1614,11 +1827,6 @@ $(document).ready(function () {
             alertMessage('Erreur', 'Veuillez choisir une photo.', 'error', 'btn btn-danger');
 
         });
-
-
-
-
-
 
         let pagechose = localStorage.getItem('pageUsers');
         //var pagechose = $('.page').val();
@@ -1725,7 +1933,7 @@ $(document).ready(function () {
 
         }, 'json');
 
-        $.post(base_url + 'operatrice/testDiscution', {
+        $.post(base_url + 'operatrice/get_discution_containt', {
             idclient: localStorage.getItem('codeclient'),
             page: page
         }, function (data) {
@@ -1753,13 +1961,9 @@ $(document).ready(function () {
                 }
             }
         }, 'json');
-
+        stopload();
 
     }
-    $('.scrolldown').on('click', function () {
-        $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
-    });
-
     function fonctiondel() {
         $('.suppr').on('click', function () {
             $(this).parent().parent().remove();
@@ -1783,6 +1987,10 @@ $(document).ready(function () {
             } else {
                 $('.total').empty().append('00 MGA');
             }
+             $.post(base_url+'operatrice/checked_cadeau',{valeur_achat:sum},function(data){
+               $('#select_cadeau').empty().append(data);
+                   
+            });
         }
 
         $('.Qua').on('change', function () {
@@ -1801,6 +2009,8 @@ $(document).ready(function () {
             totaltab();
         });
 
+
+
     }
 
     function produitname(groupe, famille, zone) {
@@ -1812,312 +2022,6 @@ $(document).ready(function () {
             }
         }, 'json');
     }
-
-    function init_lateral_bar(id_discussion) {
-        $('.client_lat').each(function () {
-            if ($(this).attr('id') == id_discussion) {
-                $(this).parent().remove();
-            }
-        });
-    }
-
-    /************************************ Enregistrement vente ****************************************/
-    $('.ress_sec_oplg').on('focusout', function () {
-        var choix = $('.nature_sc').find('option:selected').text();
-        if (choix == '') {
-            alertMessage('Erreur', 'Erreur.', 'error', 'btn btn-danger');
-        } else {
-            $('.result_mattr').empty().append(choix + $(this).val());
-        }
-    });
-
-
-    $('.nature_sc').on('change', function () {
-        /* var choix = $('.ress_sec_oplg').text();
-         if(choix==''){
-             $.alert('');
-         }else{
-            $('.result_mattr').empty().append($(this).text()+choix);  
-         }  */
-        $('.result_mattr').empty().append('*');
-        $('.ress_sec_oplg').val('');
-        var choix = $(this).find('option:selected').text();
-        if (choix == 'NONE') {
-            $('div .ress_sec_oplg').attr('disabled', 'disabled');
-            $('.result_mattr').empty().append('NONE');
-        } else {
-            $('div .ress_sec_oplg').removeAttr('disabled');
-        }
-    });
-    $('.bon-achat').on('change', function (e) {
-        e.preventDefault();
-        let valeur = $('.bon-achat option:selected').attr('id');
-        $('.bon-achat-input').val(valeur);
-
-    });
-
-    $('.save_observation').on('click', function (event) {
-        event.preventDefault();
-        let page = localStorage.getItem('pageUsers');
-        let codeClient = localStorage.getItem('codeclient');
-        if (page != "vide") {
-            const selectedProducts = [];
-            $('.productName').each(function() {
-                const selectedOption = $(this).find('option:selected');
-                if (selectedOption.val()) {
-                    selectedProducts.push(selectedOption.val());
-                }
-            });
-            let accountType = $('.account').val();
-            let sexe = $('.sexe').val();
-            let approximateAge = $('.approximateAge option:selected').val();
-            let fbAge = $('.fbAge option:selected').val();
-            let clientLocalisation = $('.clientLocalisation option:selected').val();
-            let deliveryArea = $('.deliveryArea option:selected').val();
-            let priceWishes = $('.priceWishes').val();
-            let appreciation = $('.appreciation option:selected').val();
-            let customerSentiment = $('.constraint option:selected').val();
-            let date = new Date();
-            let news = [];
-            news.push({ "name": "other", "val": +($('.other').val()) });
-            news.push({ "name": "restaurant", "val": +($('.restaurant').val()) });
-            news.push({ "name": "shopping", "val": +($('.shopping').val()) });
-            news.push({ "name": "travel", "val": +($('.travel').val()) });
-            news.push({ "name": "newsPeople", "val": +($('.newsPeople').val()) });
-            news.push({ "name": "politic", "val": +($('.politic').val()) });
-            news.push({ "name": "sport", "val": +($('.sport').val()) });
-            news.push({ "name": "wellHealth", "val": +($('.wellHealth').val()) });
-            news.push({ "name": "social", "val": +($('.social').val()) });
-            const maxValItem = news.reduce((maxItem, currentItem) => {
-                return currentItem.val > maxItem.val ? currentItem : maxItem;
-            }, { "val": -Infinity });
-            $.post(base_url + 'operatrice/saveObservation', { 
-                codeClient: codeClient,
-                accountType: accountType,
-                sexe: sexe,
-                approximateAge: parseInt(approximateAge),
-                fbAge: parseInt(fbAge),
-                clientLocalisation: clientLocalisation,
-                deliveryArea: deliveryArea,
-                selectedProducts: selectedProducts,
-                priceWishes: parseInt(priceWishes),
-                appreciation: appreciation,
-                constraint: customerSentiment,
-                news: maxValItem.val == 0 ? "" : maxValItem.name,
-                date: date.getTime()
-            }, () => {
-                $('.fade').modal('hide');
-                stopload();
-                alertMessage('Succes', "L'observation a été effectué avec succès.", 'success', 'btn btn-success');
-            });
-        }
-    })
-
-    $('.enregistre_commande').on('click', function (event) {
-        event.preventDefault();
-        let page = localStorage.getItem('pageUsers');
-        // var page = $('.page').find('option:selected').val();
-        if (page != "vide") {
-
-            var start = new Date();
-            var produit = new Array();
-            var client = localStorage.getItem('codeclient');
-            var date = $('.datelivre').val();
-            var Debut = $('.Debut').val();
-            var Fin = $('.Fin').val();
-            var ville = $('.ville').val();
-            var quartier = $('.quartier').val();
-            var lieulivre = $('.lieulivre').val();
-            var District = $('#District').val();
-            var remarque = $('.comment').val();
-            var frailivre = $('.frailivre').val();
-            var Id_zone = $('.zone').val();
-            var contact = $('.contact').val();
-            var Id_discussion = $('.image_choise').attr('id');
-            let id_con = $('.image_choise').attr("id");
-            let id_zone = $('.zone').val();
-            let idRep = $('#reponse_client').val();
-            let cotactlivre = $('.cotactlivre').val();
-            let result_mattr = $('.result_mattr').text();
-            let bonus = $('.bonus').is(":checked");
-            let typeFacture = $('.type-facture option:selected').val();
-            let codePromo = $('.codePromo option:selected').val();
-            let fraisderetrait = $('.fraisderetrait ').val();
-            let Localite = $('.Localite  option:selected').val();
-            let bon_achat = $('.bon-achat  option:selected').val();
-            let bon_achat_input = $('.bon-achat-input').val();
-            let lieu_client_livre = $('.lieu_livre_client option:selected').val();
-            var detailcommande = [];
-
-            $('.tbody tr').each(function () {
-                detailcommande.push($(this).find('.idPrix').text() + "|" + $(this).find('.quant input').val());
-            });
-
-            if (typeof ($('.prod').text()) == undefined) {
-                alertMessage('Erreur', 'Veuillez entre au moins une produit.', 'error', 'btn btn-danger');
-            } else if (Debut > Fin || Debut == Fin) {
-                alertMessage('Erreur', "Tranche d'heure de livraison incorrect,veuiilez entrer tranche d'heure valide.", 'error', 'btn btn-danger');
-            } else if (Debut == "") {
-                alertMessage('Erreur', "Tranche d'heure de livraison incorrect,veuiilez entrer tranche d'heure valide.", 'error', 'btn btn-danger');
-            } else if (Fin == "") {
-                alertMessage('Erreur', "Tranche d'heure de livraison incorrect,veuiilez entrer tranche d'heure valide.", 'error', 'btn btn-danger');
-            } else if (ville == "") {
-                alertMessage('Erreur', "Veuillez remplir tous le champs 'Ville' avant de valider votre transaction.", 'error', 'btn btn-danger');
-            } else if (quartier == "") {
-                alertMessage('Erreur', "Veuillez remplir tous les champs 'Quartier' avant de valider votre transaction.", 'error', 'btn btn-danger');
-            } else if (lieulivre == "") {
-                alertMessage('Erreur', "Veuillez remplir tous les champs 'Lieu de livraison'> avant de valider votre transaction.", 'error', 'btn btn-danger');
-            } else {
-                let idRep = $('#reponse_client').val();
-                loding();
-                $.post(base_url + 'operatrice/newfacture', function (data) {
-                    var fact = data.codefact;
-                    $.post(base_url + 'operatrice/sauvemessage', { message: fact, Id_zone: id_zone, id_con: id_con, Type: 'vente', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function () { });
-                    $.post(base_url + 'operatrice/enregistre_commande', { Localite: Localite, fraisderetrait: fraisderetrait, typeFacture: typeFacture, codePromo: codePromo, Id_discussion: Id_discussion, contact: contact, fact: fact, Id_zone: Id_zone, date: date, Debut: Debut, Fin: Fin, ville: ville, quartier: quartier, lieu_de_livraison: lieulivre, remarque: remarque, produits: detailcommande, client: client, frailivre: frailivre, District: District, page: page, cotactlivre: cotactlivre, result_mattr: result_mattr, bonus: bonus, bon_achat: bon_achat, bon_achat_input: bon_achat_input,lieu_client_livre:lieu_client_livre }, function (datas) {
-
-                        if (datas.message === true) {
-                            $.post(base_url + 'operatrice/testDiscution', { idclient: localStorage.getItem('codeclient'), page: page }, function (data) {
-                                if (data.message === true) {
-                                    $('.conten-message').empty().append(data.content);
-                                    $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
-                                    afficherStatut = true;
-                                    edit_facture();
-                                    afficherStatutDiscussion(afficherStatut, data);
-                                    $('.fade').modal('hide');
-                                    initBon();
-                                    stopload();
-                                    alertMessage('Succes', 'Commande enregistrée avec succes.', 'success', 'btn btn-success');
-
-                                } else {
-                                    $('.conten-message').empty();
-                                    $('.fade').modal('hide');
-                                    stopload();
-                                    alertMessage('Succes', 'Commande enregistrée avec succes.', 'success', 'btn btn-success');
-                                }
-                            }, 'json');
-                        } else {
-                            $('.fade').modal('hide');
-                            stopload();
-                            alertMessage('Succes', 'Une erreure ces produis Veuillez recommencer.', 'error', 'btn btn-danger');
-
-                        }
-                    }, 'json');
-
-                }, 'json');
-            }
-        } else {
-            alertMessage('Erreur', 'Une erreure ces produis Veuillez recommencer.', 'error', 'btn btn-danger');
-        }
-    });
-
-
-    $('.ville').autocomplete({
-        source: base_url + "operatrice/autocomplete_ville/"
-    });
-    $('.ville').on('change', function () {
-        $.alert();
-    });
-
-    $('.quartier').autocomplete({
-        source: base_url + "operatrice/autocomplete_quartier",
-        appendTo: '.form_vente',
-        select: function (e, ui) {
-            $('.fade ').modal('hide');
-            $.post(base_url + 'operatrice/autocomplete_ville', { quartier: ui.item.value }, function (data) {
-                $.confirm({
-                    title: 'Choisir ville',
-                    content: data,
-                    buttons: {
-                        formSubmit: {
-                            text: 'choisir',
-                            btnClass: 'btn-blue',
-                            action: function () {
-                                var name;
-                                this.$content.find('.chose').each(function () {
-
-                                    if ($(this).prop('checked')) {
-                                        name = $(this).val();
-                                    }
-
-                                });
-                                if (!name) {
-                                    $.alert('provide a valid name' + name);
-                                    return false;
-                                }
-                                $('#ville').val(name);
-                                discrict_chose(name, ui.item.value);
-                            }
-                        },
-                        cancel: {
-                            btnClass: 'btn-danger',
-                            text: 'Fermer',
-                            action: function () {
-                                //close
-                            }
-                        },
-                    },
-                    onContentReady: function () {
-                        var jc = this;
-                        this.$content.find('.chose').on('click', function (e) {
-                            e.preventDefault();
-                            jc.$$formSubmit.trigger('click'); // reference the button and click it
-                        });
-                    }
-                });
-
-
-            }, 'json');
-        }
-
-    });
-
-    $('.codeProduit').on('change', function () {
-        //initCOmplte();
-    });
-    $('#quartier').on('focus', function () {
-        // $(this).val('');
-        //  $('#District').val("");
-        // $('#ville').val("");
-    });
-
-    function loding() {
-        var htmls = '<style>.jconfirm-content{opacity:1;}.jconfirm .jconfirm-box{height: 125px !important; text-align:center;}.jconfirm .jconfirm-box div.jconfirm-closeIcon {display:none !important;}.spinner {margin: 10px auto;width: 50px;height: 40px;text-align: center;font-size: 10px;}.spinner > div {background-color: #0000ff;height: 100%;width: 6px;display: inline-block;-webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;animation: sk-stretchdelay 1.2s infinite ease-in-out;}.spinner .rect2 {-webkit-animation-delay: -1.1s;animation-delay: -1.1s;}.spinner .rect3 {-webkit-animation-delay: -1.0s;animation-delay: -1.0s;}.spinner .rect4 {-webkit-animation-delay: -0.9s;animation-delay: -0.9s;}.spinner .rect5 {-webkit-animation-delay: -0.8s;animation-delay: -0.8s;}@-webkit-keyframes sk-stretchdelay {0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  20% { -webkit-transform: scaleY(1.0) }}@keyframes sk-stretchdelay {0%, 40%, 100% { transform: scaleY(0.4);-webkit-transform: scaleY(0.4);}  20% { transform: scaleY(1.0);-webkit-transform: scaleY(1.0);}}</style><div class="text-center" style="font-size:14px;"><span class="text-center">Traitement en cours ...</span></div><div class="spinner"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
-        $.dialog({
-            "title": "",
-            "content": htmls,
-            "show": true,
-            "modal": true,
-            "close": false,
-            "closeOnMaskClick": false,
-            "closeOnEscape": false,
-            "dynamic": false,
-            "height": 150,
-            "fixedDimensions": true
-        });
-    }
-
-    function stopload() {
-        $('.jconfirm ').remove();
-
-    }
-
-    function initBon() {
-        $('.datelivre').val("");
-        $('.Debut').val("");
-        $('.Fin').val("");
-        $('.ville').val("");
-        $('.quartier').val("");
-        $('.lieulivre').val("");
-        $('#District').val("");
-        $('.comment').val("");
-        $('.frailivre').val("");
-        $('.zone').val("");
-        $('.contact').val("");
-        $('.cotactlivre').val("");
-        $('.result_mattr').text();
-        $('.total').empty().append('00 MGA');
-    }
-
     function discrict_chose(quartier, ville) {
         $.post(base_url + 'operatrice/autocomplete_discrict', { quartier: quartier, ville: ville }, function (data) {
             $.confirm({
@@ -2165,29 +2069,6 @@ $(document).ready(function () {
         }, 'json');
 
     }
-    //localStorage.getItem("codeclient");
-
-
-    $('#reponse_client').autocomplete({
-        source: function (request, response) {
-            let idproduit = localStorage.getItem('produitUsers');
-            //var idproduit = $('.codeProduit option:selected').val();
-            $.ajax({
-                url: base_url + 'operatrice/dataProduitUser/',
-                dataType: "json",
-                data: {
-                    term: request.term,
-                    produit: idproduit
-                },
-                success: function (data) {
-                    response(data);
-                }
-            });
-
-
-        }
-    });
-
     function initCOmplte() {
         // var idproduit = $('.codeProduit option:selected').val();
         let idproduit = localStorage.getItem('produitUsers');
@@ -2213,77 +2094,208 @@ $(document).ready(function () {
             }
         });
     }
+    function changerpage() {
+        $.post(base_url + 'operatrice/get_liste_page', {}, function (data) {
+            var listePage = '<form action="" class="formName"><div class="form-group"><select class="selectPage form-control">';
+            listePage += '<option value="null"></option>';
+            data.forEach(element => {
+                listePage += '<option value="' + element.id + '">' + element.Nom_page + '</option>';
+            });
+            listePage += '</select></div></form> ';
+            stopload();
+            $.confirm({
+                title: '<p style="color: #2a5591">Bienvenue<p>',
+                content: 'Quelle page voulez vous activer?' + listePage,
+                buttons: {
+                    button: {
+                        action: function () {
+                            let id = this.$content.find('.selectPage').val();
+                            if (id != "null") {
+                                codeclient = localStorage.getItem('codeclient');
+                                reloadContentMessage(codeclient, id);
+                                $('.page').val(id);
+                                $('.page').removeAttr('disabled');
+                                var page_text = localStorage.getItem('pagetext');
+                                //var page_text = $('.page').find('option:selected').text();
+                                $('.pageusers').empty().append(page_text);
+                            } else {
+                                id = '1';
+                                codeclient = localStorage.getItem('codeclient');
+                                reloadContentMessage(codeclient, id);
+                                $('.page').val(id);
+                                $('.page').removeAttr('disabled');
+                                var page_text = localStorage.getItem('pagetext');
+                                //var page_text = $('.page').find('option:selected').text();
+                                $('.pageusers').empty().append(page_text);
+                            }
 
-    $('.PJ').on('change', function (event) {
-        event.preventDefault();
-        loding();
-        let fd = new FormData();
-        let files = $('.PJ')[0].files[0];
-        let sender = $(this).attr('id');
-        let data = 'string';
-        fd.append('file', files);
-        //let page= $(this).find('option:selected').val();
-        let page = localStorage.getItem('pageUsers');
-        //let page = $('.page').find('option:selected').val();
-        let reponse_clien = $('#reponse_client').val();
-        let idproduit = $('.codeProduit').val();
-        let id_con = $('.image_choise').attr("id");
-        let Id_zone = $('.zone').val();
-        let message = id_con + new Date().getTime();
-        let type = $('.type_discussion').val();
-        let idRep = $('#reponse_client').val();
-        let tache = localStorage.getItem('taches');
-        if (page != "vide") {
-            $.post(base_url + 'operatrice/sauvemessage', { tache: tache, message: message, Id_zone: Id_zone, id_con: id_con, Type: 'image', sender: sender, page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
-                if (data.message == true) {
-
-
-
-                    $.ajax({
-                        url: base_url + 'operatrice/uploadFils/' + message,
-                        type: 'post',
-                        data: fd,
-                        contentType: false,
-                        processData: false,
-                        success: function (datas) {
-                            $('.conten-message').empty().append(data.content);
-                            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
-                            afficherStatut = true;
-                            afficherStatutDiscussion(afficherStatut, data);
-                            $('#message').val("");
-                            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 20);
-                            stopload();
                         },
+                        text: 'Fermer',
+                        btnClass: 'btn-red',
+                    },
+                    formSubmit: {
+                        text: 'confirmer',
+                        btnClass: 'btn-blue',
+                        action: function () {
+                            let id = this.$content.find('.selectPage').val();
+                            if (id != "null") {
+                                codeclient = localStorage.getItem('codeclient');
+                                reloadContentMessage(codeclient, id);
+                                $('.page').val(id);
+                                $('.page').removeAttr('disabled');
+                                var page_text = localStorage.getItem('pagetext');
+                                //var page_text = $('.page').find('option:selected').text();
+                                $('.pageusers').empty().append(page_text);
+                            } else {
+                                //$.alert(" veuillez choisir une page! ");
+                                $.confirm({
+                                    title: '<p style="color: red">Attention!</p>',
+                                    content: '<p>vous devez choisir une page</p>',
+                                    buttons: {
+                                        ok: function () {
+                                            changerpage();
+                                        }
+                                    }
+                                });
 
-                        error: function (resultat, statut, erreur) {
-                            afficherStatutDiscussion(afficherStatut, data);
-                            $('.conten-message').empty().append(data.content);
-                            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 1000);
-                            afficherStatut = true;
-                            $('#message').val("");
-                            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 20);
-                            stopload();
+                            }
+                        }
+                    },
 
+                }
+            });
+        }, 'json');
+    }
+
+    function selectPage(page) {
+        page = localStorage.getItem('pageUsers');
+        if (page != "vide") {
+            //nomPage = $('.page').find('option:selected').text();
+            nomPage = localStorage.getItem('pagetext');
+            $.confirm({
+                title: '<p style="color: #2a5591">Bonjour<p>',
+                content: 'Voulez vous lancer la discussion avec ce client dans la page ' + nomPage,
+                buttons: {
+                    formSubmit: {
+                        text: '<span style="font-size:12px" >lancer la discussion</span>',
+                        btnClass: 'btn-blue',
+                        action: function () {
+                            $.post(base_url + 'operatrice/insertDetailPage', { idPage: page, codeClient: localStorage.getItem('codeclient') }, function (datas) {
+                                messageDeBienvenue(datas.idPage)
+                                insertNouveauDiscussion(datas.idPage);
+                                //var page_text = $('.page').find('option:selected').text();
+                                var page_text = localStorage.getItem('pagetext');
+                                $('.pageusers').empty().append(page_text);
+                                //var codeclient=localStorage.getItem('codeclient');
+                                //var page= $('.page').find('option:selected').val();
+                                //reloadContentMessage(codeclient,page);
+                            }, 'json');
+                        }
+                    },
+                    annuler: {
+                        text: '<span style="font-size:12px" >annuler</span>',
+                        btnClass: 'btn-red',
+                        action: function () {
+                            $('.firstcontaact').removeAttr('disabled');
+                            $('.firstcontaact').removeClass('collapse');
                         }
 
-                    }, 'json');
+                    }
                 }
+            });
+        }
+    }
+
+    function choixPages() {
+        if ((localStorage.hasOwnProperty('isNouveau')) && (localStorage.getItem('isNouveau'))) {
+            $.post(base_url + 'operatrice/insertDetailPage', { idPage: localStorage.getItem('pageUsers'), codeClient: localStorage.getItem('codeclient') }, function (datas) {
+                messageDeBienvenue(localStorage.getItem('pageUsers'));
+                insertNouveauDiscussion(localStorage.getItem('pageUsers'));
+                var page_text = localStorage.getItem('pagetext');
+            }, 'json');
+        }
+    }
+
+    function choixPage() {
+        if ((localStorage.hasOwnProperty('isNouveau')) && (localStorage.getItem('isNouveau'))) {
+            verouiller();
+            $.post(base_url + 'operatrice/get_liste_page', {}, function (data) {
+
+                var listePage = '<form action="" class="formName"><div class="form-group"><select class="selectPage form-control">';
+                listePage += '<option value="null"></option>';
+                data.forEach(element => {
+                    listePage += '<option value="' + element.id + '">' + element.Nom_page + '</option>';
+                });
+                listePage += '</select></div></form>';
+                $.confirm({
+                    title: '<p style="color: #2a5591">Bienvenue<p>',
+                    content: 'Quelle page voulez vous accctiver?' + listePage,
+                    buttons: {
+                        formSubmit: {
+                            text: 'confirmer',
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                let pageChoisit = this.$content.find('.selectPage').find('option:selected').text();
+                                let id = this.$content.find('.selectPage').val();
+                                if (id != "null") {
+                                    $.post(base_url + 'operatrice/insertDetailPage', { idPage: localStorage.getItem('pageUsers'), codeClient: localStorage.getItem('codeclient') }, function (datas) {
+                                        messageDeBienvenue(id);
+                                        insertNouveauDiscussion(id);
+                                        //codeclient=localStorage.getItem('codeclient');
+                                        //reloadContentMessage(codeclient,id);
+                                        $('.page').val(id);
+                                        $('.page').removeAttr('disabled');
+                                        var page_text = localStorage.getItem('pagetext');
+                                        //var page_text = $('.page').find('option:selected').text();
+                                        $('.pageusers').empty().append(page_text);
+                                        choixPage();
+                                    }, 'json');
+                                } else {
+                                    $.confirm({
+                                        title: '<p style="color: red">Attention!</p>',
+                                        content: '<p>vous devez choisir une page</p>',
+                                        buttons: {
+                                            ok: function () {
+                                                choixPage();
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                        Annuler: function () {
+                            stopload();
+                        }
+                    }
+                });
             }, 'json');
         } else {
-            alertMessage('Erreur', 'veuillez choisir une page.', 'error', 'btn btn-danger');
-
+            stopload();
+            verouiller();
+            // changerpage();
         }
-
-
-    });
-
-
-
-
+    }
+ function initBon() {
+        $('.datelivre').val("");
+        $('.Debut').val("");
+        $('.Fin').val("");
+        $('.ville').val("");
+        $('.quartier').val("");
+        $('.lieulivre').val("");
+        $('#District').val("");
+        $('.comment').val("");
+        $('.frailivre').val("");
+        $('.zone').val("");
+        $('.contact').val("");
+        $('.cotactlivre').val("");
+        $('.result_mattr').text();
+        $('.total').empty().append('00 MGA');
+    }
+    
     function edit_facture() {
 
 
-        $('div .modify').on('click', function (e) {
+        $('.modify').on('click', function (e) {
             e.preventDefault();
             var id = $(this).children().first().attr('id');
 
@@ -2357,41 +2369,17 @@ $(document).ready(function () {
         });
     }
 
-    $('.saveContact').on('click', function (event) {
-        event.preventDefault();
-        var daterdv = $('.daterdv').val();
-        var heurervd = $('.heurervd').val();
-        var contactRvd = $('.contactRvd').val();
-        var produitUsers = localStorage.getItem('produitUsers');
-        var pageUsers = localStorage.getItem('pageUsers');
-        var idDiscussion = localStorage.getItem('DISC');
-        var taches = localStorage.getItem('taches');
-        var tache = localStorage.getItem('tache');
-        var obs = $('.produiRV').val();
-        var TypeMessage = localStorage.getItem('TypeMessage');
-        var codeclient = localStorage.getItem('codeclient');
-        $.post(base_url + 'operatrice/rendezvous', { obs: obs, TypeMessage: TypeMessage, idDiscussion: idDiscussion, taches: taches, tache: tache, codeclient: codeclient, daterdv: daterdv, heurervd: heurervd, contactRvd: contactRvd, produitUsers: produitUsers, pageUsers: pageUsers }, function (data) {
-            $('.daterdv').val("");
-            $('.heurervd').val("");
-            $('.contactRvd').val("");
-            $('.RDV').modal('hide');
-            $('.conten-message').empty().append(data.content);
-            $('.conten-message').animate({ scrollTop: $('.conten-message').get(0).scrollHeight }, 20);
-        }, 'json').done(function () {
-            alertMessage("Succè!", "Rendez-vous", "success", "btn btn-success");
-        }).fail(function () {
-            alertMessage("Erreur!", "Ooops!", "error", "btn btn-danger");
+    function alertMessage(title, message, icons, btn) {
+        swal(title, message, {
+            icon: icons,
+            buttons: {
+                confirm: {
+                    className: btn
+                }
+            },
         });
 
-    });
-
-    $('.contact,.cotactlivre,.contactRvd').on('keyup', function () {
-        var valeur = $(this).val();
-        if (valeur.length == 9) {
-            $(this).mask("+261 99 99 999 99");
-
-        }
-    });
+    }
 
     function mettreBouttonTermnier() {
         $(".termier").attr('disabled', 'disabled');
@@ -2406,50 +2394,6 @@ $(document).ready(function () {
         $(".codeProduit").attr('disabled', 'disabled');
         $(".valide_content").attr('disabled', 'disabled');
     }
-    $('.check').on('click', function (event) {
-        event.preventDefault();
-        var page = localStorage.getItem("pageUsers");
-        var code_client = localStorage.getItem("codeclient");
-        var matricule = '<%= Session["matricule"] %>';
-        var typeRelance = localStorage.getItem("typeRelance");
-
-        if (typeRelance == null) {
-            $.post(base_url + 'operatrice/check', { code_client: code_client, matricule: matricule, page: page }, function (data) {
-                alertMessage('Succé', 'Check terminé', 'success', 'btn btn-success');
-            });
-
-        } else {
-            if (typeRelance == "Relance sans achat") {
-                $.post(base_url + 'operatrice/sauveRelanceDiscussion', { client: localStorage.getItem("codeclient"), page: localStorage.getItem('pageUsers') }, function () {
-                    stopload();
-                    alertMessage('Succé', 'Check terminé', 'success', 'btn btn-success');
-                });
-            }
-            if (typeRelance == "Relance avec achat") {
-                var idRelance = localStorage.getItem("idRelance");
-                $.post(base_url + 'operatrice/checkDiscussionRelance', { idRelance }, function (data) {
-                    localStorage.removeItem("typeRelance");
-                    localStorage.removeItem("idRelance");
-                    alertMessage('Succé', 'Check terminé', 'success', 'btn btn-success');
-
-                });
-            }
-        }
-
-
-    });
-
-    function alertMessage(title, message, icons, btn) {
-        swal(title, message, {
-            icon: icons,
-            buttons: {
-                confirm: {
-                    className: btn
-                }
-            },
-        });
-
-    }
 
     function test_Link_Image(images) {
         var retour = false;
@@ -2458,5 +2402,98 @@ $(document).ready(function () {
         });
         return retour;
     }
+    function init_lateral_bar(id_discussion) {
+        $('.client_lat').each(function () {
+            if ($(this).attr('id') == id_discussion) {
+                $(this).parent().remove();
+            }
+        });
+    }
+    function loding() {
+        var htmls = '<style>.jconfirm-content{opacity:1;}.jconfirm .jconfirm-box{height: 125px !important; text-align:center;}.jconfirm .jconfirm-box div.jconfirm-closeIcon {display:none !important;}.spinner {margin: 10px auto;width: 50px;height: 40px;text-align: center;font-size: 10px;}.spinner > div {background-color: #0000ff;height: 100%;width: 6px;display: inline-block;-webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;animation: sk-stretchdelay 1.2s infinite ease-in-out;}.spinner .rect2 {-webkit-animation-delay: -1.1s;animation-delay: -1.1s;}.spinner .rect3 {-webkit-animation-delay: -1.0s;animation-delay: -1.0s;}.spinner .rect4 {-webkit-animation-delay: -0.9s;animation-delay: -0.9s;}.spinner .rect5 {-webkit-animation-delay: -0.8s;animation-delay: -0.8s;}@-webkit-keyframes sk-stretchdelay {0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  20% { -webkit-transform: scaleY(1.0) }}@keyframes sk-stretchdelay {0%, 40%, 100% { transform: scaleY(0.4);-webkit-transform: scaleY(0.4);}  20% { transform: scaleY(1.0);-webkit-transform: scaleY(1.0);}}</style><div class="text-center" style="font-size:14px;"><span class="text-center">Traitement en cours ...</span></div><div class="spinner"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
+        $.dialog({
+            "title": "",
+            "content": htmls,
+            "show": true,
+            "modal": true,
+            "close": false,
+            "closeOnMaskClick": false,
+            "closeOnEscape": false,
+            "dynamic": false,
+            "height": 150,
+            "fixedDimensions": true
+        });
+    }
+
+    function stopload() {
+        $('.jconfirm ').remove();
+
+    }
+    function saveDetail(codeClient) {
+        let liensurfb = $('#liensurfb').val();
+        let identifient = $('#identifient').val();
+        let coach_temp = $('.coach').val();
+        let commerciale_temp = $('.commerciale ').val();
+        if ($('.commerciale').val() != "") {
+            if ($('.coach').val() == "") {
+                alertMessage('Erreur', 'Coach obligatoire.', 'error', 'btn btn-danger');
+            } else {
+
+                let coach = coach_temp.split('|');
+                let commerciale = commerciale_temp.split('|');
+                $.post(base_url + 'operatrice/save_detail', { liensurfb: liensurfb, identifient: identifient, codeclient: codeClient, coach: coach[0], commerciale: commerciale[0] }, function (data) {
+                    if (data) {
+                        localStorage.setItem("codeclient", codeClient);
+                        $.post(base_url + 'operatrice/new_discussion', { client: codeClient }, function (data) {
+                            localStorage.setItem("DISC", data);
+                            window.location.replace(base_url + 'operatrice/Discussions');
+                        }, 'json');
+                    }
+                }, 'json');
+            }
+
+        } else {
+
+            $.post(base_url + 'operatrice/save_detail', { liensurfb: liensurfb, identifient: identifient, codeclient: codeClient }, function (data) {
+                if (data) {
+                    localStorage.setItem("codeclient", codeClient);
+                    $.post(base_url + 'operatrice/new_discussion', { client: codeClient }, function (data) {
+                        localStorage.setItem("DISC", data);
+                        window.location.replace(base_url + 'operatrice/Discussions');
+                    }, 'json');
+                }
+
+            }, 'json');
+        }
+    }
+
+    function uploadImage(codeClient) {
+        let fd = new FormData();
+        let files = $('#image')[0].files[0];
+        let data = 'string';
+        fd.append('file', files);
+        $.ajax({
+            url: base_url + 'operatrice/sauveImageClient/' + codeClient,
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                saveDetail(codeClient);
+                stopload();
+            },
+
+            error: function (resultat, statut, erreur) {
+
+                saveDetail(codeClient);
+                stopload();
+            }
+
+
+        }, 'json');
+
+    }
+
+
 
 });

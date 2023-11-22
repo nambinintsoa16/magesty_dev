@@ -6,7 +6,7 @@
  	<div class="row">
  		<div class="form-group">
   			<label><small>Sélectionner compagne</small></label>
-  			<select class="custom-select custom-select-sm">
+  			<select class="custom-select custom-select-sm" id="Campagne">
           <option hidden="">Selectionner compagine</option>
           <?php  foreach ($compaigne as $key => $compaigne) : ?>
   				  <option value="<?=$compaigne->id?>"><?=$compaigne->designation?></option>
@@ -45,28 +45,32 @@
       <div class="form-group col-md-4">
       <label class="label"><small>Client</small></label>
         <div class="row">
-          <input type="text" id ="client" name="" class="form-control form-control-sm col-6">
+          <input type="text" id ="client" name="" class="form-control form-control-sm form-control-sm col-6">
           <a href="#" class="btn btn-sm btn-info col-md-4 ml-1" id="histo_client">Historique du client</a>
             <datalist id="liste_publication">
               <option value="FA12"> 
               </datalist>
         </div>
     </div>
+     <div class="form-group col-md-4">
+      <label class="label"><small>Date action</small></label>
+      <input type="date" id ="date_action" name="" class="form-control form-control-sm col-6">
+    </div>
+  
     <div class="form-group col-md-4">
       <label class="label"><small>Type d'action</small></label>
-      <select class="custom-select custom-select-sm">
+      <select class="custom-select custom-select-sm" id="type_action">
         <option hidden="true">Selectionner action</option>
         <option>J'aime</option>
         <option>Partager</option>
         <option>Commenter</option>
       </select>
     </div>
-
-	
+  
 
 		<div class="form-group col-md-12">
 			<label class="label"><small>Remarque</small></label>
-			<textarea class="form-control"></textarea>
+			<textarea class="form-control" id="remarque"></textarea>
 		</div>
 	</div>
 </fieldset>

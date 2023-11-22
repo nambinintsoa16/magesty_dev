@@ -221,6 +221,7 @@ class operatrice extends My_Controller
 
   public function getStatutDiscussion()
   {
+    $this->load->model('global_model');
     $page = $this->input->post('idPage');
     $client = $this->input->post('client');
     //$operatrice = $this->session->userdata('matricule');
@@ -989,7 +990,39 @@ class operatrice extends My_Controller
     }
     echo  $reponse;
   }
+  public function checked_cadeau(){
+    $valeur_achat =(int) $this->input->post('valeur_achat');
+    $reponse = array();
+    $affichage = "";
 
+    if($valeur_achat>215000){
+          array_push($reponse, "BIJOUX-SP925");
+          array_push($reponse, "EYE MASQUE BABY BRIGHT");
+          array_push($reponse, "ROUGE A LEVRE");
+          array_push($reponse, "PORTE CLE");
+     }else if($valeur_achat>158000 ){
+          array_push($reponse, "PARFUM ou PEPPER");
+          array_push($reponse, "PORTE CLE");
+     }else if($valeur_achat>116000){
+          array_push($reponse, "BAUME A LEVRE");
+          array_push($reponse, "ROUGE A LEVRE");
+     } else if($valeur_achat>84000){
+          array_push($reponse, "NATURE'S NEEM");
+     }else if($valeur_achat>59000){
+          array_push($reponse, "VASELINE");
+          array_push($reponse, "EVERSENCE - GRIS");
+     }else if ($valeur_achat>39000){
+          array_push($reponse, "PORTE CLE");
+     }
+     
+     foreach ($reponse as $reponse) {
+        if($reponse !=''){
+         $affichage .="<option>".$reponse."</option>";
+        }
+     }
+     
+     echo $affichage;
+  }
   public function discussions()
   {
     $this->load->model('global_model');
@@ -1234,7 +1267,20 @@ class operatrice extends My_Controller
     $page = $this->input->post('page');
     echo json_encode(array('id' => $this->Page_model->getByNom($page)->result()->id));
   }
-
+  public function get_discution_containt(){
+    $client = $this->input->post('idclient');
+    $page = $this->input->post('page');
+    $reponse =  $this->global_model->get_all_view_discussion_table("(client='$client' and page = '$page') AND heure > '2023-10-23'");
+    $html = "";
+    $json=["content"=>"","message"=>false];
+    if($reponse){
+      $json['message']=true;
+    }
+    foreach ($reponse as $key => $reponse) {
+         $json['content'].= $reponse->Message;
+    }
+    echo json_encode($json);
+  }
   public function testDiscution()
   {
     $this->load->model('global_model');
@@ -1242,21 +1288,21 @@ class operatrice extends My_Controller
     $json = array('message' => false, 'content' => '');
     $client = $this->input->post('idclient');
     $page = $this->input->post('page');
-    $data = $this->global_model->testDiscution($client, $page);
+    $data = $this->global_model->get_view_discussion_table(["client"=>$client, "page"=>$page]);
     $text = array('livre' => 'LIVREE', 'annule' => 'ANNULLEE', 'en_attente' => 'EN ATTENTE', 'confirmer' => 'CONFIRMEE', 'repporter' => 'REPPORTEE');
     if ($data) {
       $json['message'] = true;
-      $json['id_discussion'] = $data->id_discussion;
+      $json['id_discussion'] = $data->Id_discussion;
       $date = 'int';
-      foreach ($this->global_model->all_detail_discussion($client, $page) as $key => $reponse) {
+      foreach ($this->global_model->get_all_view_discussion_table(["client"=>$client, "page"=>$page]) as $key => $reponse) {
         $heure = explode(" ", $reponse->heure);
         $heure[1] = date("H:i:s");
-        if ($reponse->Page == $page) {
+        if ($reponse->page == $page) {
           if ($reponse->sender == 'OPL') {
             if ($reponse->Type == 'image') {
               $json['content'] .= '<div style="background:#e6ee9c;padding:5px 5px;border-radius:10px;margin-bottom:5px;color:#000; word-break: break-all!important;margin-left:90px "><img class="img-thumbnail" src="' . base_url("/images/pieceJoint/$reponse->Message.jpg") . '" alt="' . $reponse->Message . '" style="width:120px;height:120px;object-fit:cover;"></div>';
             } else  if ($reponse->Type == 'rendez-vous') {
-              $dataRvd = $this->global_model->selectRendeVous(["date" => $reponse->date, "heure" => $reponse->heures, "codeclient" => $client, "page" => $reponse->Page]);
+              $dataRvd = $this->global_model->selectRendeVous(["date" => $reponse->date, "heure" => $reponse->heures, "codeclient" => $client, "page" => $reponse->page]);
               if ($dataRvd) {
                 $pagess =  $this->global_model->comptefbDetail(['id' => $dataRvd->page]);
                 $json['content'] .= "<div style='background:#F8BBD0;padding:5px 5px;border-radius:10px;margin-bottom:5px;max-width:85%;color:#000; word-break: break-word; margin-left:90px'> Rendez-vous le " . $dataRvd->date . " à " . $dataRvd->heure . " sur la page " . $pagess->Nom_page . "</div>";
@@ -1396,10 +1442,10 @@ class operatrice extends My_Controller
             if ($reponse->Type == 'image') {
               $json['content'] .= '<div class="form-control pt-1 pl-1 pb-1" style="background:#b2ebf2;min-height:135px;padding:5px 5px;border-radius:10px;margin-bottom:5px;max-width:85%;color:#000; word-break: break-word; "><img class="img-thumbnail" src="' . base_url("/images/pieceJoint/$reponse->Message.jpg") . '"  style="height:120px;width:120px;object-fit:cover"></div>';
             } else {
-              $vardata = $this->global_model->retour_page($reponse->Page);
+              $vardata = $this->global_model->retour_page($reponse->page);
               $page = "";
               if ($vardata) {
-                $page = $reponse->Page;
+                $page = $reponse->page;
               }
               $json['content'] .= '<div style="background:#b2ebf2  ;padding:5px 5px;border-radius:10px;margin-bottom:5px;max-width:85%;color:#000; word-break: break-all!important;min-height:50px;text-align:left"><p class="a">' . $reponse->Message . '<br><span class="pull-right" style=";color:black; padding:2px 2px;border-radius:10px;font-size:12px;margin-top:5px;">Page : ' . $page . '&nbsp;&nbsp; <i class="fa fa-clock"></i>&nbsp;&nbsp;' . $heure[1] . '</span></p></div>';
             }
@@ -1845,6 +1891,280 @@ class operatrice extends My_Controller
 }
 
 
+  public function new_method_save_rendez_vous(){
+   //_________________________________________________________________
+    //____________________________________________ instaciation des model 
+
+    $this->load->model('global_model');
+
+    //_________________________________________________________________
+    //__________________________________________ declaration de variable 
+    $page = $this->input->post('pageUsers');
+    $id_discussion = $this->input->post('idDiscussion');
+    $client = $this->input->post('codeclient');
+    $tache = $this->input->post('tache');
+    $operatrice = $this->session->userdata('matricule');
+    $taches = $this->input->post('taches');
+    $TypeMessage = $this->input->post('TypeMessage');
+    $obs = $this->input->post('obs');
+    $date_rdv = $this->input->post('daterdv');
+    $heure_rvd = $this->input->post('heurervd');
+    $contact_rvd = $this->input->post('contactRvd');
+    $codeclient =  $this->input->post('codeclient');
+    $matricule =  $this->session->userdata('matricule');
+       //_________________________________________________________________
+    //______________________________________________  get page name
+    $detail_compbefb = $this->global_model->retour_page($page);
+    if($detail_compbefb){
+      $page_name = $detail_compbefb->Nom_page;
+    }else{
+      $page_name = $page;
+    }
+
+    //_________________________________________________________________
+    //_______________________________________ création historique users  
+
+    $insertSession = [
+      'operatrice' => $operatrice,
+      'client' => $client,
+      'idaction' => $id_discussion,
+      'date' => date('Y-m-d'),
+      'heure' => date('H:i:s'),
+      'page' =>  $page,
+      'action' => $TypeMessage,
+      'sender' => "OPL",
+      'types' => $tache,
+      'tache' => $taches,
+
+    ];
+    $this->global_model->inserthistorique_discussion_session($insertSession);
+
+    //_________________________________________________________________
+    //______________________________________________ insert rendez-vous 
+
+    $this->global_model->insertRendeVous(['date' =>$date_rdv, "heure" => $heure_rvd, "contact" => $contact_rvd, "codeclient" =>$codeclient, 'status' => 'on', 'operatrice' =>$matricule, 'page' => $page, 'produit' => $obs]);
+
+    //_________________________________________________________________
+    //______________________________________________  insertion message
+    $message = "Rendez-vous le  $date_rdv à $heure_rvd sur la page : $page_name";
+    $message_content = $this->templete_reponse_message('rendez-vous', "OPL",$message,$heure_rvd,$page,$date_rdv);
+ 
+
+    $this->global_model->insertMessageSimples($message_content,'rendez-vous', "OPL", $id_discussion, $TypeMessage, $page, date('Y-m-d'), date('H:i:s'), $TypeMessage);
+
+    //_________________________________________________________________
+    //______________________________________________  retour du method
+
+    $json = array('message' => true, 'content' => '', 'new_id' => '', 'statut' => 'en attente', 'idDisc' => $id_discussion);
+    $json['message'] = true;
+   
+     //_________________________________________________________________
+    //______________________________________________ return info client
+
+    if ($this->input->post('sender') == 'CLT') {
+      $NB = $this->global_model->test_nb_discussion_client($id_discussion);
+      if ($NB > 0) {
+        $response = $this->global_model->test_nb_matricule_client($id_discussion);
+        if ($response) {
+          if (strpos($response->client, "CRX") !== FALSE) {
+            $detail = $this->global_model->detail_CRX($response->client);
+          }
+        }
+      }
+    }
+    
+     $json['statut'] = true;
+     $json['reponse'] = $message_content;
+    echo json_encode($json);
+  
+  }
+
+  public function new_methode_sauve(){
+
+     //_________________________________________________________________
+    //____________________________________________ instaciation des model 
+    $this->load->model('global_model');
+
+    //_________________________________________________________________
+    //__________________________________________ declaration de variable 
+
+    $page = $this->input->post('page');
+    $id_discussion = $this->input->post('id_con');
+    $client = $this->input->post('client');
+    $operatrice = $this->session->userdata('matricule');
+    $tache = $this->session->userdata('tache');
+    $statut = 'a_suivre';
+    $heure = date('H:i:s');
+    $date = date('Y-m-d');
+    $page = $this->input->post('page');
+    $action = $this->input->post('Type');
+    $sender = $this->input->post('sender');
+    $types =  $this->input->post('types');
+    $tache = $this->input->post('tache');
+    $message = $this->input->post('message');
+    $idReponse = $this->input->post('idRep');
+     //_________________________________________________________________
+    //__________________________________  test si discussion existe déjat
+
+    $id_discussion = $this->getIdDiscussionSiExiste($client, $page, $operatrice);
+
+    if ($id_discussion == 'null') {
+      $id_discussion = $this->Discussion_model->generate_id_discussion();
+      $requette = "insert into discussion VALUES(DEFAULT,'" . $id_discussion . "','" . $operatrice . "','" . $client . "','" . $page . "','" . $statut . "')";
+      $methodok = $this->db->simple_query($requette);
+    }
+
+    //_________________________________________________________________
+    //_______________________________________  création historique users 
+    $insertSession = [
+      'operatrice' => $operatrice,
+      'client' => $client,
+      'idaction' => $id_discussion,
+      'date' => $date,
+      'heure' => $heure,
+      'page' => $page,
+      'action' => $action,
+      'sender' => $sender,
+      'types' =>$types,
+      'tache' => $tache
+    ];
+    $methodOk = $this->global_model->inserthistorique_discussion_session($insertSession);
+    //_________________________________________________________________
+    //______________________________________________  insertion message
+
+    $message = $this->templete_reponse_message($action,$sender,$message,$heure, $page,$date);
+    $this->global_model->insertMessageSimples($message,  $action, $sender, $id_discussion, $idReponse, $page, $date, $heure,$types);
+    $json = array('message' => true, 'content' => '');
+    $json['message'] = true;
+    $json['reponse'] = $message;
+    echo json_encode($json);
+
+  }
+
+  public function templete_reponse_message($type,$sender,$message,$heure,$page,$date=null){
+    if($type=="termier"){
+     $data = [
+                  "date"=>$date,
+                  "heure"=>$heure
+            ];
+            $html = $this->load->view('operatrice/discussion/templete/templete_reponse_message_terminer',$data,true);
+    }else if($type=="rendez-vous"){  
+      
+       $data = [
+                  "message"=>$message,
+                  "page"=>$page,
+                  "heure"=>date('H:i:s')
+            ];
+            $html = $this->load->view('operatrice/discussion/templete/templete_reponse_message_rvd',$data,true); 
+
+    }else if($type=="NouvelleDiscussion"){      
+            $data = [
+                  "date"=>date('Y-m-d'),
+                  "heure"=>date('H:i:s')
+            ];
+            $html = $this->load->view('operatrice/discussion/templete/templete_reponse_message_Nouvelle_Discussion',$data,true); 
+
+    }else if($type=="a suivre"){ 
+
+     $data = [
+                  "date"=>date('Y-m-d'),
+                  "heure"=>date('H:i:s')
+            ];
+    $html = $this->load->view('operatrice/discussion/templete/templete_reponse_message_a_suivre',$data,true); 
+    }else if($type=="vente"){ 
+
+        $html = $this->generate_rafitinina($message);     
+    }else{
+     switch ($sender) {
+         case 'CLT':
+         $data = [
+                  "message"=>$message,
+                  "page"=>$page,
+                  "heure"=>$heure
+            ];
+            $html = $this->load->view('operatrice/discussion/templete/templete_reponse_message_client',$data,true);
+           break;
+         
+         default:
+         $data = [
+                  "message"=>$message,
+                  "page"=>$page,
+                  "heure"=>$heure
+            ];
+          $html = $this->load->view('operatrice/discussion/templete/templete_reponse_message_oplg',$data,true);
+          break;
+        }
+    }
+    
+     
+  return $html;
+  }
+  public function generate_rafitinina($facture_id){
+    $this->load->model('global_model');
+   // $detail = $this->global_model->get_all_vue_detail_facture(['fatcure'=>$facture_id]);
+    $text = array('livre' => 'LIVREE', 'annule' => 'ANNULLEE', 'en_attente' => 'EN ATTENTE', 'confirmer' => 'CONFIRMEE', 'repporter' => 'REPPORTEE');
+    $livraison = $this->global_model->get_vue_livraison_detail_table(['Id_facture'=>$facture_id]);
+   $json['content'] ="";
+    $detail = $this->calendrier_model->detail_commande_facture_discussion(trim($livraison->Id_facture));
+            if ($detail) {
+              $remise = "";
+              $total = 0;
+              $bon_achat = $this->calendrier_model->retour_quary("SELECT SUM(`Val_bon_achat`) AS 'bonAchat' FROM `facture` WHERE `Id_facture` = '".trim($livraison->Id_facture)."'");
+              $totalsmilekoty = $this->global_model->gettotalsmileskotys($livraison->Code_client);
+              foreach ($totalsmilekoty as $value) {
+                $smilesT = $value->smiles;
+                $kotyT = $value->koty;
+                $totatsmilekotyFinal = $smilesT . " Smiles | " . $kotyT . " Koty ";
+              }
+              $json['content'] .= '<div style="background:#e6ee9c;padding:5px 5px;border-radius:10px;margin-bottom:5px;max-width:85%;color:#000; word-break: break-all!important;min-height:50px;margin-left: 90px;;text-align:left; font-size:12px!important"><div style="padding:5px 10px;white-space: break-spaces;"> Raha fintinina izany ny commande nao dia : <br> Vokatra : ';
+              foreach ($detail as $key => $detail) {
+                $json['content'] .= substr($detail->Designation, 0, 60) . '<br> Miisa : ' . $detail->Quantite . '<br> Vidiny : ' . number_format($detail->Prix_detail) . ' Ar<br> Koty : ' . $detail->Smile_LV1;
+                $remise .= $detail->Designation . " : " . $detail->Smile_LV1 . " Smiles |" . $detail->Zen_LV1 . " Koty<br>";
+                $total += ($detail->Quantite * $detail->Prix_detail);
+              }
+              $json['content'] .= '<br><span><b> Localité : ' . $livraison->Localite . '</span>';
+              $json['content'] .= '<br>Quartier:' . $livraison->Quartier . "&nbsp;,&nbsp;" . $livraison->Ville . '<br> Toerana : ' . $livraison->lieu_de_livraison . '<br> Contact 1 : ' . $livraison->contacts . '<br> Contact 2 : ' . $livraison->Contact_livraison . '<br>Date de livraison : ' . $livraison->date_de_livraison . " " . '<br>Frais de livraison : ' . number_format($livraison->frais) . ' Ar' . '<br> Frais de Retrait : ' . $livraison->frais_de_retrait . ' Ar' . " " . $livraison->heure_deb_livre . $livraison->heure_fi_livre . '';
+              $json['content'] .= "<br><span><b> Bon d'achat : ".number_format($bon_achat->bonAchat, 2, ',', ' ')." ar<br/>";
+             
+              if ($livraison->Status == 'livre') {
+                if ($livraison->frais_de_retrait == '') {
+                  $fraisRetrait = 0;
+                } else {
+                  $fraisRetrait = $livraison->frais_de_retrait;
+                }
+                $json['content'] .= '<br><span><b> Total  à payer : ' . number_format($total + $livraison->frais + $fraisRetrait-$bon_achat->bonAchat) . ' Ar <div class="modify"><button id="' . trim($livraison->Id_facture) . '" class="btn btn-success disabled text-center modify btn-sm" style="margin-left:400px;color:#fff;border-radius:10px"><b>' . $text[$livraison->Status] . '</button></div></span>';
+              } else if ($livraison->Status == 'annule') {
+                if ($livraison->frais_de_retrait == '') {
+                  $fraisRetrait = 0;
+                } else {
+                  $fraisRetrait = $livraison->frais_de_retrait;
+                }
+                $json['content'] .= '<br><span><b> Total  à payer : ' . number_format($total + $livraison->frais + $fraisRetrait-$bon_achat->bonAchat) . ' Ar <div class="modify"><button class="btn btn-danger disabled text-center btn-sm"  id="' . trim($livraison->Id_facture) . '" style="margin-left:400px;color:#fff;border-radius:10px">' . $text[$livraison->Status] . '</button></div></span>';
+              } else {
+                if ($livraison->frais_de_retrait == '') {
+                  $fraisRetrait = 0;
+                } else {
+                  $fraisRetrait = $livraison->frais_de_retrait;
+                }
+                $json['content'] .= '<br><span><b> Total  à payer : ' . number_format($total + $livraison->frais + $fraisRetrait-$bon_achat->bonAchat) . ' Ar </b> <div class="modify"><button class="btn btn-dark disabled text-center "  id="' . trim($livraison->Id_facture) . '" style="margin-left:400px;color:#000;border-radius:10px ">' . $text[$livraison->Status] . '</b></button></div></span>';
+              }
+              $json['content'] .= '<br><span><b>' . $livraison->Matricule_personnel . '</span>';
+              $json['content'] .= '<br><span><b>' . $livraison->Code_client . '</span>';
+              $vardata = $this->global_model->retour_page($livraison->Page);
+              $page = "";
+
+              if ($vardata) {
+                $page = $livraison->Page;
+              }
+              $json['content'] .= '<div style="background:#e6ee9c;padding:2px 5px;border-radius:10px;margin-bottom:5px;max-width:85%;color:#000; word-break: break-all!important;min-height:50px;margin-left: 90px;"><p class="a"><br><span class="pull-right" style=";color:black; padding:2px 2px;border-radius:10px;font-size:10px;font-weight:bold;margin-top:5px;">Page : ' . $page . '&nbsp;&nbsp;<i class="fa fa-clock"></i>&nbsp;&nbsp;' . date('H:i:s') . '</span></p></div>';
+              $json['content'] .= '</div></div> <div style="background:#ffbb33;padding:20px;;border-radius:10px;margin-bottom:5px;max-width:85%;color:#000; word-break: break-all!important;margin-left:90px; font-size:13px;white-space: break-spaces; "> <b style="font-size:16px" class="text-center">Fanamarihana !</b><br/> Raha toa ka livré  ireto vokatra no commandianao  ireto <br> dia misy fihenambidy atolotra anao ireto <br>' . $remise . '</div></div>';
+              $json['content'] .= '</div></div> <div style="background:#00B74A;padding: 5px 20px;;border-radius:10px;margin-bottom:10px;max-width:85%;color:#000; word-break: break-all!important;margin-left:90px "> <br/><b style="font-size:16px" class="text-left"> Ny Statut anao amizao dia :   <br> <b>STATUT ACTUEL  :  ' . $totatsmilekotyFinal . '</div></div>';
+            }  
+
+            return $json['content'];   
+  }
+
+
   public function sauvemessages()
   {
     $this->load->model('global_model');
@@ -2036,6 +2356,7 @@ class operatrice extends My_Controller
     $valeurBon = $this->input->post('bon_achat_input');
     $DesBon = $this->input->post('bon_achat');
     $lieu_client_livre = $this->input->post('lieu_client_livre');
+    $cadeau = $this->input->post('select_cadeau');
     $rcv = substr($ress_sec_oplg, 0, 2);
 
     if ($rcv == 'VP' or $rcv == 'VT' or $rcv == 'CO') {
@@ -2091,6 +2412,10 @@ class operatrice extends My_Controller
       'action' => "CONCLUS",
       'tache' => "VENTE DES PRODUITS"
     ];
+    $this->global_model->insert_cadeau([
+      "facture"=>$fact,
+      "cadeau"=>$cadeau
+    ]);
     $this->global_model->inserthistorique_discussion_session($insertSession);
 
     echo json_encode(array('message' => true));
@@ -4310,6 +4635,28 @@ class operatrice extends My_Controller
     $user = $this->session->userdata('matricule');
     $data = array('statut'=>'traite',"opl_traite"=>$user,"lastupdate"=>date('Y-m-d H:i:s',now()));
     echo $this->global_model->update_relance_aa7($param,$data);
+  }
+  public function save_action_publication(){
+     $this->load->model('global_model');
+    $campaigne = $this->input->post('Campagne');
+    $publication = $this->input->post('publication');
+    $produit = $this->input->post('produit');
+    $codeClient = $this->input->post('codeClient');
+    $type_action = $this->input->post('type_action');
+    $remarque = $this->input->post('remarque');
+    $date_action = $this->input->post('date_action');
+    $operatrice = $this->session->userdata('matricule');
+    $data = [
+      "date_action"=>$date_action,
+      "operatrice"=>$operatrice, 
+      "client"=>$codeClient, 
+      "type_action"=>$type_action, 
+      "publication"=>$publication, 
+      "produit"=>$produit, 
+      "campaigne"=>$campaigne, 
+      "remarque"=>$remarque
+    ];
+    echo $this->global_model->insert_commentaire($data);
   }
 
 }

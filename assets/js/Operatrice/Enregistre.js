@@ -8,7 +8,18 @@ $(document).ready(function(){
   });
   $('#save_data').on('click',function(event){
   	event.preventDefault();
-  	alertMessage("Succé!", "demo nambi", "success", "btn-success");
+    let Campagne = $("#Campagne option:selected").val();
+    let publication = $('#publication').val();
+    let produit = $('#produit').val();
+    let codeClient =  $('#client').val();
+    let type_action = $('#type_action option:selected').val();
+    let remarque = $('#remarque').val();
+    let date_action = $('#date_action').val();
+
+    $.post(base_url+'operatrice/save_action_publication',{date_action,Campagne,publication,produit,codeClient,type_action,remarque},function(data){
+      alertMessage("Succès!", "Action enregistre.", "success", "btn-success");
+    });
+  	
 
   });
 

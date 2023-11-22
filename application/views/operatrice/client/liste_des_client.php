@@ -1,6 +1,6 @@
 <div class="row" style="background-color:#fff;border-radius:5px;padding: 10px; ">
     <div class="form-group">
-                <table class="table table-hove table-stripted table-bordered">
+                <table class="table table-hover table-stripted table-bordered">
                     <thead style="color: #fff!important"> 
                     <tr>    
                         <th>Id</th>

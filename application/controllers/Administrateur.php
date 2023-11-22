@@ -1080,4 +1080,127 @@ public function autoCompletePageFacebook()
         );
         echo json_encode($output);
     }
+    public function save_question(){
+      $this->load->model('administrateur_model');
+      $reponse = $this->input->post('reponse');
+      $question = $this->input->post('question');
+      $type = $this->input->post('type');
+      $data = [
+        "question"=>$question,
+        "option"=>$type,
+        "option_containt"=>$reponse
+
+      ];
+      echo $this->administrateur_model->insert_questionnaire($data);
+    }
+    public function Resultat_des_enquette(){
+      $question = $this->global_model->get_fect_questionnaire();
+      $client = $this->global_model->get_distinct_reponse_question(array(),"client");
+      $data = ['question'=>$question,"client"=>$client];
+       $this->render_view('administrateur/enquette/resultat',$data);
+    }
+    public function update_liste_enquette(){
+      $this->load->model('Relance_model');
+   $data = $this->Relance_model->get_livre_7_jour();
+   if($data){
+     foreach ($data as $key => $row) {
+        $relance_exist = $this->Relance_model->get_relance_aa7(["id_facture"=>$row->Id]);
+        if(!$relance_exist){
+        $datas = [
+            "code_client"=>$row->Code_client,
+            "id_facture"=>$row->Id,
+            "id_page"=>$row->Page,
+            "matricule_oplg"=>$row->Matricule_personnel
+        ];
+         $this->Relance_model->insert_relance_aa7($datas); 
+      }
+     }
+   }
+
+    }
+    public function duplique_operatrice(){
+      $this->render_view('administrateur/gestion_facebook/duplicate_operatrice');
+    }
+    public function duplicate_operatrice_method(){
+      $this->load->model('Administrateur_model');
+      $matricule = $this->input->post('matricule');
+      $type = $this->input->post('type');
+      $methodok = false;
+      $data_personnel = $this->Administrateur_model->get_personnel(["Matricule"=>$matricule]);
+      $numero=filter_var($matricule,FILTER_SANITIZE_NUMBER_INT);
+      //_____________________________________________________________________________________
+      //_____________________________________________________________ Test si personnel exist
+      $new_matricule = $type.$numero;
+      $personnel_exist = $this->Administrateur_model->get_personnel(["Matricule"=>$new_matricule]);
+      if(!$personnel_exist){
+        $data_personnel->Fonction_actuelle = 8;
+        $data_personnel->Matricule = $new_matricule;
+       $methodok = $this->Administrateur_model->insert_personnel($data_personnel);
+
+      }
+
+      echo $methodok;
+
+    }
+    public function Courbe_des_resultats(){
+      $this->load->model('Administrateur_model');
+      $produit =   $this->Administrateur_model->get_reponse_question_distinct("Produit<>''");
+      $question =  $this->Administrateur_model->get_fetch_questionnaire();
+      $famille = $this->Administrateur_model->get_famille_produit();
+      $data = ["produit"=>$produit,'question'=>$question,'famille'=>$famille];
+      $this->render_view('administrateur/Enquette/Courbe_des_resultats',$data);
+    }
+    public function get_data_chart(){
+      $this->load->model('Administrateur_model');
+      $item_select = $this->input->post('item_select');
+      $question_select_text = $this->input->post('question_select_text');
+      $question_select_id = $this->input->post('question_select_id');
+
+
+      $color = array('#64DD17','#33691E','#00B0FF','#ffc000','#01579B','#64DD17','#33691E','#00B0FF','#ffc000','#01579B');
+
+      $reponse = $this->Administrateur_model->get_fetch_reponse_question(['Produit'=>$item_select,'Question'=>$question_select_text]);
+      $reponse_question =  $this->Administrateur_model->get_questionnaire(['id'=>$question_select_id]);
+      $question = explode(";", $reponse_question->option_containt);
+      $data_return = [];
+      for ($i=0; $i < count($question) ; $i++) { 
+        $data_return[$i] =0;
+      }
+      
+      $total = 0;
+      foreach ($reponse as $reponse) {
+           $key = array_search($reponse->reponse,$question);
+           if(array_key_exists($key, $data_return)){
+              $data_return[$key] += 1;
+           }else{
+              $data_return[$key] = 1;
+           }
+           $total +=1; 
+      } 
+      $p=0;
+    for ($p=0; $p < count($data_return); $p++) { 
+        if($total != 0 ){
+          $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total);
+          $question[$p] = $question[$p]." ( ".$data_return[$p]." % ) ";
+        }
+    }
+
+
+      $data = ['erreur'=>'false','question'=>$question,'stat'=>$data_return,'number'=>max($data_return)];
+      echo json_encode($data);
+    }
+    public function return_apreciation($param){
+       switch ($param) {
+         case 'value':
+           $reponse = "false";
+           break;
+         
+         default:
+           $reponse = "false";
+           break;
+           
+       }
+
+       return $reponse;
+    }
 }
