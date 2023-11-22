@@ -1,6 +1,7 @@
 $(document).ready(function () {
     Init_produit();
     choixPages();
+    alert('');
     $('.code_client_ban').empty().append(localStorage.getItem('codeclient'));
     initialiseNomByCodeClient();
     //initCOmplte();   
