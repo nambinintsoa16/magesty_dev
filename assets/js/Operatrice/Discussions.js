@@ -3,7 +3,9 @@ $(document).ready(function () {
     //_____________________________________________ Déclaration des variable
 
     var selectedRadio; // Stocker l'élément radio sélectionné
-
+    //_____________________________________________________________________
+    //_____________________________________________________ afficher cadeau
+        
 
     //______________________________________________________________________
     //___________________________________________fonction lance au chargement
@@ -946,20 +948,18 @@ $(document).ready(function () {
         let tempProduit = $('.produitname option:selected').text().split('|');
         let test = true;
         let table = [];
+        let valeur_achat =  0;
 
         let linkImage = ""
         if (test_Link_Image($.trim(tempProduit[0])) == true) {
-            linkImage = "http://magesty-prod.combo.fun/images/produit/'" + $.trim(tempProduit[0]) + "'.jpg";
+            linkImage = base_url+"/images/produit/'" + $.trim(tempProduit[0]) + "'.jpg";
         }
         if (test_Link_Image($.trim(tempProduit[0])) == false) {
-            linkImage = "http://magesty-prod.combo.fun/images/operatrice/default_image.jpg";
+            linkImage = base_url+"/images/operatrice/default_image.jpg";
         }
         //console.log($('.id_facture_collapse').text());
         if (typeof ($('.prod').html()) == 'undefined') {
             if ($('.id_facture_collapse').text() == '') {
-
-
-
                 $('.table_commande>tbody:last').append('<tr><th class="prod">' + tempProduit[0] + '</th><th class="codeProduit">' + tempProduit[1] + '</th><th class="prix">' + tempPrix[1] + '</th><th class="quant"><input style="width:50px;text-align:center;" type="number" class="Qua" value="1"></th><th class="tot">' + tempPrix[1] + '</th><th><img class="img img-thumbnail w-5" style="width:50px;" src="' + linkImage + '"></th><th><button class="btn btn-danger btn-sm suppr"><i class="flaticon-interface-5"></i></button></th><th class="idPrix collapse">' + $.trim(tempPrix[0]) + '</th></tr>');
 
             } else {
@@ -967,6 +967,7 @@ $(document).ready(function () {
                 addPRoduit();
             }
             $('.total').empty().append(tempPrix[1] + ' MGA');
+            valeur_achat = tempPrix[1];
         } else {
             $('.prod').each(function () {
                 table.push($(this).text());
@@ -989,9 +990,12 @@ $(document).ready(function () {
                     sum += parseInt($(this).html());
                 });
                 $('.total').empty().append(sum + ' MGA');
-
+                valeur_achat = sum;
             }
-
+             $.post(base_url+'operatrice/checked_cadeau',{valeur_achat},function(data){
+                $('#select_cadeau').empty().append(data);
+                   
+            });
         }
 
 
@@ -1005,6 +1009,11 @@ $(document).ready(function () {
         let total = quantite * priproduit;
         $('.total .conttotal').empty().append(total + " Ar");
         let table = $(this).parent().parent();
+        valeur_achat = total;
+          $.post(base_url+'operatrice/checked_cadeau',{valeur_achat},function(data){
+                $('#select_cadeau').empty().append(data);
+                   
+            });
     });
     $(".new_client").on('click', function (event) {
         event.preventDefault();
@@ -1498,6 +1507,7 @@ $(document).ready(function () {
             let bon_achat = $('.bon-achat  option:selected').val();
             let bon_achat_input = $('.bon-achat-input').val();
             let lieu_client_livre = $('.lieu_livre_client option:selected').val();
+            let select_cadeau =$('#select_cadeau option:selected').val();
             var detailcommande = [];
 
             $('.tbody tr').each(function () {
@@ -1524,7 +1534,7 @@ $(document).ready(function () {
                 $.post(base_url + 'operatrice/newfacture', function (data) {
                     var fact = data.codefact;
                     
-                    $.post(base_url + 'operatrice/enregistre_commande', { Localite: Localite, fraisderetrait: fraisderetrait, typeFacture: typeFacture, codePromo: codePromo, Id_discussion: Id_discussion, contact: contact, fact: fact, Id_zone: Id_zone, date: date, Debut: Debut, Fin: Fin, ville: ville, quartier: quartier, lieu_de_livraison: lieulivre, remarque: remarque, produits: detailcommande, client: client, frailivre: frailivre, District: District, page: page, cotactlivre: cotactlivre, result_mattr: result_mattr, bonus: bonus, bon_achat: bon_achat, bon_achat_input: bon_achat_input,lieu_client_livre:lieu_client_livre }, function (datas) {
+                    $.post(base_url + 'operatrice/enregistre_commande', { Localite: Localite, fraisderetrait: fraisderetrait, typeFacture: typeFacture, codePromo: codePromo, Id_discussion: Id_discussion, contact: contact, fact: fact, Id_zone: Id_zone, date: date, Debut: Debut, Fin: Fin, ville: ville, quartier: quartier, lieu_de_livraison: lieulivre, remarque: remarque, produits: detailcommande, client: client, frailivre: frailivre, District: District, page: page, cotactlivre: cotactlivre, result_mattr: result_mattr, bonus: bonus, bon_achat: bon_achat, bon_achat_input: bon_achat_input,lieu_client_livre:lieu_client_livre,select_cadeau:select_cadeau }, function (datas) {
 
                         if (datas.message === true) {
                             $.post(base_url + 'operatrice/new_methode_sauve', { message: fact, Id_zone: id_zone, id_con: id_con, Type: 'vente', sender: 'OPL', page: page, idRep: idRep, client: localStorage.getItem("codeclient") }, function (data) {
@@ -1951,7 +1961,7 @@ $(document).ready(function () {
                 }
             }
         }, 'json');
-
+        stopload();
 
     }
     function fonctiondel() {
@@ -1977,6 +1987,10 @@ $(document).ready(function () {
             } else {
                 $('.total').empty().append('00 MGA');
             }
+             $.post(base_url+'operatrice/checked_cadeau',{valeur_achat:sum},function(data){
+               $('#select_cadeau').empty().append(data);
+                   
+            });
         }
 
         $('.Qua').on('change', function () {
@@ -1994,6 +2008,8 @@ $(document).ready(function () {
             total.empty().append(parseInt(number) * quantite);
             totaltab();
         });
+
+
 
     }
 

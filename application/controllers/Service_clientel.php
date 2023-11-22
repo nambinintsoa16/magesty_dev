@@ -638,6 +638,7 @@ class service_clientel extends My_Controller
       $resultat[$i]['remarque'] = $client->Remarque;
       $resultat[$i]['link'] = 'link_' . $i;
       $resultat[$i]['facture'] = $client->Id;
+      $resultat[$i]['cadeau'] = $client->Id;
       foreach ($this->calendrier_model->ca_facture($client->Id) as $commande) {
         if ($commande->statut != 'annuler') {
           $resultat[$i]['ca'] += ($commande->Quantite * $commande->Prix_detail);
@@ -705,32 +706,38 @@ class service_clientel extends My_Controller
   public function detail($idfacture)
   {
     $this->load->model('calendrier_model');
+    $client = $this->calendrier_model->detail_facture($idfacture);
     $data = [
-      'client' => $this->calendrier_model->detail_facture($idfacture),
-      'commande' => $this->calendrier_model->detail_commande_facture($idfacture)
+      'client' => $client,
+      'commande' => $this->calendrier_model->detail_commande_facture($idfacture),
+      'cadeau'=> $this->calendrier_model->get_fetch_cadeau(["facture"=>$client->Id_facture])
     ];
-
+  
     $this->render_view('service_clientel/calendrier/detail', $data);
   }
   public function  planifier_commande($idfacture)
   {
 
     $this->load->model('calendrier_model');
+    $client = $this->calendrier_model->detail_facture($idfacture);
     $data = [
-      'client' => $this->calendrier_model->detail_facture($idfacture),
+      'client' => $client,
       'commande' => $this->calendrier_model->detail_commande_facture($idfacture),
-      'annulation' => $this->calendrier_model->code_annulation()
+      'annulation' => $this->calendrier_model->code_annulation(),
+      'cadeau'=> $this->calendrier_model->get_fetch_cadeau(["facture"=>$client->Id_facture])
     ];
     $this->render_view('service_clientel/calendrier/en_attente', $data);
   }
   public function confirmer_commande($idfacture)
   {
     $this->load->model('calendrier_model');
+    $client = $this->calendrier_model->detail_facture($idfacture);
     $data = [
-      'client' => $this->calendrier_model->detail_facture($idfacture),
+      'client' =>  $client,
       'commande' => $this->calendrier_model->detail_commande_facture($idfacture),
       'annulation' => $this->calendrier_model->code_annulation(),
-      'liste_personel' => $this->calendrier_model->liste_personel()
+      'liste_personel' => $this->calendrier_model->liste_personel(),
+      'cadeau'=> $this->calendrier_model->get_fetch_cadeau(["facture"=>$client->Id_facture])
     ];
     $this->render_view('service_clientel/calendrier/confirmer', $data);
   }

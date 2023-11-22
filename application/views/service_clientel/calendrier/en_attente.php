@@ -60,6 +60,21 @@
     <div class="confirm">
     </div>
 </div>
+
+<?php if($cadeau):?>
+<div class="row">
+<span class="alert alert-danger bg-success text-white">
+   Cadeau pour le client: <br>
+   <ul>
+    <?php foreach($cadeau as $cadeau):?>
+      <li>
+      <?=$cadeau->cadeau?>
+     </li>
+    <?php endforeach;?>
+   </ul>
+  </span>
+</div>
+<?php endif;?>
 <fieldset class="border p-2 w-100">
 <legend class="w-auto">Détail achat</legend>
 <div class="row">

@@ -25,6 +25,9 @@ class global_model extends CI_Model
     
   }
 
+  public function  insert_cadeau($data){
+      return $this->db->insert('cadeau',$data);
+  }
   public function bon_achat($requette=array()){
     return $this->db->where($requette)->get('bonDAchat')->result_object();
   }

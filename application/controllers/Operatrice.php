@@ -990,7 +990,39 @@ class operatrice extends My_Controller
     }
     echo  $reponse;
   }
+  public function checked_cadeau(){
+    $valeur_achat =(int) $this->input->post('valeur_achat');
+    $reponse = array();
+    $affichage = "";
 
+    if($valeur_achat>215000){
+          array_push($reponse, "BIJOUX-SP925");
+          array_push($reponse, "EYE MASQUE BABY BRIGHT");
+          array_push($reponse, "ROUGE A LEVRE");
+          array_push($reponse, "PORTE CLE");
+     }else if($valeur_achat>158000 ){
+          array_push($reponse, "PARFUM ou PEPPER");
+          array_push($reponse, "PORTE CLE");
+     }else if($valeur_achat>116000){
+          array_push($reponse, "BAUME A LEVRE");
+          array_push($reponse, "ROUGE A LEVRE");
+     } else if($valeur_achat>84000){
+          array_push($reponse, "NATURE'S NEEM");
+     }else if($valeur_achat>59000){
+          array_push($reponse, "VASELINE");
+          array_push($reponse, "EVERSENCE - GRIS");
+     }else if ($valeur_achat>39000){
+          array_push($reponse, "PORTE CLE");
+     }
+     
+     foreach ($reponse as $reponse) {
+        if($reponse !=''){
+         $affichage .="<option>".$reponse."</option>";
+        }
+     }
+     
+     echo $affichage;
+  }
   public function discussions()
   {
     $this->load->model('global_model');
@@ -2324,6 +2356,7 @@ class operatrice extends My_Controller
     $valeurBon = $this->input->post('bon_achat_input');
     $DesBon = $this->input->post('bon_achat');
     $lieu_client_livre = $this->input->post('lieu_client_livre');
+    $cadeau = $this->input->post('select_cadeau');
     $rcv = substr($ress_sec_oplg, 0, 2);
 
     if ($rcv == 'VP' or $rcv == 'VT' or $rcv == 'CO') {
@@ -2379,6 +2412,10 @@ class operatrice extends My_Controller
       'action' => "CONCLUS",
       'tache' => "VENTE DES PRODUITS"
     ];
+    $this->global_model->insert_cadeau([
+      "facture"=>$fact,
+      "cadeau"=>$cadeau
+    ]);
     $this->global_model->inserthistorique_discussion_session($insertSession);
 
     echo json_encode(array('message' => true));

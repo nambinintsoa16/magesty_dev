@@ -67,6 +67,20 @@
     </div>
   </div>
 </div>
+<?php if($cadeau):?>
+<div class="row">
+<span class="alert alert-danger bg-success text-white">
+   Cadeau pour le client: <br>
+   <ul>
+    <?php foreach($cadeau as $cadeau):?>
+      <li>
+      <?=$cadeau->cadeau?>
+     </li>
+    <?php endforeach;?>
+   </ul>
+  </span>
+</div>
+<?php endif;?>
 <table class="table table-striped table-advance table-hover table-bordered" style="margin-top: 60px;">
   <thead class="bg-danger">
   <tr>
@@ -79,6 +93,7 @@
     </tr>
 
   </thead>
+  
   <tbody>
  
     <tr>

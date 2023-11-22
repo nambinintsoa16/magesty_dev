@@ -873,6 +873,16 @@
             </div>
           </fieldset>
           <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
+            <legend class="w-auto">Cadeau</legend>
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <select class="custom-select" id="select_cadeau">
+                  </select>
+                </div>
+              </div>
+          
+          </fieldset>
+          <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
             <legend class="w-auto">Bon d'achat</legend>
             <div class="row">
             <div class="form-group col-md-12 bon-Achat-Alert ">

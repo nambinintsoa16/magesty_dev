@@ -32,6 +32,9 @@ class calendrier_model extends CI_Model
     $this->db->join('prix', 'detailvente.Id_prix=prix.Id');
     return $this->db->get('detailvente')->result_object();
   }
+  public function get_fetch_cadeau($param=array()){
+    return $this->db->where($param)->get("cadeau")->result_object();
+  }
   public function ca_de_vente_mois($mois = null, $status = FALSE, $user = FALSE, $dateD = null, $dateF = null)
   {
     $this->db->select('detailvente.statut,detailvente.Quantite,detailvente.Id_prix,detailvente.Type_de_prix,prix.Prix_detail');
@@ -223,7 +226,7 @@ class calendrier_model extends CI_Model
   {
     $this->db->select("
 		client.Code_client,client.Nom,facture.Id,livraison.id,facture.Matricule_personnel,facture.Page,
-		client.Prenom`,client.lien_facebook,facture.Ville,facture.Remarque,
+		client.Prenom`,client.lien_facebook,facture.Ville,facture.Remarque,facture.Id_facture,
 		client.datedenregistrement,facture.contacts,facture.heure_livre_debut,
 		client.Compte_facebook,client.Contact,facture.Quartier,facture.heure_livre_fin,
     facture.Remarque,facture.remarque_service_clientel,facture.lieu_de_livraison,facture.Ress_sec_oplg,
@@ -239,7 +242,7 @@ class calendrier_model extends CI_Model
       $this->db->flush_cache();
       $this->db->select("
 				clientpo.Code_client,clientpo.Nom,facture.Id,livraison.id,facture.Matricule_personnel,facture.Page,
-				clientpo.Prenom`,clientpo.lien_facebook,facture.Ville,facture.Remarque,
+				clientpo.Prenom`,clientpo.lien_facebook,facture.Ville,facture.Remarque,facture.Id_facture,
 				clientpo.datedenregistrement,facture.contacts,facture.lieu_de_livraison,
 				clientpo.Compte_facebook,clientpo.Contact,facture.Quartier,facture.Id_facture,
 				facture.Remarque,facture.remarque_service_clientel,facture.heure_livre_debut,facture.Ress_sec_oplg,
