@@ -2415,10 +2415,12 @@ class operatrice extends My_Controller
       'action' => "CONCLUS",
       'tache' => "VENTE DES PRODUITS"
     ];
-    $this->global_model->insert_cadeau([
-      "facture"=>$fact,
-      "cadeau"=>$cadeau
-    ]);
+    if($cadeau!=""){
+      $this->global_model->insert_cadeau([
+        "facture"=>$fact,
+        "cadeau"=>$cadeau
+      ]);
+    }
     $this->global_model->inserthistorique_discussion_session($insertSession);
 
     echo json_encode(array('message' => true));
