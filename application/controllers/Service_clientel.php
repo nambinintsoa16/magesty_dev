@@ -629,6 +629,11 @@ class service_clientel extends My_Controller
     foreach ($client as $key => $client) {
       $detail = "";
       $detail = $this->global_model->detail_client($client->Code_client);
+      $cadeau = $this->global_model->get_cadeau(["facture"=>$client->Id_facture]);
+      $gift ="";
+      if($cadeau){
+        $gift = $cadeau->cadeau;
+      }
       $resultat[$i]['ca'] = 0;
       $resultat[$i]['code_client'] = $detail->Nom;
       $resultat[$i]['Nom'] = $client->Code_client;
@@ -638,7 +643,7 @@ class service_clientel extends My_Controller
       $resultat[$i]['remarque'] = $client->Remarque;
       $resultat[$i]['link'] = 'link_' . $i;
       $resultat[$i]['facture'] = $client->Id;
-      $resultat[$i]['cadeau'] = $client->Id;
+      $resultat[$i]['cadeau'] = $gift;
       foreach ($this->calendrier_model->ca_facture($client->Id) as $commande) {
         if ($commande->statut != 'annuler') {
           $resultat[$i]['ca'] += ($commande->Quantite * $commande->Prix_detail);
@@ -1130,6 +1135,12 @@ class service_clientel extends My_Controller
     foreach ($client as $key => $client) {
       $detail = "";
       $detail = $this->global_model->detail_client($client->Code_client);
+      $cadeau = $this->global_model->get_cadeau(["facture"=>$client->Id_facture]);
+      $gift ="";
+      if($cadeau){
+        $gift = $cadeau->cadeau;
+      }
+      $resultat[$i]['cadeau'] = $gift;
       $resultat[$i]['ca'] = 0;
       $resultat[$i]['code_client'] = $client->Id;
       $resultat[$i]['Nom'] = $detail->Nom;
@@ -1142,6 +1153,7 @@ class service_clientel extends My_Controller
       $resultat[$i]['date'] = $client->Date;
       $resultat[$i]['prix'] = $client->Prix_detail;
       $resultat[$i]['Quartier'] = $client->Quartier;
+      $resultat[$i]['cadeau'] = $gift;
       $resultat[$i]['Ville'] = $client->Ville;
       $resultat[$i]['remarque'] = $client->Remarque;
       $resultat[$i]['quantite'] = $client->Quantite;
@@ -1166,11 +1178,11 @@ class service_clientel extends My_Controller
 
 
     $excel = "";
-    $excel .=  "Code client\tNum Commande\tClient\tDate de Commande\tDate de Livraison\tLien Facebook\tContact\tProduit\tPU\tQTT\tlieu de livraison\tOPL\tQuartier\tVille\tMontant\tLocalisation\tFrais\tRemarque\tStatut\n";
+    $excel .=  "Code client\tNum Commande\tClient\tDate de Commande\tDate de Livraison\tLien Facebook\tContact\tProduit\tPU\tQTT\tlieu de livraison\tOPL\tQuartier\tVille\tMontant\tcadeau\tLocalisation\tFrais\tRemarque\tStatut\n";
 
     foreach ($resultat as $row) {
       $montant = (int)$row['prix'] * (int)$row['quantite'];
-      $excel .= "$row[client_code]\t$row[code_client]\t$row[Nom]\t$row[date]\t$row[datediflivre]\t$row[liensurfacebook]\t$row[contact]\t$row[produit]\t$row[prix]\t$row[quantite]\t$row[lieudelivraison]\t$row[OPLG]\t$row[Quartier]\t$row[Ville]\t$montant\t$row[District]\t$row[frais]\t$row[remarque]\t$row[Statut]\n";
+      $excel .= "$row[client_code]\t$row[code_client]\t$row[Nom]\t$row[date]\t$row[datediflivre]\t$row[liensurfacebook]\t$row[contact]\t$row[produit]\t$row[prix]\t$row[quantite]\t$row[lieudelivraison]\t$row[OPLG]\t$row[Quartier]\t$row[Ville]\t$montant\t$row[cadeau]\t$row[District]\t$row[frais]\t$row[remarque]\t$row[Statut]\n";
     }
 
     header("Content-type: application/vnd.ms-excel");

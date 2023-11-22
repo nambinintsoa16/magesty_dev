@@ -25,6 +25,9 @@ class global_model extends CI_Model
     
   }
 
+  public function get_cadeau($param=array()){
+     return $this->db->where($param)->get('cadeau')->row_object();
+   }
   public function  insert_cadeau($data){
       return $this->db->insert('cadeau',$data);
   }

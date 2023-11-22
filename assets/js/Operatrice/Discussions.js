@@ -1001,7 +1001,6 @@ $(document).ready(function () {
         });
         fonctiondel();
 
-
     });
     $(".qt").on('change', function () {
         let quantite = $(this).val();

@@ -401,7 +401,7 @@ class calendrier_model extends CI_Model
   {
     $dt = new dateTime($date);
     $dte = $dt->format('Y-m-d');
-    $this->db->select("facture.Remarque,facture.Id,facture.Code_client,livraison.date_de_livraison,facture.Ville,facture.Quartier,facture.Remarque,facture.Status");
+    $this->db->select("facture.Id_facture,facture.Remarque,facture.Id,facture.Code_client,livraison.date_de_livraison,facture.Ville,facture.Quartier,facture.Remarque,facture.Status");
     $this->db->join("livraison", "livraison.Id_facture=facture.Id_facture");
     $this->db->where('facture.Id_de_la_mission','FACEBOOK');
     $this->db->where('livraison.date_de_livraison', $dte);
@@ -483,7 +483,7 @@ class calendrier_model extends CI_Model
   {
     $dt = new dateTime($date);
     $dte = $dt->format('Y-m-d');
-    $this->db->select("facture.Remarque,facture.Id,facture.Code_client,livraison.date_de_livraison,facture.Ville,facture.Quartier,facture.Remarque,facture.Status");
+    $this->db->select("facture.Id_facture,facture.Remarque,facture.Id,facture.Code_client,livraison.date_de_livraison,facture.Ville,facture.Quartier,facture.Remarque,facture.Status");
     $this->db->join("livraison", "livraison.Id_facture=facture.Id_facture");
     $this->db->where('livraison.dateRep', $dte);
     $this->db->where('facture.Id_de_la_mission','FACEBOOK');
