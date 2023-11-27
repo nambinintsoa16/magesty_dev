@@ -1152,14 +1152,40 @@ public function autoCompletePageFacebook()
     }
     public function get_data_chart(){
       $this->load->model('Administrateur_model');
-      $item_select = $this->input->post('item_select');
+      $produit = $this->input->post('produit');
       $question_select_text = $this->input->post('question_select_text');
       $question_select_id = $this->input->post('question_select_id');
+      
+      $famille = $this->input->post('famille');
+      $debut = $this->input->post('debut');
+      $fin = $this->input->post('fin');
+
+      $debut_fin = false;
+      $famille_produit = false;
+
+      $famille_produit =  $famille !="" && $produit !="";
+      $debut_fin = $debut != "" && $fin !="";
+      $methodok = $produit !="";
+
+      if($famille_produit == true && $debut_fin==true){
+
+      }else if($famille_produit==true){
+
+      }else if($produit !=""){
+         $reponse = $this->Administrateur_model->get_fetch_reponse_question(['Produit'=>$produit,'Question'=>$question_select_text]);
+
+      }else if( $debut_fin ==true){
+        $reponse = $this->Administrateur_model->get_fetch_reponse_question("(create_date BETWEEN '$debut' AND '$fin') AND Question like '$question_select_text'");
+      }else if($debut !=""){
+          $reponse = $this->Administrateur_model->get_fetch_reponse_question("create_date like '$debut' AND Question like '$question_select_text'");
+      }else{
+        $reponse = $this->Administrateur_model->get_fetch_reponse_question(['Question'=>$question_select_text]);
+      }
 
 
       $color = array('#64DD17','#33691E','#00B0FF','#ffc000','#01579B','#64DD17','#33691E','#00B0FF','#ffc000','#01579B');
 
-      $reponse = $this->Administrateur_model->get_fetch_reponse_question(['Produit'=>$item_select,'Question'=>$question_select_text]);
+      
       $reponse_question =  $this->Administrateur_model->get_questionnaire(['id'=>$question_select_id]);
       $question = explode(";", $reponse_question->option_containt);
       $data_return = [];

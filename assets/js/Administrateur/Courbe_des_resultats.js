@@ -55,11 +55,14 @@ const ctx = document.getElementById('circles-1');
   let debut = $('#debut').val();
   let fin = $('#fin').val();
   let famille = $("#select-produit-famille option:selected").val();
- 	let item_select = $("#select-produit option:selected").val();
+ 	let produit = $("#select-produit option:selected").val();
  	let question_select_text = $('#select-question option:selected').text();
  	let question_select_id = $('#select-question option:selected').val();
+  
+
+
  	$('#title-question').empty().append(question_select_text);
- 	$.post(base_url+"Administrateur/get_data_chart",{famille,debut,fin,item_select,question_select_text,question_select_id},function(response){
+ 	$.post(base_url+"Administrateur/get_data_chart",{famille,debut,fin,produit,question_select_text,question_select_id},function(response){
  		if(response.error !='false'){
  			 char_enquette.data.labels = response.question;
   			 char_enquette.data.datasets[0].data = response.stat;

@@ -6,7 +6,7 @@
 				<div class="col-md-12">
 					<label>Question : </label>
 					<select class="custom-select custom-select-sm" id="select-question">
-						 <option hidden="">-----------------------------</option>
+						 <option hidden=""></option>
 						<?php foreach($question as $question):?>
 						  <option value="<?=$question->id ?>"><?=$question->question?></option>
 						<?php endforeach;?>
@@ -16,7 +16,7 @@
 				<div class="col-md-6">
 					<label>Produit : </label>
 					<select class="custom-select custom-select-sm" id="select-produit">
-						 <option hidden="">-----------------------------</option>
+						 <option value=""></option>
 						<?php foreach($produit as $produit):?>
 							<?php
                                $this->load->model('Administrateur_model');
