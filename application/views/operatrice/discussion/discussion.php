@@ -810,7 +810,7 @@
         <div class="modal-body shadow" style="background:#EEEEEE!important">
           <span class="collapse id_facture_collapse"></span>
           <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
-            <legend class="w-auto">Produit</legend>
+            <legend class="w-auto"><small>Produit</small></legend>
             <div class="form-group d-flex" style="margin-bottom: 20px!important">
               <div class="col-lg-3">
                 <select class="form-control form-control-sm famille custom-select" name="famille" placeholder="Cathegory">
@@ -872,11 +872,11 @@
               </div>
             </div>
           </fieldset>
-
           <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
-            <legend class="w-auto">Cadeau</legend>
+            <legend class="w-auto"><small>Cadeau</small></legend>
             <div class="row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-12">
+                 <label>Choisir cadeau</label>
                  <select class="custom-select custom-select-sm" id="select_cadeau">
 
                  </select>
@@ -884,24 +884,24 @@
             </div>
           </fieldset>
           <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
-            <legend class="w-auto">Bon d'achat</legend>
+            <legend class="w-auto"><small>Bon d'achat</small></legend>
             <div class="row">
             <div class="form-group col-md-12 bon-Achat-Alert ">
             
             </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-6">
                 <select class="form-control custom-select form-control-sm bon-achat" id="bon-achat">
                   <option id="0"></option>
                 </select>
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-6">
                 <input type="text" class="form-control bon-achat-input form-control-sm border-1 w-75" name="bon-achat-input" disabled value="0" style="background: white!important">
               </div>
             
             </div>
           </fieldset>
           <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
-            <legend class="w-auto">Promotion tsena koty</legend>
+            <legend class="w-auto"><small>Promotion tsena koty</small></legend>
             <div class="row">
               <div class="form-group col-md-4">
                 <label for="type">Achat (avec)</label>
@@ -932,7 +932,7 @@
             </div>
           </fieldset>
           <fieldset class="border p-2 pr-4" style="padding:2px; border: solid #424242 1px!important;">
-            <legend class="w-auto">Livraison</legend>
+            <legend class="w-auto"><small>Livraison</small></legend>
             <div class="col-md-12 mt-1 w-100 p-0">
               <div class="row col-md-12 m-auto p-0 border">
                 <div class="form-group col-md-4">
@@ -1047,7 +1047,7 @@
             </span>
           </fieldset>
           <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
-            <legend class="w-auto">Vendeur secondaire</legend>
+            <legend class="w-auto"><small>Vendeur secondaire</small></legend>
 
             <div class="col-md-12 mt-1 w-100 p-0">
               <div class="row col-md-12 m-auto p-0 border">
