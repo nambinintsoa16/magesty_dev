@@ -998,21 +998,26 @@ class operatrice extends My_Controller
     if($valeur_achat>=215000){
           array_push($reponse, "BIJOUX-SP925");
           array_push($reponse, "EYE MASQUE BABY BRIGHT");
+          array_push($reponse,"VASELINE + EAU DE COLOGNE");
           array_push($reponse, "ROUGE A LEVRE");
           array_push($reponse, "PORTE CLE");
      }else if($valeur_achat>=158000 ){
           array_push($reponse, "PARFUM ou PEPPER");
+          array_push($reponse,"VASELINE + EAU DE COLOGNE");
           array_push($reponse, "PORTE CLE");
      }else if($valeur_achat>=116000){
           array_push($reponse, "BAUME A LEVRE");
           array_push($reponse, "ROUGE A LEVRE");
+          array_push($reponse,"VASELINE + EAU DE COLOGNE");
           array_push($reponse, "PORTE CLE");
      } else if($valeur_achat>=84000){
           array_push($reponse, "NATURE'S NEEM");
+          array_push($reponse,"VASELINE + EAU DE COLOGNE");
           array_push($reponse, "PORTE CLE");
      }else if($valeur_achat>=59000){
           array_push($reponse, "VASELINE");
           array_push($reponse, "EVERSENCE - GRIS");
+          array_push($reponse,"VASELINE + EAU DE COLOGNE");
           array_push($reponse, "PORTE CLE");
      }else if ($valeur_achat>=39000){
           array_push($reponse, "PORTE CLE");
