@@ -1148,7 +1148,7 @@ public function autoCompletePageFacebook()
       $question =  $this->Administrateur_model->get_fetch_questionnaire();
       $famille = $this->Administrateur_model->get_famille_produit();
       $data = ["produit"=>$produit,'question'=>$question,'famille'=>$famille];
-      $this->render_view('administrateur/Enquette/Courbe_des_resultats',$data);
+      $this->render_view('administrateur/enquette/Courbe_des_resultats',$data);
     }
     public function get_data_chart(){
       $this->load->model('Administrateur_model');
