@@ -875,7 +875,7 @@
           <fieldset class="border p-2" style="padding:2px; border: solid #424242 1px!important;">
             <legend class="w-auto"><small>Cadeau</small></legend>
             <div class="row">
-              <div class="form-group col-md-12">
+              <div class="form-group col-md-4">
                  <label>Choisir cadeau</label>
                  <select class="custom-select custom-select-sm" id="select_cadeau">
 
