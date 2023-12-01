@@ -282,8 +282,11 @@ class Administrateur_model extends CI_Model
      return $this->db->where($param)->group_by('Produit')->get('reponse_question')->result_object();
     }
 
-      public function get_fetch_reponse_question($param=array()){
+    public function get_fetch_reponse_question($param=array()){
      return $this->db->where($param)->get('reponse_question')->result_object();
+    }
+    public function get_joint_cathegory($param=array()){
+        return $this->db->where($param)->join("produit","produit.Code_produit=reponse_question.Produit")->join("categorie","categorie.Id=produit.Categorie")->get('reponse_question')->result_object();
     }
     public function get_famille_produit($param=array()){
         return $this->db->where($param)->group_by("famille")->get('categorie')->result_object();

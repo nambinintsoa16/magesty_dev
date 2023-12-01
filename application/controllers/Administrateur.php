@@ -1155,7 +1155,7 @@ public function autoCompletePageFacebook()
       $produit = $this->input->post('produit');
       $question_select_text = $this->input->post('question_select_text');
       $question_select_id = $this->input->post('question_select_id');
-      
+      $reponse = array();
       $famille = $this->input->post('famille');
       $debut = $this->input->post('debut');
       $fin = $this->input->post('fin');
@@ -1166,18 +1166,17 @@ public function autoCompletePageFacebook()
       $famille_produit =  $famille !="" && $produit !="";
       $debut_fin = $debut != "" && $fin !="";
       $methodok = $produit !="";
-
+      
       if($famille_produit == true && $debut_fin==true){
-
+        $reponse = $this->Administrateur_model->get_joint_cathegory(["create_date > " => $debut, "create_date <"=>$fin,'Questions'=>$question_select_text,"famille"=>$famille]);
       }else if($famille_produit==true){
-
+        $reponse = $this->Administrateur_model->get_joint_cathegory(['Questions'=>$question_select_text,"famille"=>$famille]);
       }else if($produit !=""){
          $reponse = $this->Administrateur_model->get_fetch_reponse_question(['Produit'=>$produit,'Question'=>$question_select_text]);
-
       }else if( $debut_fin ==true){
-        $reponse = $this->Administrateur_model->get_fetch_reponse_question("(create_date BETWEEN '$debut' AND '$fin') AND Question like '$question_select_text'");
+        $reponse = $this->Administrateur_model->get_fetch_reponse_question(["create_date > " => $debut, "create_date <"=>$fin, "Question" => $question_select_text]);
       }else if($debut !=""){
-          $reponse = $this->Administrateur_model->get_fetch_reponse_question("create_date like '$debut' AND Question like '$question_select_text'");
+          $reponse = $this->Administrateur_model->get_fetch_reponse_question("create_date like '$debut%' AND Question like '$question_select_text'");
       }else{
         $reponse = $this->Administrateur_model->get_fetch_reponse_question(['Question'=>$question_select_text]);
       }
@@ -1196,12 +1195,14 @@ public function autoCompletePageFacebook()
       $total = 0;
       foreach ($reponse as $reponse) {
            $key = array_search($reponse->reponse,$question);
-           if(array_key_exists($key, $data_return)){
-              $data_return[$key] += 1;
-           }else{
-              $data_return[$key] = 1;
-           }
-           $total +=1; 
+           if($key !=""){
+            if(array_key_exists($key, $data_return)){
+                $data_return[$key] += 1;
+            }else{
+                $data_return[$key] = 1;
+            }
+            $total +=1; 
+          }
       } 
       $p=0;
     for ($p=0; $p < count($data_return); $p++) { 
