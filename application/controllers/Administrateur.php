@@ -1161,16 +1161,15 @@ public function autoCompletePageFacebook()
       $fin = $this->input->post('fin');
 
       $debut_fin = false;
-      $famille_produit = false;
-
       $famille_produit =  $famille !="" && $produit !="";
       $debut_fin = $debut != "" && $fin !="";
       $methodok = $produit !="";
-      
+    
+
       if($famille_produit == true && $debut_fin==true){
         $reponse = $this->Administrateur_model->get_joint_cathegory(["create_date > " => $debut, "create_date <"=>$fin,'Questions'=>$question_select_text,"famille"=>$famille]);
-      }else if($famille_produit==true){
-        $reponse = $this->Administrateur_model->get_joint_cathegory(['Questions'=>$question_select_text,"famille"=>$famille]);
+      }else if($famille !=""){
+        $reponse = $this->Administrateur_model->get_joint_cathegory(['Question'=>$question_select_text,"famille"=>$famille]);
       }else if($produit !=""){
          $reponse = $this->Administrateur_model->get_fetch_reponse_question(['Produit'=>$produit,'Question'=>$question_select_text]);
       }else if( $debut_fin ==true){
