@@ -1009,6 +1009,7 @@ class operatrice extends My_Controller
           array_push($reponse, "BAUME A LEVRE");
           array_push($reponse, "ROUGE A LEVRE");
           array_push($reponse,"VASELINE + EAU DE COLOGNE");
+          array_push($reponse,"BAUME A LEVRE + ROUGE A LEVRE");
           array_push($reponse, "PORTE CLE");
      } else if($valeur_achat>=84000){
           array_push($reponse, "NATURE'S NEEM");
