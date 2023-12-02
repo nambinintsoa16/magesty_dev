@@ -108,9 +108,10 @@
 			<div class="col-md-12">
 				<div class="card full-height">
 					<div class="card-body">
-						<div class="card-title text-center"><b>Résultat</b></div>
-						<div class="d-flex flex-wrap justify-content-left pb-2 pt-4 border rounded  border-dark img-thumbnail"  id="question_containt">
-							
+						<div class="card-title text-center"></div>
+						<div class="d-flex flex-wrap justify-content-center pb-2 pt-4 border rounded  border-dark img-thumbnail">
+							<b>Nombre de personne enquêtées</b><br/>
+							<span><small id="resultat_containt"></small></span>
 						</div>	
 						
 					</div>

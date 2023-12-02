@@ -1164,7 +1164,7 @@ public function autoCompletePageFacebook()
       $famille_produit =  $famille !="" && $produit !="";
       $debut_fin = $debut != "" && $fin !="";
       $methodok = $produit !="";
-    
+     
 
       if($famille_produit == true && $debut_fin==true){
         $reponse = $this->Administrateur_model->get_joint_cathegory(["create_date > " => $debut, "create_date <"=>$fin,'Questions'=>$question_select_text,"famille"=>$famille]);
@@ -1212,7 +1212,7 @@ public function autoCompletePageFacebook()
     }
 
 
-      $data = ['erreur'=>'false','question'=>$question,'stat'=>$data_return,'number'=>max($data_return)];
+      $data = ['total'=>$total,'erreur'=>'false','question'=>$question,'stat'=>$data_return,'number'=>max($data_return)];
       echo json_encode($data);
     }
     public function return_apreciation($param){

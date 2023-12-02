@@ -71,6 +71,7 @@ const ctx = document.getElementById('circles-1');
 			 char_enquette.update();
 			 let i = 0;
 			 $("#question_containt").empty();
+       $("#resultat_containt").empty().append(response.total);
 			 for (const [key, value] of Object.entries(response.question)) {
 			 	$("#question_containt").append(value+"<br/>")	
 			  }
