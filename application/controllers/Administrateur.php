@@ -1186,28 +1186,62 @@ public function autoCompletePageFacebook()
       
       $reponse_question =  $this->Administrateur_model->get_questionnaire(['id'=>$question_select_id]);
       $question = explode(";", $reponse_question->option_containt);
+      
       $data_return = [];
+       $tab_excetion_question_3 = array("Tena afa-po tanteraka","Tena Afa-po","Afa-po");
+       if($question_select_id == 3){
+          $data_return[0]=0;
+      }
       for ($i=0; $i < count($question) ; $i++) { 
-        $data_return[$i] =0;
+          if($question_select_id == 3){
+               if(!in_array($question[$i], $tab_excetion_question_3)){
+                 $data_return[$i] =0;
+               }
+          }else{
+             $data_return[$i] =0;
+          }
+       
       }
       
       $total = 0;
+      $key[0] =0;
       foreach ($reponse as $reponse) {
            $key = array_search($reponse->reponse,$question);
            if($key !=""){
-            if(array_key_exists($key, $data_return)){
-                $data_return[$key] += 1;
-            }else{
-                $data_return[$key] = 1;
+              if($question_select_id == 3){
+                  if(in_array($reponse->reponse, $tab_excetion_question_3)){
+                         $data_return[0] += 1;
+                   }else if(array_key_exists($key, $data_return)){
+                         $data_return[$key] += 1;
+                    }else{
+                          $data_return[$key] = 1;
+                    }
+              }else{
+                if(array_key_exists($key, $data_return)){
+                    $data_return[$key] += 1;
+                }else{
+                    $data_return[$key] = 1;
+                }
             }
             $total +=1; 
           }
       } 
       $p=0;
+  
+
+   
+
+    if($question_select_id == 3){
+      unset($question[1]);
+      unset($question[2]);
+    }
+
     for ($p=0; $p < count($data_return); $p++) { 
         if($total != 0 ){
-          $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total);
-          $question[$p] = $question[$p]." ( ".$data_return[$p]." % ) ";
+          if(array_key_exists($p, $data_return)){
+            $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total);
+            $question[$p] = $question[$p]." ( ".$data_return[$p]." % ) ";
+          }
         }
     }
 
