@@ -1236,7 +1236,7 @@ public function autoCompletePageFacebook()
       unset($question[2]);
     }
 
-    for ($p=0; $p < count($data_return); $p++) { 
+    for ($p=0; $p < array_key_last($data_return)+1; $p++) { 
         if($total != 0 ){
           if(array_key_exists($p, $data_return)){
             $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total);
