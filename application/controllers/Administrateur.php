@@ -1244,7 +1244,8 @@ public function autoCompletePageFacebook()
           }
         }
     }
-
+$question= array_values($question);
+$data_return = array_values($data_return);
 
       $data = ['total'=>$total,'erreur'=>'false','question'=>$question,'stat'=>$data_return,'number'=>max($data_return)];
       echo json_encode($data);
