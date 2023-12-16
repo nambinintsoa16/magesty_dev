@@ -1185,21 +1185,15 @@ public function autoCompletePageFacebook()
 
       
       $reponse_question =  $this->Administrateur_model->get_questionnaire(['id'=>$question_select_id]);
-      $question = explode(";", $reponse_question->option_containt);
+     $tempQuestion = $question = explode(";", $reponse_question->option_containt);
       
       $data_return = [];
        $tab_excetion_question_3 = array("Tena afa-po tanteraka","Tena Afa-po","Afa-po");
-       if($question_select_id == 3){
-          $data_return[0]=0;
-      }
+    
       for ($i=0; $i < count($question) ; $i++) { 
-          if($question_select_id == 3){
-               if(!in_array($question[$i], $tab_excetion_question_3)){
-                 $data_return[$i] =0;
-               }
-          }else{
+      
              $data_return[$i] =0;
-          }
+          
        
       }
       
@@ -1208,33 +1202,17 @@ public function autoCompletePageFacebook()
       foreach ($reponse as $reponse) {
            $key = array_search($reponse->reponse,$question);
            if($key !=""){
-              if($question_select_id == 3){
-                  if(in_array($reponse->reponse, $tab_excetion_question_3)){
-                         $data_return[0] += 1;
-                   }else if(array_key_exists($key, $data_return)){
-                         $data_return[$key] += 1;
-                    }else{
-                          $data_return[$key] = 1;
-                    }
-              }else{
+             
                 if(array_key_exists($key, $data_return)){
                     $data_return[$key] += 1;
                 }else{
                     $data_return[$key] = 1;
                 }
-            }
+            
             $total +=1; 
           }
       } 
       $p=0;
-  
-
-   
-
-    if($question_select_id == 3){
-      unset($question[1]);
-      unset($question[2]);
-    }
 
     for ($p=0; $p < array_key_last($data_return)+1; $p++) { 
         if($total != 0 ){
@@ -1246,10 +1224,28 @@ public function autoCompletePageFacebook()
     }
 $question= array_values($question);
 $data_return = array_values($data_return);
+$message = "";
+if( $question_select_id==3){
+  $valeur_afficher =$data_return[0] + $data_return[1] + $data_return[2];
+  $message = "Afa-po";
+}else{
+  $valeur_afficher = max($data_return);
+  $indexMaxValue = $this->max_key($data_return);
+  if(count($data_return)>0){
+     $message = $tempQuestion[$indexMaxValue];
+  }
+ 
+}
 
-      $data = ['total'=>$total,'erreur'=>'false','question'=>$question,'stat'=>$data_return,'number'=>max($data_return)];
+
+      $data = ['total'=>$total,'erreur'=>'false','question'=>$question,'stat'=>$data_return,'number'=>$valeur_afficher,'message'=>$message];
       echo json_encode($data);
     }
+    public function max_key($array) {
+      foreach ($array as $key => $val) {
+          if ($val == max($array)) return $key; 
+      }
+}
     public function return_apreciation($param){
        switch ($param) {
          case 'value':
