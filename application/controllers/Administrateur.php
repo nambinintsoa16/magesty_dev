@@ -341,6 +341,17 @@ class Administrateur extends My_Controller
   }
 
 
+public function autocomplete_operatrice_init_pass()
+  {
+    $this->load->model('global_model');
+    $term = $this->input->get('term');
+    $array = array();
+    foreach ($this->global_model->autocomplete_personnel($term) as $reponse) {
+      array_push($array,$reponse->Matricule . " | " . $reponse->Nom . " " . $reponse->Prenom." | ".$reponse->Mode_de_pass_login);
+    }
+    echo json_encode($array);
+  }
+
   public function autocomplete_client()
   {
     $this->load->model('client_model');
@@ -1259,5 +1270,18 @@ if( $question_select_id==3){
        }
 
        return $reponse;
+    }
+    public function Afficher_mot_de_passe(){
+      $this->render_view("administrateur/gestion_facebook/afficher_mot_de_passe");
+    }
+    public function edit_Motde_Passe(){
+      $this->load->view("administrateur/gestion_facebook/edit_mot_de_passe");
+    }
+    public function update_passeword(){
+      $this->load->model('Administrateur_model');
+      $passeword = $this->input->post('first');
+      $matricule = $this->input->post('matricule');
+      $methodok = $this->Administrateur_model->updatet_personnel(["Matricule"=>$matricule],["Mode_de_pass_login"=> $passeword]);
+      echo $methodok;
     }
 }

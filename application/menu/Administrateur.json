@@ -54,22 +54,22 @@
                 }
             ]
         },{
-            "text": "Enquette",
+            "text": "Enquete",
             "icon": "flaticon-pen",
             "link": "",
             "sous_menu": [
                 {
                     "text": "Creation question",
                     "icon": "",
-                    "link": "Administrateur/Enquette/Creation_question"
+                    "link": "Administrateur/Enquete/Creation_question"
                 },{
-                    "text": "Resultat des enquette",
+                    "text": "Resultat des enquete",
                     "icon": "",
-                    "link": "Administrateur/Enquette/Resultat_des_enquette"
+                    "link": "Administrateur/Enquete/Resultat_des_enquete"
                 },{
                     "text": "Courbe des resultats",
                     "icon": "",
-                    "link": "Administrateur/Enquette/Courbe_des_resultats"
+                    "link": "Administrateur/Enquete/Courbe_des_resultats"
                 }
             ]
         },
@@ -136,6 +136,11 @@
                             "link": "Administrateur/Gestion_facebook/Compte/Nouveau_compte"
                         }
                     ]
+                },
+                {
+                    "text": "Afficher mot de passe",
+                    "icon": "",
+                    "link": "Administrateur/Gestion_facebook/Afficher_mot_de_passe"
                 }
             ]
         },

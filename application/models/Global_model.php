@@ -422,6 +422,7 @@ class global_model extends CI_Model
     $this->db->group_start();
     $this->db->like('Nom',$mot);
     $this->db->or_like('Prenom',$mot);
+    $this->db->or_like('Matricule',$mot);
     $this->db->group_end();
     return $this->db->get('personnel')->result_object();
   }

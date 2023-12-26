@@ -278,6 +278,9 @@ class Administrateur_model extends CI_Model
      public function insert_personnel($param){
         return $this->db->insert("personnel",$param);
     }
+     public function updatet_personnel($param,$data){
+        return $this->db->where($param)->update("personnel",$data);
+    }
     public function get_reponse_question_distinct($param=array()){
      return $this->db->where($param)->group_by('Produit')->get('reponse_question')->result_object();
     }

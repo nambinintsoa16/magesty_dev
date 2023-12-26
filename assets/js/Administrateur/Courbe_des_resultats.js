@@ -79,5 +79,4 @@ const ctx = document.getElementById('circles-1');
  		}
  	},'json');
  });
-
 });
