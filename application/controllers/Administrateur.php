@@ -1224,16 +1224,20 @@ public function autoCompletePageFacebook()
           }
       } 
       $p=0;
-
+    $question_text=array();
     for ($p=0; $p < array_key_last($data_return)+1; $p++) { 
         if($total != 0 ){
           if(array_key_exists($p, $data_return)){
             $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total);
+            $question_text[$p] = $question[$p];
             $question[$p] ="<li><i class='fa fa-circle' style='color:".$color[$p]."'></i> &nbsp;".$question[$p]." ( ".$data_return[$p]." % ) </li>";
+            
           }
         }else{
              $data_return[$p] = 0;
+              $question_text[$p] = $question[$p];
             $question[$p] ="<li><i class='fa fa-circle' style='color:".$color[$p]."'></i> &nbsp;".$question[$p]." ( ".$data_return[$p]." % ) </li>";
+           
           }
     }
 $question= array_values($question);
@@ -1252,7 +1256,7 @@ if( $question_select_id==3){
 }
 
 
-      $data = ['total'=>$total,'erreur'=>'false','question'=>$question,'stat'=>$data_return,'number'=>$valeur_afficher,'message'=>$message];
+      $data = ['total'=>$total,'erreur'=>'false','question_text'=>$question_text,'question'=>$question,'stat'=>$data_return,'number'=>$valeur_afficher,'message'=>$message];
       echo json_encode($data);
     }
     public function max_key($array) {

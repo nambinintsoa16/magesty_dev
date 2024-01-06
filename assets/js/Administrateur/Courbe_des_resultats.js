@@ -64,7 +64,7 @@ const ctx = document.getElementById('circles-1');
  	$('#title-question').empty().append(question_select_text);
  	$.post(base_url+"Administrateur/get_data_chart",{famille,debut,fin,produit,question_select_text,question_select_id},function(response){
  		if(response.error !='false'){
- 			 char_enquette.data.labels = response.question;
+ 			   char_enquette.data.labels = response.question_text;
   			 char_enquette.data.datasets[0].data = response.stat;
   			 textCtx.clearRect(0, 0, 250, 250);
   			 textCtx.fillText(response.number+"%", 150, 130);
