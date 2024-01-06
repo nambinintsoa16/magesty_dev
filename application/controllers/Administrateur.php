@@ -1229,9 +1229,12 @@ public function autoCompletePageFacebook()
         if($total != 0 ){
           if(array_key_exists($p, $data_return)){
             $data_return[$p] = number_format(($data_return[$p] * 100 ) / $total);
-            $question[$p] = $question[$p]." ( ".$data_return[$p]." % ) ";
+            $question[$p] ="<li><i class='fa fa-circle' style='color:".$color[$p]."'></i> &nbsp;".$question[$p]." ( ".$data_return[$p]." % ) </li>";
           }
-        }
+        }else{
+             $data_return[$p] = 0;
+            $question[$p] ="<li><i class='fa fa-circle' style='color:".$color[$p]."'></i> &nbsp;".$question[$p]." ( ".$data_return[$p]." % ) </li>";
+          }
     }
 $question= array_values($question);
 $data_return = array_values($data_return);

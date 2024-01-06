@@ -29,7 +29,7 @@
 				<div class="col-md-6">
 					<label>Famille : </label>
 					<select class="custom-select custom-select-sm" id="select-produit-famille">
-						 <option hidden="">-----------------------------</option>
+						 <option hidden=""></option>
 						<?php foreach($famille as $famille):?>
 						  <option><?=$famille->famille?></option>
 						<?php endforeach;?>
@@ -98,7 +98,10 @@
 		</div>
 	</div>
 	<div class="col-md-12"> 
-	<div class="d-flex flex-wrap justify-content-left pb-2 pt-4 border rounded  border-dark img-thumbnail mt-2"  id="question_containt">						
+	<div class="d-flex flex-wrap justify-content-left pb-2 pt-4 border rounded  border-dark img-thumbnail mt-2"  id="">		
+		<ul id="question_containt" style="list-style: none;">
+			
+		</ul>				
 	</div>	
 	</div>
 </div>
