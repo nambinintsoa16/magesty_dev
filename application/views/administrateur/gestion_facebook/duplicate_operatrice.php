@@ -35,6 +35,10 @@
 	      		<label>VO</label>
 	      		<input type="checkbox" name="VO" class="choise">
 	      	</span>
+	      	<span class="col-md-4">
+	      		<label>VH</label>
+	      		<input type="checkbox" name="VO" class="choise">
+	      	</span>
       </div>
      
     </div>
