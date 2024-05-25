@@ -399,10 +399,10 @@ class relance extends My_Controller
     $date = date('Y-m-d');
      
     if($type=="duJour"){
-      $datas = $this->discussion_model->selectsRelanceDiscussion(["OperatriceRD"=>$this->session->userdata('matricule'),"DateRD"=>$date,"statuRelanceRD"=>'on','Type'=>"Relance sans achat","PageRD"=>$this->session->userdata("page")]);
+      $datas = $this->discussion_model->selectsRelanceDiscussion(["DateRD"=>$date,"statuRelanceRD"=>'on','Type'=>"Relance sans achat","PageRD"=>$this->session->userdata("page")]);
     }else{
     
-      $datas = $this->discussion_model->selectsRelanceDiscussion("(`OperatriceRD` = '".$this->session->userdata('matricule')."' AND   `Type`='Relance sans achat' ) AND  (`DateRD` < '$date' AND `PageRD`=".$this->session->userdata('page').") AND statuRelanceRD ='on'");
+      $datas = $this->discussion_model->selectsRelanceDiscussion("`Type`='Relance sans achat' AND  (`DateRD` < '$date' AND `PageRD`=".$this->session->userdata('page').") AND statuRelanceRD ='on'");
 
     }
     foreach ($datas as $row) {
