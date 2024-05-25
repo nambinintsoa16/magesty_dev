@@ -4455,7 +4455,7 @@ public function page_fb($parametre){
   { 
       $this->db->select('produit.Designation, detailvente.Quantite,detailvente.Id_prix');
       $this->db->where('facture.Id', $opls);
-      $this->db->like('detailvente.Designation', );
+      //$this->db->like('detailvente.Designation', )
       $this->db->where('facture.Id_de_la_mission', "FACEBOOK");
       $this->db->join('facture', 'detailvente.Facture=facture.Id');
       $this->db->join('prix', 'detailvente.Id_prix=prix.Id');

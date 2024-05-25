@@ -527,6 +527,27 @@ public function autocomplete_operatrice_init_pass()
     ]);
     
   }
+  
+  public function save_new_compte(){
+
+    $this->load->model('Administrateur_model');
+      $nomPage =  $this->input->post('nomPage');
+      $lienPage = $this->input->post('lienPage');
+      $typeCompte =  $this->input->post('typeCompte');
+      $source =  $this->input->post('source');
+      $date_activation = $this->input->post('date_activation');
+
+      $data = [
+        "Nom_page"=>$nomPage,
+        "Lien_page"=>$lienPage,
+        "statut"=>"on", 
+        "date_activation"=>$date_activation, 
+        "Type"=>$typeCompte,
+        "Source"=>$source 
+      ];
+      echo $this->Administrateur_model->saveNewCompte($data);
+
+  }
 
   public function getBonActif(){
     $this->load->model('Global_model');
