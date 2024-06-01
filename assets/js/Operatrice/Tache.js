@@ -37,16 +37,15 @@ $(document).ready(function() {
             }
 
         }
-
-
-
-
     });
+
     $('#liensurfb').on('change', function() {
         var link = $(this).val();
         if (link != "") {
             loding();
             $.post(base_url + 'globale/testLink', { liensurfb: link, type: 'link' }, function(data) {
+
+				$('.show-message-danger').html(data.entete);
                 if (data.exist == 'true') {
                     stopload();
                     alertMessage('Erreur', 'Ce client existe déjà.', 'error', 'btn btn-danger');

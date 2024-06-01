@@ -126,7 +126,7 @@ class globale extends My_Controller
     public function testLink()
     {
         $this->load->model('global_model');
-        $json = array('exist' => 'false');
+        $json = array('exist' => 'false','entete'=>'');
         if ($this->input->post('type') == "link") {
             $data = $this->global_model->testLinkFb($this->input->post('liensurfb'));
             if ($data) {
@@ -139,7 +139,13 @@ class globale extends My_Controller
                 $json['commerciale_terain'] = $data->Commercial;
                 $json['coach'] = $data->Coach;
                 $json['image'] = base_url() . "images/client/" . $data->Code_client . ".jpg";
-            }
+				$dernier_discussion = $this->db->query("SELECT * FROM `discussion_content` JOIN `discussion` ON discussion.id_discussion = discussion_content.Id_discussion WHERE  discussion.`client` = '$data->Code_client' ORDER BY `discussion_content`.`Id` DESC LIMIT 1")->row_object(); 
+                if($dernier_discussion){
+					$operatrice = $this->db->query("SELECT * FROM `personnel` WHERE `Matricule` = '$dernier_discussion->operatrice'")->row_object();
+					$json['entete'] ="<i class='fa fa-warning'></i>&nbsp Attention, ce client a été récemment contacté par $operatrice->Nom $operatrice->Prenom le $dernier_discussion->date à $dernier_discussion->heures ";
+				}
+			
+			}
         } else if ($this->input->post('type') == "Potentiel") {
 
             /*if($datas){

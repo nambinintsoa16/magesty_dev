@@ -204,7 +204,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-<?=$nav_color?> text-white">
-                <h5 class="modal-title" id="exampleModalLabel">CLIENT</h5>
+                <h5 class="modal-title" id="exampleModalLabel"><span class="text-danger show-message-danger"></span> </h5>
                 <button type="button" class="close  text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
